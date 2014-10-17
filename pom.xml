@@ -20,8 +20,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>de.galan</groupId>
-			<artifactId>commons</artifactId>
-			<version>0.6-SNAPSHOT</version>
+			<artifactId>verjson</artifactId>
+			<version>0.4-SNAPSHOT</version>
 		</dependency>
 
 		<!-- logging -->
