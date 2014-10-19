@@ -1,6 +1,6 @@
 package de.galan.dmsexchange.meta.document;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -14,7 +14,7 @@ public class Document {
 	String version = "1.0.0-beta.2";
 	List<DocumentFile> documentFiles;
 	Context context;
-	LocalDateTime tsDocument;
+	public ZonedDateTime tsDocument;
 	String note;
 	String location;
 	List<Comment> comments;
