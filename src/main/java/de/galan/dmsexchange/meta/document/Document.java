@@ -3,6 +3,8 @@ package de.galan.dmsexchange.meta.document;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import de.galan.dmsexchange.util.Version;
+
 
 /**
  * Metadata used for a document, will be stored to the file meta.json.
@@ -11,7 +13,7 @@ import java.util.List;
  */
 public class Document {
 
-	String version = "1.0.0-beta.2";
+	String version = Version.VERSION;
 	List<DocumentFile> documentFiles;
 	Context context;
 	public ZonedDateTime tsDocument;

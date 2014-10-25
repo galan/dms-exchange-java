@@ -20,8 +20,8 @@ public class Draft {
 		export.split(); // ? maybe automaticallly by setting up conditions
 		export.finished(); // notifies potential listeners
 		 */
-		/*
 
+		/*
 		Import import = exchange.createExport();
 		import.register(listener);
 		import.import(location eg. stream, file, filename);
