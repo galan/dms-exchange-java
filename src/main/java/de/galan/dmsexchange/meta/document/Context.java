@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
  */
 public class Context {
 
-	ZonedDateTime tsDocument;
-	ZonedDateTime tsDueDate;
+	private ZonedDateTime tsDocument;
+	private ZonedDateTime tsDueDate;
 
 }

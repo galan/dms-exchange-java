@@ -19,6 +19,15 @@ public class Draft {
 		export.put(Document); // loop
 		export.split(); // ? maybe automaticallly by setting up conditions
 		export.finished(); // notifies potential listeners
+
+		DmsExchange exchange = new DmsExchange();
+		exchange.register(...);
+		ExportArchive archive = exchange.loadArchive(File);
+
+		ExportArchive archive = exchange.createArchive(File);
+
+		exchange.
+
 		 */
 
 		/*

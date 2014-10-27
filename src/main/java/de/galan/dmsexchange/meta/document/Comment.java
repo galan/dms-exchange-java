@@ -7,7 +7,8 @@ package de.galan.dmsexchange.meta.document;
  */
 public class Comment {
 
-	String commentBy;
-	String tsComment;
-	String content;
+	private String commentBy;
+	private String tsComment;
+	private String content;
+
 }

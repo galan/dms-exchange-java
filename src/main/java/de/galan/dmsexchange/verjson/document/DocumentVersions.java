@@ -1,4 +1,4 @@
-package de.galan.dmsexchange.meta.document;
+package de.galan.dmsexchange.verjson.document;
 
 import de.galan.verjson.core.Versions;
 

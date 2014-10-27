@@ -7,9 +7,9 @@ package de.galan.dmsexchange.meta.document;
  */
 public class DocumentFile {
 
-	String filename;
+	private String filename;
 
-	String scannedBy;
-	String importedBy;
+	private String scannedBy;
+	private String importedBy;
 
 }

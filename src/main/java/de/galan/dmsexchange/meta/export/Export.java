@@ -15,7 +15,7 @@ public class Export {
 
 	private String version = Version.VERSION;
 	private String description;
-	private String email;
+	private String exportBy;
 	private Source source;
 	private ZonedDateTime tsExport;
 	private int documentsSuccessfulAmount;
@@ -42,13 +42,13 @@ public class Export {
 	}
 
 
-	public String getEmail() {
-		return email;
+	public String getExportBy() {
+		return exportBy;
 	}
 
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setExportBy(String exportBy) {
+		this.exportBy = exportBy;
 	}
 
 

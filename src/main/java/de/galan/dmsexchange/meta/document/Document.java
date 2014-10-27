@@ -13,19 +13,19 @@ import de.galan.dmsexchange.util.Version;
  */
 public class Document {
 
-	String version = Version.VERSION;
-	List<DocumentFile> documentFiles;
-	Context context;
-	public ZonedDateTime tsDocument;
-	String note;
-	String location;
-	List<Comment> comments;
-	String idUser;
-	String idSystem;
-	String project;
-	String directory;
-	List<String> labels;
-	Boolean optionIndexed;
-	Boolean optionOcr;
+	private String version = Version.VERSION;
+	private List<DocumentFile> documentFiles;
+	private Context context;
+	private ZonedDateTime tsDocument;
+	private String note;
+	private String location;
+	private List<Comment> comments;
+	private String idUser;
+	private String idSystem;
+	private String project;
+	private String directory;
+	private List<String> labels;
+	private Boolean optionIndexed;
+	private Boolean optionOcr;
 
 }

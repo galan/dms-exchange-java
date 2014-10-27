@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import de.galan.commons.logging.Logr;
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.dmsexchange.meta.document.Document;
-import de.galan.dmsexchange.meta.document.DocumentVersions;
+import de.galan.dmsexchange.verjson.document.DocumentVersions;
 import de.galan.verjson.core.Verjson;
 
 
