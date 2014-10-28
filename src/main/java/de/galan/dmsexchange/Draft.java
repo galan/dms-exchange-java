@@ -22,11 +22,23 @@ public class Draft {
 
 		DmsExchange exchange = new DmsExchange();
 		exchange.register(...);
-		ExportArchive archive = exchange.loadArchive(File);
 
+		// write
 		ExportArchive archive = exchange.createArchive(File);
 
-		exchange.
+		Document doc = new Document();
+		doc.set..(..);
+		doc.addFile(File file);
+
+		archive.append(document);
+		archive.append(document, archivePath);
+		archive.close();
+
+		// read
+		ExportArchive archive = exchange.loadArchive(File);
+		archive.
+		archive.iterate(); // using eventbus
+		archive.iterate(Consumer); // + consumer
 
 		 */
 
