@@ -28,7 +28,10 @@ public class Draft {
 
 		Document doc = new Document();
 		doc.set..(..);
-		doc.addFile(File file);
+		DocumentFile file = new DocumentFile();
+		file.add("name", file);
+		file.add("name", file);
+		doc.addFile(DocumentFile file);
 
 		archive.append(document);
 		archive.append(document, archivePath);
