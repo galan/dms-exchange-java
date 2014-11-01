@@ -26,14 +26,22 @@ public class Draft {
 		// write
 		ExportArchive archive = exchange.createArchive(File);
 
+		DocumentContainer container = new DocumentContainer();
+		container.addFile();
+
+		archive.addContainer(container);
+
+
 		Document doc = new Document();
 		doc.set..(..);
 		DocumentFile file = new DocumentFile();
-		file.add("name", file);
-		file.add("name", file);
+		ZonedDateTime tsChange = ...;
+		file.add(File, tsAdded, "name");
+		file.add(InputStream, tsAdded, "name");
+		file.add(byte[], tsAdded, "name");
 		doc.addFile(DocumentFile file);
 
-		archive.append(document);
+		archive.append(document); // Constructs Container, after appended no change
 		archive.append(document, archivePath);
 		archive.close();
 
@@ -42,6 +50,15 @@ public class Draft {
 		archive.
 		archive.iterate(); // using eventbus
 		archive.iterate(Consumer); // + consumer
+
+		listener.onDocument(Document doc) {
+			doc.get..();
+			List<DocumentFile> file = doc.getFiles();
+			file.getTsUpdate();
+			File file = file.getCurrent();
+			List<File> file.getRevisions();
+
+		}
 
 		 */
 
