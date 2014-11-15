@@ -19,7 +19,7 @@ public class ExportVersions extends Versions {
 
 	@Override
 	public void configure() {
-		add(1L, createValidation("1.0.0-beta.2"));
+		add(1L, createValidation("1.0.0-beta.3"));
 	}
 
 

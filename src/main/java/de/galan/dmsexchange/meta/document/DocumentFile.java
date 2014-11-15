@@ -12,7 +12,7 @@ public class DocumentFile {
 
 	private String filename;
 
-	private String scannedBy;
+	private User scannedBy;
 	private Rotation rotation;
 
 	private List<Revision> revisions;

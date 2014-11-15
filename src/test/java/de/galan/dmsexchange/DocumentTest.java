@@ -1,7 +1,5 @@
 package de.galan.dmsexchange;
 
-import java.time.ZonedDateTime;
-
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -25,7 +23,7 @@ public class DocumentTest extends AbstractTestParent {
 	@Test
 	public void testName() throws Exception {
 		Document doc = new Document();
-		doc.tsDocument = ZonedDateTime.now();
+		//doc.tsDocument = ZonedDateTime.now();
 		Verjson<Document> verjson = Verjson.create(Document.class, new DocumentVersions());
 		String output = verjson.write(doc);
 		LOG.info("out: " + output);

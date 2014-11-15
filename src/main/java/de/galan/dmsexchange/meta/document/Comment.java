@@ -1,5 +1,8 @@
 package de.galan.dmsexchange.meta.document;
 
+import java.time.ZonedDateTime;
+
+
 /**
  * daniel should have written a comment here.
  *
@@ -7,8 +10,8 @@ package de.galan.dmsexchange.meta.document;
  */
 public class Comment {
 
-	private String commentBy;
-	private String tsComment;
+	private User commentBy;
+	private ZonedDateTime tsComment;
 	private String content;
 
 }

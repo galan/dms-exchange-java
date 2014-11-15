@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
  */
 public class Revision {
 
-	private String addedBy;
+	private User addedBy;
 	private ZonedDateTime tsAdded;
 
 }
