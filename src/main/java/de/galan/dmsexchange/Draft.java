@@ -14,7 +14,7 @@ public class Draft {
 		/*
 		DmsExchange exchange = DmsExchange.create();
 		Export export = exchange.export(location eg. stream,file,filename);
-		export.addListener(listeners); // better eventbus
+		export.registerListener(listeners); // better eventbus
 		export.exportBy(email);
 		export.put(Document); // loop
 		export.split(); // ? maybe automaticallly by setting up conditions

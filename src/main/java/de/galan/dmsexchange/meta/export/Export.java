@@ -3,6 +3,8 @@ package de.galan.dmsexchange.meta.export;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import de.galan.commons.time.ApplicationClock;
+import de.galan.dmsexchange.meta.User;
 import de.galan.dmsexchange.util.Version;
 
 
@@ -15,11 +17,16 @@ public class Export {
 
 	private String version = Version.VERSION;
 	private String description;
-	private String exportBy;
+	private User exportBy;
 	private Source source;
 	private ZonedDateTime tsExport;
 	private int documentsSuccessfulAmount;
 	private List<FailedDocument> documentsFailed;
+
+
+	public Export() {
+		tsExport = ZonedDateTime.now(ApplicationClock.getClock());
+	}
 
 
 	public String getVersion() {
@@ -42,12 +49,12 @@ public class Export {
 	}
 
 
-	public String getExportBy() {
+	public User getExportBy() {
 		return exportBy;
 	}
 
 
-	public void setExportBy(String exportBy) {
+	public void setExportBy(User exportBy) {
 		this.exportBy = exportBy;
 	}
 

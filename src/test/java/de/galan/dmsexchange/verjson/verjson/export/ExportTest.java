@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 
 import de.galan.commons.logging.Logr;
 import de.galan.commons.test.AbstractTestParent;
+import de.galan.dmsexchange.meta.User;
 import de.galan.dmsexchange.meta.export.Export;
 import de.galan.dmsexchange.verjson.export.ExportVersions;
 import de.galan.verjson.core.Verjson;
@@ -26,7 +27,7 @@ public class ExportTest extends AbstractTestParent {
 	public void testName() throws Exception {
 		Export export = new Export();
 		export.setDescription("test desc");
-		export.setExportBy("hello@example.com");
+		export.setExportBy(new User("hello@example.com"));
 		export.setTsExport(ZonedDateTime.now());
 
 		Verjson<Export> verjson = Verjson.create(Export.class, new ExportVersions());

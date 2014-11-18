@@ -1,8 +1,6 @@
 package de.galan.dmsexchange.verjson.document;
 
-import de.galan.dmsexchange.verjson.serializer.UserDeserializer;
-import de.galan.dmsexchange.verjson.serializer.UserSerializer;
-import de.galan.verjson.core.Versions;
+import de.galan.dmsexchange.verjson.DmsExchangeVersions;
 
 
 /**
@@ -10,15 +8,13 @@ import de.galan.verjson.core.Versions;
  *
  * @author daniel
  */
-public class DocumentVersions extends Versions {
+public class DocumentVersions extends DmsExchangeVersions {
 
 	@Override
 	public void configure() {
-		// custom DeSerializer
-		registerSerializer(new UserSerializer());
-		registerDeserializer(new UserDeserializer());
-
-		// Add transformations in future versions
+		super.configure();
+		// steps
+		add(1L, createValidation("meta", "1.0.0-beta.3"));
 	}
 
 }
