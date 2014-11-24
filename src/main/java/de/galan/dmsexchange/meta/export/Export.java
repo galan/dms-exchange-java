@@ -3,6 +3,8 @@ package de.galan.dmsexchange.meta.export;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import de.galan.commons.time.ApplicationClock;
 import de.galan.dmsexchange.meta.User;
 import de.galan.dmsexchange.util.Version;
@@ -66,6 +68,12 @@ public class Export {
 
 	public void setSource(Source source) {
 		this.source = source;
+	}
+
+
+	@JsonIgnore
+	public String getSourceAsString() {
+		return (source == null) ? "unknown" : getSource().toString();
 	}
 
 

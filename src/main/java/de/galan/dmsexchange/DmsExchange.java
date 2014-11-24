@@ -1,5 +1,8 @@
 package de.galan.dmsexchange;
 
+import static de.galan.verjson.util.Transformations.*;
+import static org.apache.commons.lang3.StringUtils.*;
+
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -12,8 +15,11 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Charsets;
 import com.google.common.eventbus.EventBus;
 
@@ -59,8 +65,11 @@ public class DmsExchange {
 	public void close() throws DmsExchangeException {
 		if (fs != null && fs.isOpen()) {
 			try {
-				String exportJson = verjsonExport.write(export);
+				String exportJson = verjsonExport.writePlain(export);
 				Path pathExportJson = fs.getPath("/export.json");
+				// delete if exists
+				Files.deleteIfExists(pathExportJson);
+				// write txt
 				try (BufferedWriter writer = Files.newBufferedWriter(pathExportJson, Charsets.UTF_8)) {
 					writer.write(exportJson, 0, exportJson.length());
 				}
@@ -112,8 +121,9 @@ public class DmsExchange {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				Files.copy(pathExportJson, baos);
 				String exportJson = baos.toString(Charsets.UTF_8.name());
-				export = verjsonExport.read(exportJson);
-				LOG.info("Read archive from " + export.getSource() + " exported on " + export.getTsExport());
+				JsonNode exportNode = verjsonExport.readTree(exportJson);
+				export = verjsonExport.readPlain(exportNode, determineVersion(exportNode)); // TODO read version from node and perform mapping
+				LOG.info("Read archive from '" + defaultString(export.getSourceAsString(), "unknown source") + "' exported on " + export.getTsExport());
 			}
 			catch (Exception ex) {
 				throw new InvalidArchiveException("Export-metadata could not be read", ex);
@@ -122,6 +132,21 @@ public class DmsExchange {
 		else {
 			export = new Export();
 		}
+	}
+
+
+	// TODO refactor out
+	protected long determineVersion(JsonNode exportNode) throws InvalidArchiveException {
+		ObjectNode node = getObj(obj(exportNode), "version");
+		String version = node.asText();
+		Long result = null;
+		if (StringUtils.equals(version, "1.0.0-beta.3")) {
+			result = 1L;
+		}
+		else {
+			throw new InvalidArchiveException("Version '" + version + "' not supported");
+		}
+		return result;
 	}
 
 
