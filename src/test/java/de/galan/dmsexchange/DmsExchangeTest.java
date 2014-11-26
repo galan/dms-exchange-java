@@ -15,7 +15,7 @@ public class DmsExchangeTest extends AbstractTestParent {
 	@Test
 	public void testName() throws Exception {
 		DmsExchange exchange = new DmsExchange("/home/daniel/temp/dummy.zip");
-		exchange.exchange.close();
+		exchange.close();
 	}
 
 }
