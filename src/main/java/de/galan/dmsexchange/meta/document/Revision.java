@@ -1,6 +1,5 @@
 package de.galan.dmsexchange.meta.document;
 
-import java.io.OutputStream;
 import java.time.ZonedDateTime;
 
 import de.galan.dmsexchange.meta.User;
@@ -15,11 +14,16 @@ public class Revision {
 
 	private User addedBy;
 	private ZonedDateTime tsAdded;
+	private transient byte[] data;
 
 
-	public OutputStream getStream() {
+	public Revision(ZonedDateTime tsAdded) {
+		this.tsAdded = tsAdded;
+	}
 
-		return null;
+
+	public void setData(byte[] data) {
+		this.data = data;
 	}
 
 }

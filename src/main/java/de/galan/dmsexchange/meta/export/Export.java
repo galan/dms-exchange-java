@@ -17,11 +17,12 @@ import de.galan.dmsexchange.util.Version;
  */
 public class Export {
 
-	private String version = Version.VERSION;
+	private String version = Version.SUPPORTED_VERSION;
 	private String description;
 	private User exportBy;
 	private Source source;
 	private ZonedDateTime tsExport;
+
 	private int documentsSuccessfulAmount;
 	private List<FailedDocument> documentsFailed;
 

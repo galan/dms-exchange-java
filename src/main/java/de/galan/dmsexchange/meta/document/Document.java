@@ -1,5 +1,6 @@
 package de.galan.dmsexchange.meta.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.galan.dmsexchange.util.Version;
@@ -12,7 +13,7 @@ import de.galan.dmsexchange.util.Version;
  */
 public class Document {
 
-	private String version = Version.VERSION;
+	private String version;
 	private List<DocumentFile> documentFiles;
 	private Context context;
 	private String note;
@@ -25,5 +26,16 @@ public class Document {
 	private List<String> labels;
 	private Boolean optionIndexed;
 	private Boolean optionOcr;
+
+
+	public Document() {
+		version = Version.SUPPORTED_VERSION;
+		documentFiles = new ArrayList<>();
+	}
+
+
+	public void addDocumentFile(DocumentFile file) {
+		documentFiles.add(file);
+	}
 
 }

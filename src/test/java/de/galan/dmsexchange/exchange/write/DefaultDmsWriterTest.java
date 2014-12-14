@@ -1,9 +1,10 @@
-package de.galan.dmsexchange;
+package de.galan.dmsexchange.exchange.write;
 
 import static de.galan.commons.test.Tests.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
+import java.time.ZonedDateTime;
 
 import org.junit.After;
 import org.junit.Before;
@@ -11,8 +12,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
+import de.galan.commons.time.ApplicationClock;
+import de.galan.dmsexchange.DmsExchange;
 import de.galan.dmsexchange.exchange.DmsWriter;
 import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.document.DocumentFile;
+import de.galan.dmsexchange.meta.document.Revision;
 
 
 /**
@@ -20,9 +25,9 @@ import de.galan.dmsexchange.meta.document.Document;
  *
  * @author daniel
  */
-public class DmsExchangeTest extends AbstractTestParent {
+public class DefaultDmsWriterTest extends AbstractTestParent {
 
-	private static final String EXPORT_FILENAME = "export.zip";
+	private static final String EXPORT_FILENAME = "write.zip";
 	private File file;
 
 
@@ -51,6 +56,12 @@ public class DmsExchangeTest extends AbstractTestParent {
 		DmsWriter writer = DmsExchange.createWriter(file);
 
 		Document doc = new Document();
+		DocumentFile docFile = new DocumentFile("sample.txt");
+		Revision rev1 = new Revision(ZonedDateTime.now(ApplicationClock.getClock()));
+		rev1.setData(new byte[] {99, 98, 97});
+		docFile.addRevision(rev1);
+		doc.addDocumentFile(docFile);
+		writer.addDocument(doc);
 
 		writer.close();
 		assertThat(file).exists();
@@ -62,5 +73,4 @@ public class DmsExchangeTest extends AbstractTestParent {
 	public void addDocumentAfterClosed() throws Exception {
 		//TODO
 	}
-
 }
