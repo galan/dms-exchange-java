@@ -63,7 +63,6 @@ public class ZipFileSystem {
 
 
 	public void readFile() {
-
 		/*
 		try {
 			Path pathExportJson = fs.getPath("/export.json");
