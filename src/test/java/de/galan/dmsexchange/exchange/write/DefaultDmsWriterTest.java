@@ -39,7 +39,9 @@ public class DefaultDmsWriterTest extends AbstractTestParent {
 
 	@After
 	public void after() {
-		assertThat(file.delete()).isTrue();
+		if (file.exists()) {
+			assertThat(file.delete()).isTrue();
+		}
 	}
 
 

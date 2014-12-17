@@ -1,6 +1,7 @@
 package de.galan.dmsexchange.exchange;
 
 import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.util.DmsExchangeException;
 
 
 /**
@@ -10,6 +11,6 @@ import de.galan.dmsexchange.meta.document.Document;
  */
 public interface DmsWriter extends AutoCloseable {
 
-	public void addDocument(Document document);
+	public void addDocument(Document document) throws DmsExchangeException;
 
 }

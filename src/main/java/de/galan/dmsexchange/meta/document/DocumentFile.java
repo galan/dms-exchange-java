@@ -1,6 +1,7 @@
 package de.galan.dmsexchange.meta.document;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.galan.dmsexchange.meta.User;
@@ -15,7 +16,7 @@ public class DocumentFile {
 
 	private String filename;
 
-	private User scannedBy; //TODO indexedBy
+	private User scannedBy; //TODO remove->redundant to addedBy in revision?
 	private Rotation rotation;
 
 	private List<Revision> revisions;
@@ -27,8 +28,13 @@ public class DocumentFile {
 	}
 
 
-	public void addRevision(Revision revision) {
-		revisions.add(revision);
+	public List<Revision> getRevisions() {
+		return revisions;
+	}
+
+
+	public void addRevision(Revision... revisionToAdd) {
+		revisions.addAll(Arrays.asList(revisionToAdd));
 	}
 
 }

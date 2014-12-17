@@ -1,5 +1,7 @@
 package de.galan.dmsexchange.exchange.write;
 
+import static org.apache.commons.lang3.StringUtils.*;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -19,7 +21,7 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 
 	private Export export;
 
-	private int counterDirectory = 0;
+	private int counterBase = 0;
 	private int counterContainer = 0;
 
 
@@ -30,9 +32,28 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 
 
 	@Override
-	public void addDocument(Document document) {
+	public void addDocument(Document document) throws DmsExchangeException {
 		// validate document
 		// append document to generated directory
+		String nextDir = getNextContainerDirectory();
+		try {
+			String documentJson = getVerjsonDocument().writePlain(document);
+			getZipFs().addFile(nextDir + "meta.json", documentJson.getBytes());
+		}
+		catch (IOException ex) {
+			throw new DmsExchangeException("Unable to add document to export-archive", ex);
+		}
+	}
+
+
+	protected String getNextContainerDirectory() {
+		if (counterContainer > 9_999) {
+			counterContainer = 0;
+			counterBase++;
+		}
+		String dirBase = leftPad("" + counterBase++, 4, "0");
+		String dirContainer = leftPad("" + counterContainer++, 4, "0");
+		return "/" + dirBase + "/" + dirContainer + "/";
 	}
 
 
@@ -41,24 +62,28 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	public void close() throws DmsExchangeException {
 		// add export-meta
 		writeExport();
-
 		// close file
-		try {
-			getZipFs().close();
-		}
-		catch (IOException ex) {
-			throw new DmsExchangeException("Unable to close export-archive", ex);
-		}
+		closeZipFs();
 	}
 
 
 	protected void writeExport() throws DmsExchangeException {
 		try {
 			String exportJson = getVerjsonExport().writePlain(export);
-			getZipFs().writeTextFile("/export.json", exportJson);
+			getZipFs().addFile("/export.json", exportJson.getBytes());
 		}
 		catch (IOException ex) {
 			throw new DmsExchangeException("Unable to write export metadata", ex);
+		}
+	}
+
+
+	protected void closeZipFs() throws DmsExchangeException {
+		try {
+			getZipFs().close();
+		}
+		catch (IOException ex) {
+			throw new DmsExchangeException("Unable to close export-archive", ex);
 		}
 	}
 

@@ -5,9 +5,11 @@ import java.io.IOException;
 
 import com.google.common.eventbus.EventBus;
 
+import de.galan.dmsexchange.meta.document.Document;
 import de.galan.dmsexchange.meta.export.Export;
 import de.galan.dmsexchange.util.DmsExchangeException;
 import de.galan.dmsexchange.util.ZipFileSystem;
+import de.galan.dmsexchange.verjson.document.DocumentVersions;
 import de.galan.dmsexchange.verjson.export.ExportVersions;
 import de.galan.verjson.core.Verjson;
 
@@ -24,6 +26,7 @@ public class DefaultExchange {
 	private ZipFileSystem zfs;
 
 	private Verjson<Export> verjsonExport;
+	private Verjson<Document> verjsonDocument;
 
 
 	protected DefaultExchange(File file, boolean readonly) throws DmsExchangeException {
@@ -35,6 +38,7 @@ public class DefaultExchange {
 			throw new DmsExchangeException(ex.getMessage(), ex);
 		}
 		verjsonExport = Verjson.create(Export.class, new ExportVersions());
+		verjsonDocument = Verjson.create(Document.class, new DocumentVersions());
 		events = new EventBus("dms-exchange"); // TODO include filename in name? //TODO Later AsyncEventBus with configurable amount of parallelism?
 	}
 
@@ -46,6 +50,11 @@ public class DefaultExchange {
 
 	protected Verjson<Export> getVerjsonExport() {
 		return verjsonExport;
+	}
+
+
+	protected Verjson<Document> getVerjsonDocument() {
+		return verjsonDocument;
 	}
 
 

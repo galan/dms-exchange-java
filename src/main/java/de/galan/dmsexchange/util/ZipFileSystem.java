@@ -7,7 +7,9 @@ import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,11 +35,16 @@ public class ZipFileSystem {
 	}
 
 
+	protected boolean isReadonly() {
+		return readonly;
+	}
+
+
 	protected void mountFile() throws IOException {
 		verifyFile();
 
 		Map<String, String> env = new HashMap<>();
-		if (!readonly) {
+		if (!isReadonly()) {
 			env.put("create", "true");
 		}
 
@@ -47,17 +54,7 @@ public class ZipFileSystem {
 			fs = FileSystems.newFileSystem(uri, env);
 		}
 		catch (IOException ex) {
-			throw new IOException("Unable to to " + (readonly ? "read" : "create") + " zip file", ex);
-		}
-	}
-
-
-	public void writeTextFile(String absoluteFilePath, String exportJson) throws IOException {
-		Path pathExportJson = fs.getPath(absoluteFilePath);
-		Files.deleteIfExists(pathExportJson);
-		// write txt
-		try (BufferedWriter writer = Files.newBufferedWriter(pathExportJson, Charsets.UTF_8)) {
-			writer.write(exportJson, 0, exportJson.length());
+			throw new IOException("Unable to to " + (isReadonly() ? "read" : "create") + " zip file", ex);
 		}
 	}
 
@@ -87,7 +84,7 @@ public class ZipFileSystem {
 	private boolean verifyFile() throws IOException {
 		boolean fileExists = file.exists() && file.isFile();
 
-		if (readonly) {
+		if (isReadonly()) {
 			if (!fileExists) {
 				throw new IOException("File does not exist");
 			}
@@ -101,10 +98,38 @@ public class ZipFileSystem {
 	}
 
 
+	private void ensureWritable() throws IOException {
+		if (isReadonly()) {
+			throw new IOException("File is not opened as writable");
+		}
+	}
+
+
 	/** Closes the zip file */
 	public void close() throws IOException {
 		if (fs != null && fs.isOpen()) {
 			fs.close();
+		}
+	}
+
+
+	public void addFile(String filename, byte[] data) throws IOException {
+		ensureWritable();
+		Path path = fs.getPath(filename);
+		if (Files.exists(path, LinkOption.NOFOLLOW_LINKS)) {
+			throw new IOException("File '" + filename + "' does already exist");
+		}
+		Files.createDirectories(path.getParent());
+		Files.write(path, data, StandardOpenOption.CREATE_NEW);
+	}
+
+
+	public void writeTextFile(String absoluteFilePath, String exportJson) throws IOException {
+		Path pathExportJson = fs.getPath(absoluteFilePath);
+		Files.deleteIfExists(pathExportJson);
+		// write txt
+		try (BufferedWriter writer = Files.newBufferedWriter(pathExportJson, Charsets.UTF_8)) {
+			writer.write(exportJson, 0, exportJson.length());
 		}
 	}
 
