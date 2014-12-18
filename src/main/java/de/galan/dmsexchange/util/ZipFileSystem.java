@@ -1,6 +1,5 @@
 package de.galan.dmsexchange.util;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -12,8 +11,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.google.common.base.Charsets;
 
 
 /**
@@ -83,7 +80,6 @@ public class ZipFileSystem {
 
 	private boolean verifyFile() throws IOException {
 		boolean fileExists = file.exists() && file.isFile();
-
 		if (isReadonly()) {
 			if (!fileExists) {
 				throw new IOException("File does not exist");
@@ -123,8 +119,9 @@ public class ZipFileSystem {
 		Files.write(path, data, StandardOpenOption.CREATE_NEW);
 	}
 
-
-	public void writeTextFile(String absoluteFilePath, String exportJson) throws IOException {
+	/*
+	@Deprecated
+	private void writeTextFile(String absoluteFilePath, String exportJson) throws IOException {
 		Path pathExportJson = fs.getPath(absoluteFilePath);
 		Files.deleteIfExists(pathExportJson);
 		// write txt
@@ -132,5 +129,6 @@ public class ZipFileSystem {
 			writer.write(exportJson, 0, exportJson.length());
 		}
 	}
+	 */
 
 }

@@ -63,6 +63,7 @@ public class DefaultDmsWriterTest extends AbstractTestParent {
 		rev1.setData(new byte[] {99, 98, 97});
 		docFile.addRevision(rev1);
 		doc.addDocumentFile(docFile);
+		//doc.addLabels("hello", "world");
 		writer.addDocument(doc);
 
 		writer.close();

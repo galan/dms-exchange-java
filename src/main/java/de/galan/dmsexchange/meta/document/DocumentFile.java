@@ -28,6 +28,31 @@ public class DocumentFile {
 	}
 
 
+	public String getFilename() {
+		return filename;
+	}
+
+
+	public User getScannedBy() {
+		return scannedBy;
+	}
+
+
+	public void setScannedBy(User scannedBy) {
+		this.scannedBy = scannedBy;
+	}
+
+
+	public Rotation getRotation() {
+		return rotation;
+	}
+
+
+	public void setRotation(Rotation rotation) {
+		this.rotation = rotation;
+	}
+
+
 	public List<Revision> getRevisions() {
 		return revisions;
 	}

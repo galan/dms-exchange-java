@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import de.galan.dmsexchange.util.Version;
 
 
@@ -82,8 +80,6 @@ public class Document {
 	}
 
 
-	// Use field instead
-	@JsonIgnore
 	public List<Comment> getComments() {
 		if (comments == null) {
 			comments = new ArrayList<>();
@@ -137,8 +133,6 @@ public class Document {
 	}
 
 
-	// Use field instead
-	@JsonIgnore
 	public List<String> getLabels() {
 		if (labels == null) {
 			labels = new ArrayList<>();

@@ -4,10 +4,13 @@ import static org.apache.commons.lang3.StringUtils.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 
 import de.galan.dmsexchange.exchange.DefaultExchange;
 import de.galan.dmsexchange.exchange.DmsWriter;
 import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.document.DocumentFile;
+import de.galan.dmsexchange.meta.document.Revision;
 import de.galan.dmsexchange.meta.export.Export;
 import de.galan.dmsexchange.util.DmsExchangeException;
 
@@ -18,6 +21,8 @@ import de.galan.dmsexchange.util.DmsExchangeException;
  * @author daniel
  */
 public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
+
+	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
 
 	private Export export;
 
@@ -34,20 +39,34 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	@Override
 	public void addDocument(Document document) throws DmsExchangeException {
 		// validate document
-		// append document to generated directory
+		// TODO
+		// add revisions and metadata to next generated directory
 		String nextDir = getNextContainerDirectory();
 		try {
+			for (DocumentFile df: document.getDocumentFiles()) {
+				String filename = df.getFilename();
+				for (Revision revision: df.getRevisions()) {
+					String generated = revision.getTsAdded().format(FORMATTER) + "_" + filename;
+					getZipFs().addFile(nextDir + "revisions/" + generated, revision.getData());
+				}
+			}
+		}
+		catch (IOException ex) {
+			throw new DmsExchangeException("Unable to add revision to export-archive", ex);
+		}
+		try {
+			//TODO avoid empty lists/arrays
 			String documentJson = getVerjsonDocument().writePlain(document);
 			getZipFs().addFile(nextDir + "meta.json", documentJson.getBytes());
 		}
 		catch (IOException ex) {
-			throw new DmsExchangeException("Unable to add document to export-archive", ex);
+			throw new DmsExchangeException("Unable to add document meta-data to export-archive", ex);
 		}
 	}
 
 
 	protected String getNextContainerDirectory() {
-		if (counterContainer > 9_999) {
+		if (counterContainer > 9999) {
 			counterContainer = 0;
 			counterBase++;
 		}
