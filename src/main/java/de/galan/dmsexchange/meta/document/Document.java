@@ -1,9 +1,13 @@
 package de.galan.dmsexchange.meta.document;
 
+import static org.apache.commons.lang3.StringUtils.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import de.galan.dmsexchange.meta.Validatable;
+import de.galan.dmsexchange.meta.ValidationResult;
 import de.galan.dmsexchange.util.Version;
 
 
@@ -12,7 +16,7 @@ import de.galan.dmsexchange.util.Version;
  *
  * @author daniel
  */
-public class Document {
+public class Document implements Validatable {
 
 	private String version;
 	private List<DocumentFile> documentFiles;
@@ -32,6 +36,19 @@ public class Document {
 	public Document() {
 		version = Version.SUPPORTED_VERSION;
 		documentFiles = new ArrayList<>();
+	}
+
+
+	@Override
+	public void validate(ValidationResult result) {
+		if (isBlank(getVersion())) {
+			result.add("Version is not set");
+		}
+		if (getDocumentFiles().isEmpty()) {
+			result.add("Document does not contain any DocumentFile");
+		}
+		validate(result, getDocumentFiles());
+		validate(result, getComments());
 	}
 
 

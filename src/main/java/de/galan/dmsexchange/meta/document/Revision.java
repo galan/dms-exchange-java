@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.io.Files;
 
 import de.galan.dmsexchange.meta.User;
+import de.galan.dmsexchange.meta.Validatable;
+import de.galan.dmsexchange.meta.ValidationResult;
 
 
 /**
@@ -18,7 +20,7 @@ import de.galan.dmsexchange.meta.User;
  *
  * @author daniel
  */
-public class Revision {
+public class Revision implements Validatable {
 
 	private User addedBy;
 	private ZonedDateTime tsAdded;
@@ -35,6 +37,17 @@ public class Revision {
 		setTsAdded(tsAdded);
 		setAddedBy(addedBy);
 		setData(data);
+	}
+
+
+	@Override
+	public void validate(ValidationResult result) {
+		if (getTsAdded() == null) {
+			result.add("No datetime for revision");
+		}
+		if (getData() == null || getData().length == 0) {
+			result.add("No data for revision");
+		}
 	}
 
 

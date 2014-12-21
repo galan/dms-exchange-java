@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 import de.galan.dmsexchange.exchange.DefaultExchange;
 import de.galan.dmsexchange.exchange.DmsWriter;
+import de.galan.dmsexchange.meta.ValidationResult;
 import de.galan.dmsexchange.meta.document.Document;
 import de.galan.dmsexchange.meta.document.DocumentFile;
 import de.galan.dmsexchange.meta.document.Revision;
@@ -38,29 +39,48 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 
 	@Override
 	public void addDocument(Document document) throws DmsExchangeException {
-		// validate document
-		// TODO
-		// add revisions and metadata to next generated directory
-		String nextDir = getNextContainerDirectory();
 		try {
-			for (DocumentFile df: document.getDocumentFiles()) {
-				String filename = df.getFilename();
-				for (Revision revision: df.getRevisions()) {
-					String generated = revision.getTsAdded().format(FORMATTER) + "_" + filename;
-					getZipFs().addFile(nextDir + "revisions/" + generated, revision.getData());
+			// validate document
+			validateDocument(document);
+			// add revisions and metadata to next generated directory
+			String nextDir = getNextContainerDirectory();
+			try {
+				for (DocumentFile df: document.getDocumentFiles()) {
+					String filename = df.getFilename();
+					for (Revision revision: df.getRevisions()) {
+						String generated = revision.getTsAdded().format(FORMATTER) + "_" + filename;
+						getZipFs().addFile(nextDir + "revisions/" + generated, revision.getData());
+					}
 				}
 			}
+			catch (IOException ex) {
+				throw new DmsExchangeException("Unable to add revision to export-archive", ex);
+			}
+			try {
+				//TODO avoid empty lists/arrays
+				String documentJson = getVerjsonDocument().writePlain(document);
+				getZipFs().addFile(nextDir + "meta.json", documentJson.getBytes());
+				postEvent(new DocumentAddedEvent(document));
+			}
+			catch (IOException ex) {
+				throw new DmsExchangeException("Unable to add document meta-data to export-archive", ex);
+			}
 		}
-		catch (IOException ex) {
-			throw new DmsExchangeException("Unable to add revision to export-archive", ex);
+		catch (DmsExchangeValidationException ex) {
+			postEvent(new DocumentFailedEvent(document, ex.getValidationResult()));
+			throw ex;
 		}
-		try {
-			//TODO avoid empty lists/arrays
-			String documentJson = getVerjsonDocument().writePlain(document);
-			getZipFs().addFile(nextDir + "meta.json", documentJson.getBytes());
+		catch (DmsExchangeException ex) {
+			postEvent(new DocumentFailedEvent(document, null));
+			throw ex;
 		}
-		catch (IOException ex) {
-			throw new DmsExchangeException("Unable to add document meta-data to export-archive", ex);
+	}
+
+
+	private void validateDocument(Document document) throws DmsExchangeValidationException {
+		ValidationResult result = document.validate();
+		if (result.hasErrors()) {
+			throw new DmsExchangeValidationException("Invalid Document", result);
 		}
 	}
 
@@ -79,10 +99,8 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	/** Closes the zip file and writes the export-meta data */
 	@Override
 	public void close() throws DmsExchangeException {
-		// add export-meta
-		writeExport();
-		// close file
-		closeZipFs();
+		writeExport(); // add export-meta
+		closeZipFs(); // close zip-file
 	}
 
 

@@ -1,10 +1,14 @@
 package de.galan.dmsexchange.meta.document;
 
+import static org.apache.commons.lang3.StringUtils.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import de.galan.dmsexchange.meta.User;
+import de.galan.dmsexchange.meta.Validatable;
+import de.galan.dmsexchange.meta.ValidationResult;
 
 
 /**
@@ -12,7 +16,7 @@ import de.galan.dmsexchange.meta.User;
  *
  * @author daniel
  */
-public class DocumentFile {
+public class DocumentFile implements Validatable {
 
 	private String filename;
 
@@ -25,6 +29,18 @@ public class DocumentFile {
 	public DocumentFile(String filename) {
 		this.filename = filename;
 		revisions = new ArrayList<>();
+	}
+
+
+	@Override
+	public void validate(ValidationResult result) {
+		if (isBlank(getFilename())) {
+			result.add("No filename for document-file");
+		}
+		if (getRevisions().isEmpty()) {
+			result.add("No revisions for document-file");
+		}
+		validate(result, revisions);
 	}
 
 

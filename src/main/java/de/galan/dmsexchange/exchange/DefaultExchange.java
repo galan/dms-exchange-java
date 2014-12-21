@@ -58,7 +58,7 @@ public class DefaultExchange {
 	}
 
 
-	protected void registerListener(Object object) {
+	public void registerListener(Object object) {
 		events.register(object); // can throw IllegalArgumentException if no method with single-arg and @Subs
 	}
 

@@ -24,6 +24,12 @@
 			<version>0.4-SNAPSHOT</version>
 		</dependency>
 
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.5.2</version>
+		</dependency>
 		<!--
 		<dependency>
 			<groupId>net.lingala.zip4j</groupId>
