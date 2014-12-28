@@ -50,6 +50,14 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- testing -->
+		<dependency>
+			<groupId>org.zeroturnaround</groupId>
+			<artifactId>zt-zip</artifactId>
+			<version>1.8</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 </project>

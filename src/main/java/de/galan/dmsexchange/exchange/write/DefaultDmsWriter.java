@@ -60,6 +60,7 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 				//TODO avoid empty lists/arrays
 				String documentJson = getVerjsonDocument().writePlain(document);
 				getZipFs().addFile(nextDir + "meta.json", documentJson.getBytes());
+				export.incrementDocumentsSuccessfulAmount();
 				postEvent(new DocumentAddedEvent(document));
 			}
 			catch (IOException ex) {

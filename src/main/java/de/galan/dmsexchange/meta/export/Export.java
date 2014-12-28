@@ -87,4 +87,14 @@ public class Export {
 		this.tsExport = tsExport;
 	}
 
+
+	public void incrementDocumentsSuccessfulAmount() {
+		documentsSuccessfulAmount++;
+	}
+
+
+	public int getDocumentsSuccessfulAmount() {
+		return documentsSuccessfulAmount;
+	}
+
 }
