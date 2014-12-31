@@ -7,12 +7,10 @@ import java.io.File;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.dmsexchange.exchange.DmsWriter;
-import de.galan.dmsexchange.meta.document.Document;
 
 
 /**
@@ -43,24 +41,6 @@ public class DmsExchangeTest extends AbstractTestParent {
 		DmsWriter writer = DmsExchange.createWriter(file);
 		writer.close();
 		assertThat(file).exists();
-	}
-
-
-	@Test
-	public void createArchiveWithSingleDocument() throws Exception {
-		DmsWriter writer = DmsExchange.createWriter(file);
-
-		Document doc = new Document();
-
-		writer.close();
-		assertThat(file).exists();
-	}
-
-
-	@Test
-	@Ignore
-	public void addDocumentAfterClosed() throws Exception {
-		//TODO
 	}
 
 }
