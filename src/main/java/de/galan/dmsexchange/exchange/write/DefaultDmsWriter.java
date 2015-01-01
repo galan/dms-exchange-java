@@ -38,7 +38,7 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 
 
 	@Override
-	public void addDocument(Document document) throws DmsExchangeException {
+	public void add(Document document) throws DmsExchangeException {
 		try {
 			// validate document
 			validateDocument(document);

@@ -30,4 +30,12 @@ public class DmsExchange {
 		return writer;
 	}
 
+
+	public static DmsWriter createWriter(File file, int thresholdDocuments, int thresholdSize) throws DmsExchangeException {
+		DefaultDmsWriter writer = new DefaultDmsWriter(file);
+		writer.registerListener(new DocumentAddedListener());
+		writer.registerListener(new DocumentFailedListener());
+		return writer;
+	}
+
 }

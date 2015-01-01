@@ -11,6 +11,6 @@ import de.galan.dmsexchange.util.DmsExchangeException;
  */
 public interface DmsWriter extends AutoCloseable {
 
-	public void addDocument(Document document) throws DmsExchangeException;
+	public void add(Document document) throws DmsExchangeException;
 
 }

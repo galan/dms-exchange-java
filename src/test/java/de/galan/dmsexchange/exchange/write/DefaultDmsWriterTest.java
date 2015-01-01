@@ -95,7 +95,7 @@ public class DefaultDmsWriterTest extends AbstractTestParent {
 		docFile.addRevision(rev1);
 		doc.addDocumentFile(docFile);
 		doc.addLabels("hello", "world");
-		writer.addDocument(doc);
+		writer.add(doc);
 
 		writer.close();
 		assertArchive("createArchiveWithSingleDocument");
