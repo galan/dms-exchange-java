@@ -1,5 +1,8 @@
 package de.galan.dmsexchange.exchange;
 
+import de.galan.dmsexchange.util.DmsExchangeException;
+
+
 /**
  * daniel should have written a comment here.
  *
@@ -7,7 +10,7 @@ package de.galan.dmsexchange.exchange;
  */
 public interface DmsReader {
 
-	public void readDocuments();
+	public void readDocuments() throws DmsExchangeException;
 
 
 	//public void readDocument(String path);

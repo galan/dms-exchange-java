@@ -17,6 +17,17 @@ public class Context implements Validatable {
 	private ZonedDateTime tsDueDate;
 
 
+	public Context() {
+		//nada
+	}
+
+
+	public Context(ZonedDateTime tsDocument, ZonedDateTime tsDueDate) {
+		setTsDocument(tsDocument);
+		setTsDueDate(tsDueDate);
+	}
+
+
 	@Override
 	public void validate(ValidationResult result) {
 		//noop

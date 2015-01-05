@@ -19,6 +19,18 @@ public class Comment implements Validatable {
 	private String content;
 
 
+	public Comment() {
+		//nada
+	}
+
+
+	public Comment(User commentBy, ZonedDateTime tsComment, String content) {
+		setCommentBy(commentBy);
+		setTsComment(tsComment);
+		setContent(content);
+	}
+
+
 	@Override
 	public void validate(ValidationResult result) {
 		if (getCommentBy() == null) {

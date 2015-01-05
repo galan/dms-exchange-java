@@ -20,7 +20,7 @@ public class FileGenerationUtil {
 		if (file == null) {
 			throw new IllegalArgumentException("Invalid file (null)");
 		}
-		if (!file.exists() || file.isDirectory()) {
+		if (file.isDirectory()) {
 			result = generateUniqueFilename(file);
 		}
 		return result;
@@ -35,7 +35,7 @@ public class FileGenerationUtil {
 		if (directory.exists() && directory.isDirectory()) {
 			directory.mkdirs();
 		}
-		return new File(directory, UUID.randomUUID().toString());
+		return new File(directory, UUID.randomUUID().toString() + ".zip");
 	}
 
 }

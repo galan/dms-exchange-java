@@ -8,7 +8,8 @@ import de.galan.dmsexchange.util.DmsExchangeException;
 
 
 /**
- * daniel should have written a comment here.
+ * Reads all document-containers inside the given export-archive. The read document-containers will be posted to the
+ * registered listeners.
  *
  * @author daniel
  */
@@ -20,7 +21,7 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 
 	@Override
-	public void readDocuments() {
+	public void readDocuments() throws DmsExchangeException {
 		// check if listeners are registered (correct ones, otherwise DeadEvents will be send out)
 		// iterate over directories recursivly
 		// read found documents
