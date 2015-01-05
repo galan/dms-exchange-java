@@ -39,7 +39,7 @@ public class DefaultExchange {
 		}
 		verjsonExport = Verjson.create(Export.class, new ExportVersions());
 		verjsonDocument = Verjson.create(Document.class, new DocumentVersions());
-		events = new EventBus("dms-exchange"); // TODO include filename in name? //TODO Later AsyncEventBus with configurable amount of parallelism?
+		events = new EventBus("dms-exchange"); // TODO include filename in name?
 	}
 
 

@@ -1,9 +1,11 @@
 package de.galan.dmsexchange.exchange.write;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.galan.dmsexchange.exchange.DmsWriter;
+import de.galan.dmsexchange.exchange.write.condition.SplitCondition;
 import de.galan.dmsexchange.meta.document.Document;
 import de.galan.dmsexchange.util.DmsExchangeException;
 import de.galan.dmsexchange.util.FileGenerationUtil;
@@ -20,10 +22,20 @@ public class ConditionalDmsWriter implements DmsWriter {
 	private File directory;
 	private List<File> files;
 
+	private List<SplitCondition> conditions;
+	private int documentsAdded;
+
 
 	public ConditionalDmsWriter(File directory) throws DmsExchangeException {
 		this.directory = directory;
+		conditions = new ArrayList<>();
+		documentsAdded = 0;
 		setWriter(new DefaultDmsWriter(getNextFile()));
+	}
+
+
+	public void addCondition(SplitCondition condition) {
+		conditions.add(condition);
 	}
 
 
@@ -49,12 +61,30 @@ public class ConditionalDmsWriter implements DmsWriter {
 	}
 
 
+	protected File getCurrentFile() {
+		return getFiles().get(getFiles().size() - 1);
+	}
+
+
 	@Override
 	public void add(Document document) throws DmsExchangeException {
-		if (getWriter() == null) {
-			//writer = new DefaultDmsWriter(file);
+		if (conditions.stream().anyMatch(c -> c.evaluate(getCurrentFile(), documentsAdded))) {
+			split();
 		}
 		writer.add(document);
+		documentsAdded++;
+	}
+
+
+	protected void split() throws DmsExchangeException {
+		try {
+			getWriter().close();
+		}
+		catch (Exception ex) {
+			throw new DmsExchangeException("Unable to close splitted export-archive", ex);
+		}
+		setWriter(new DefaultDmsWriter(getNextFile()));
+		documentsAdded = 0;
 	}
 
 

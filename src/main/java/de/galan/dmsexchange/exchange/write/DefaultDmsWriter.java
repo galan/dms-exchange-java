@@ -39,6 +39,8 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	public DefaultDmsWriter(File file) throws DmsExchangeException {
 		super(FileGenerationUtil.determineFile(file), false);
 		export = new Export();
+		registerListener(new DocumentAddedListener());
+		registerListener(new DocumentFailedListener());
 	}
 
 
