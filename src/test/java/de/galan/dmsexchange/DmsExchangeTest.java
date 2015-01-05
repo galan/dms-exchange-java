@@ -14,7 +14,7 @@ import de.galan.dmsexchange.exchange.DmsWriter;
 
 
 /**
- * daniel should have written a comment here.
+ * TODO test
  *
  * @author daniel
  */

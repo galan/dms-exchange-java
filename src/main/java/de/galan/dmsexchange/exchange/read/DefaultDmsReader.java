@@ -1,6 +1,7 @@
 package de.galan.dmsexchange.exchange.read;
 
 import java.io.File;
+import java.util.Arrays;
 
 import de.galan.dmsexchange.exchange.DefaultExchange;
 import de.galan.dmsexchange.exchange.DmsReader;
@@ -32,6 +33,7 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 	@Override
 	public void registerListener(Object... listeners) {
+		Arrays.asList(listeners).stream().forEach(this::registerListener);
 	}
 
 }

@@ -31,6 +31,7 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
 
 	private Export export;
+	private boolean closed = false;
 
 	private int counterBase = 0;
 	private int counterContainer = 0;
@@ -40,7 +41,7 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 		super(FileGenerationUtil.determineFile(file), false);
 		export = new Export();
 		registerListener(new DocumentAddedListener());
-		registerListener(new DocumentFailedListener());
+		registerListener(new DocumentFailedListener(export));
 	}
 
 
@@ -108,7 +109,7 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 			counterContainer = 0;
 			counterBase++;
 		}
-		String dirBase = leftPad("" + counterBase++, 4, "0");
+		String dirBase = leftPad("" + counterBase, 4, "0");
 		String dirContainer = leftPad("" + counterContainer++, 4, "0");
 		return "/" + dirBase + "/" + dirContainer + "/";
 	}
@@ -117,8 +118,11 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	/** Closes the zip file and writes the export-meta data */
 	@Override
 	public void close() throws DmsExchangeException {
-		writeExport(); // add export-meta
-		closeZipFs(); // close zip-file
+		if (!closed) {
+			writeExport(); // add export-meta
+			closeZipFs(); // close zip-file
+			closed = true;
+		}
 	}
 
 

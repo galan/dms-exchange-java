@@ -1,7 +1,7 @@
 package de.galan.dmsexchange;
 
 /**
- * daniel should have written a comment here.
+ * TODO remove soon
  *
  * @author daniel
  */

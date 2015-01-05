@@ -14,7 +14,10 @@ import java.util.Map;
 
 
 /**
- * daniel should have written a comment here.
+ * Access to a zip-file with nio using the <a
+ * href="https://docs.oracle.com/javase/7/docs/technotes/guides/io/fsp/zipfilesystemprovider.html">Zip File System
+ * Provider</a>. See also the <a
+ * href="https://blogs.oracle.com/xuemingshen/entry/the_zip_filesystem_provider_in1">related blog-entry</a>.
  *
  * @author daniel
  */

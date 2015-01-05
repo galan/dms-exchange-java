@@ -5,7 +5,8 @@ import javax.mail.internet.InternetAddress;
 
 
 /**
- * daniel should have written a comment here.
+ * A user an entity is associated with. Users are stored as email-address, the mapping has to be done by the executing
+ * client/dms.
  *
  * @author daniel
  */

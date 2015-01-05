@@ -12,7 +12,8 @@ import de.galan.dmsexchange.util.Version;
 
 
 /**
- * Metadata used for a document, will be stored to the file meta.json.
+ * Represents the document and it's metadata, that will be stored to the file meta.json. Read the <a
+ * href="https://github.com/galan/dms-exchange-specification">specification</a> for more information.
  *
  * @author daniel
  */

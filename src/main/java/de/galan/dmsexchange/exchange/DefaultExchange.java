@@ -15,11 +15,11 @@ import de.galan.verjson.core.Verjson;
 
 
 /**
- * daniel should have written a comment here.
+ * Base-class for dxs-based reader/writer.
  *
  * @author daniel
  */
-public class DefaultExchange {
+public abstract class DefaultExchange {
 
 	private EventBus events;
 	private File file;

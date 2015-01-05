@@ -1,13 +1,13 @@
 package de.galan.dmsexchange.meta;
 
-import java.util.Collections;
 import java.util.List;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 
 /**
- * daniel should have written a comment here.
+ * Collects errors during the validation process
  *
  * @author daniel
  */
@@ -30,7 +30,12 @@ public class ValidationResult {
 
 
 	public List<String> getErrors() {
-		return errors == null ? Collections.emptyList() : errors;
+		return errors;
+	}
+
+
+	public String getErrorsJoined() {
+		return Joiner.on(", ").skipNulls().join(getErrors());
 	}
 
 }

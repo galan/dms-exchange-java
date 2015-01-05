@@ -4,7 +4,7 @@ import java.util.List;
 
 
 /**
- * daniel should have written a comment here.
+ * Entities that could be validated prior adding to an export-archive have to implement this contract.
  *
  * @author daniel
  */

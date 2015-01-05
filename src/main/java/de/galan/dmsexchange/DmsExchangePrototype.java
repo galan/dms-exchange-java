@@ -34,7 +34,7 @@ import de.galan.verjson.core.Verjson;
 
 
 /**
- * daniel should have written a comment here.
+ * Prototyping, will be removed soon
  *
  * @author daniel
  */

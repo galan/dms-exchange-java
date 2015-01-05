@@ -12,7 +12,7 @@ import de.galan.dmsexchange.util.FileGenerationUtil;
 
 
 /**
- * daniel should have written a comment here.
+ * DmsWriter which creates multiple export-archives, depending on the given Conditions.
  *
  * @author daniel
  */
@@ -29,6 +29,7 @@ public class ConditionalDmsWriter implements DmsWriter {
 	public ConditionalDmsWriter(File directory) throws DmsExchangeException {
 		this.directory = directory;
 		conditions = new ArrayList<>();
+		files = new ArrayList<>();
 		documentsAdded = 0;
 		setWriter(new DefaultDmsWriter(getNextFile()));
 	}

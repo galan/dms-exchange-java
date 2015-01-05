@@ -13,7 +13,7 @@ import de.galan.verjson.step.validation.Validation;
 
 
 /**
- * daniel should have written a comment here.
+ * Common functionality for verjson transformation registrations.
  *
  * @author daniel
  */

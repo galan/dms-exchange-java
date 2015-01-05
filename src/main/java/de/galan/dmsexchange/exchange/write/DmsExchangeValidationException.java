@@ -1,11 +1,13 @@
 package de.galan.dmsexchange.exchange.write;
 
+import static org.apache.commons.lang3.StringUtils.*;
 import de.galan.dmsexchange.meta.ValidationResult;
 import de.galan.dmsexchange.util.DmsExchangeException;
 
 
 /**
- * daniel should have written a comment here.
+ * Exception that has happened during the validation phase prior adding a document into an archive. It contains the
+ * ValidationResult for further output.
  *
  * @author daniel
  */
@@ -34,6 +36,16 @@ public class DmsExchangeValidationException extends DmsExchangeException {
 
 	public ValidationResult getValidationResult() {
 		return validationResult;
+	}
+
+
+	@Override
+	public String getMessage() {
+		String errors = EMPTY;
+		if (getValidationResult() != null && getValidationResult().hasErrors()) {
+			errors = " (" + getValidationResult().getErrorsJoined() + ")";
+		}
+		return super.getMessage() + errors;
 	}
 
 }

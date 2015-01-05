@@ -5,7 +5,7 @@ import de.galan.dmsexchange.meta.document.Document;
 
 
 /**
- * daniel should have written a comment here.
+ * A document has been added to an export-archive.
  *
  * @author daniel
  */

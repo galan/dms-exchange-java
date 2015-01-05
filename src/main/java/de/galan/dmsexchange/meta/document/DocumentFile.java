@@ -11,7 +11,8 @@ import de.galan.dmsexchange.meta.ValidationResult;
 
 
 /**
- * daniel should have written a comment here.
+ * Represents a document-file. Read the <a href="https://github.com/galan/dms-exchange-specification">specification</a>
+ * for more information.
  *
  * @author daniel
  */

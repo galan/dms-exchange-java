@@ -4,7 +4,7 @@ import de.galan.dmsexchange.verjson.DmsExchangeVersions;
 
 
 /**
- * Version transformation steps for export.
+ * Version transformation steps for exports.
  *
  * @author daniel
  */

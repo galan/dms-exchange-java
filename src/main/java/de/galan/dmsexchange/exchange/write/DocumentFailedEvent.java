@@ -1,12 +1,14 @@
 package de.galan.dmsexchange.exchange.write;
 
+import com.google.common.base.Joiner;
+
 import de.galan.dmsexchange.exchange.ExchangeEvent;
 import de.galan.dmsexchange.meta.ValidationResult;
 import de.galan.dmsexchange.meta.document.Document;
 
 
 /**
- * daniel should have written a comment here.
+ * Adding a document failed due to eg. validation.
  *
  * @author daniel
  */
@@ -29,6 +31,11 @@ public class DocumentFailedEvent extends ExchangeEvent {
 
 	public ValidationResult getValidationResult() {
 		return validationResult;
+	}
+
+
+	public String getErrors() {
+		return Joiner.on(", ").skipNulls().join(getValidationResult().getErrors());
 	}
 
 }

@@ -20,7 +20,9 @@ import de.galan.dmsexchange.meta.ValidationResult;
 
 
 /**
- * daniel should have written a comment here.
+ * A single revision of a document-file, the binary data will be serialized into files and is transient to the
+ * meta-data. Read the <a href="https://github.com/galan/dms-exchange-specification">specification</a> for more
+ * information.
  *
  * @author daniel
  */

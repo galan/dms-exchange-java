@@ -8,7 +8,8 @@ import de.galan.dmsexchange.meta.ValidationResult;
 
 
 /**
- * Contains a comment a user has added to a document
+ * Contains a comment a user has added to a document. Read the <a
+ * href="https://github.com/galan/dms-exchange-specification">specification</a> for more information.
  *
  * @author daniel
  */
