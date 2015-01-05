@@ -35,7 +35,6 @@ import de.galan.dmsexchange.meta.document.Revision;
 public class DmsWriterTestParent extends AbstractTestParent {
 
 	private DmsWriter writer;
-
 	private File file;
 
 

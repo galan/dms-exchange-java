@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.io.File;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -62,6 +63,16 @@ public class ConditionalDmsWriterTest extends DmsWriterTestParent {
 		getWriter().addQuietly(createSimpleDocument1(), createSimpleDocument2(), createSimpleDocument3());
 		getWriter().close();
 		assertArchiveList("createArchiveSplitAfter2Documents3", 2);
+	}
+
+
+	@Test
+	@Ignore
+	public void createArchiveSplitAfter30KDocuments11K() throws Exception {
+		setWriter(DmsExchange.createWriter(getFile(), null, 1024 * 30)); // TODO unable to split  when underlying zip gets not flushed (and can not be manually)
+		getWriter().addQuietly(createSimpleDocument1(), createSimpleDocument2(), createSimpleDocument3(), createSimpleDocument4(), createSimpleDocument5());
+		getWriter().close();
+		assertArchiveList("createArchiveSplitAfter10KDocuments11K", 1);
 	}
 
 }
