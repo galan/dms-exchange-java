@@ -5,6 +5,9 @@ import static org.apache.commons.lang3.StringUtils.*;
 import java.io.File;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import com.google.common.collect.ImmutableList;
 
 import de.galan.dmsexchange.exchange.DefaultExchange;
 import de.galan.dmsexchange.exchange.DmsWriter;
@@ -14,10 +17,12 @@ import de.galan.dmsexchange.meta.document.DocumentFile;
 import de.galan.dmsexchange.meta.document.Revision;
 import de.galan.dmsexchange.meta.export.Export;
 import de.galan.dmsexchange.util.DmsExchangeException;
+import de.galan.dmsexchange.util.FileGenerationUtil;
 
 
 /**
- * Adds documents to a specified file. Using generated directories and document-container names during the process.
+ * Adds documents to a specified file. Using generated directories and document-container names inside the archive
+ * during the process.
  *
  * @author daniel
  */
@@ -32,7 +37,7 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 
 
 	public DefaultDmsWriter(File file) throws DmsExchangeException {
-		super(file, false);
+		super(FileGenerationUtil.determineFile(file), false);
 		export = new Export();
 	}
 
@@ -44,28 +49,8 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 			validateDocument(document);
 			// add revisions and metadata to next generated directory
 			String nextDir = getNextContainerDirectory();
-			try {
-				for (DocumentFile df: document.getDocumentFiles()) {
-					String filename = df.getFilename();
-					for (Revision revision: df.getRevisions()) {
-						String generated = revision.getTsAdded().format(FORMATTER) + "_" + filename;
-						getZipFs().addFile(nextDir + "revisions/" + generated, revision.getData());
-					}
-				}
-			}
-			catch (IOException ex) {
-				throw new DmsExchangeException("Unable to add revision to export-archive", ex);
-			}
-			try {
-				//TODO avoid empty lists/arrays
-				String documentJson = getVerjsonDocument().writePlain(document);
-				getZipFs().addFile(nextDir + "meta.json", documentJson.getBytes());
-				export.incrementDocumentsSuccessfulAmount();
-				postEvent(new DocumentAddedEvent(document));
-			}
-			catch (IOException ex) {
-				throw new DmsExchangeException("Unable to add document meta-data to export-archive", ex);
-			}
+			addRevisions(document, nextDir);
+			addMetadata(document, nextDir);
 		}
 		catch (DmsExchangeValidationException ex) {
 			postEvent(new DocumentFailedEvent(document, ex.getValidationResult()));
@@ -78,7 +63,37 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	}
 
 
-	private void validateDocument(Document document) throws DmsExchangeValidationException {
+	protected void addMetadata(Document document, String nextDir) throws DmsExchangeException {
+		try {
+			//TODO avoid empty lists/arrays
+			String documentJson = getVerjsonDocument().writePlain(document);
+			getZipFs().addFile(nextDir + "meta.json", documentJson.getBytes());
+			export.incrementDocumentsSuccessfulAmount();
+			postEvent(new DocumentAddedEvent(document));
+		}
+		catch (IOException ex) {
+			throw new DmsExchangeException("Unable to add document meta-data to export-archive", ex);
+		}
+	}
+
+
+	protected void addRevisions(Document document, String nextDir) throws DmsExchangeException {
+		try {
+			for (DocumentFile df: document.getDocumentFiles()) {
+				String filename = df.getFilename();
+				for (Revision revision: df.getRevisions()) {
+					String generated = revision.getTsAdded().format(FORMATTER) + "_" + filename;
+					getZipFs().addFile(nextDir + "revisions/" + generated, revision.getData());
+				}
+			}
+		}
+		catch (IOException ex) {
+			throw new DmsExchangeException("Unable to add revision to export-archive", ex);
+		}
+	}
+
+
+	protected void validateDocument(Document document) throws DmsExchangeValidationException {
 		ValidationResult result = document.validate();
 		if (result.hasErrors()) {
 			throw new DmsExchangeValidationException("Invalid Document", result);
@@ -123,6 +138,12 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 		catch (IOException ex) {
 			throw new DmsExchangeException("Unable to close export-archive", ex);
 		}
+	}
+
+
+	@Override
+	public List<File> getFiles() {
+		return ImmutableList.of(getFile());
 	}
 
 }

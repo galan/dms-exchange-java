@@ -67,4 +67,9 @@ public class DefaultExchange {
 		events.post(event);
 	}
 
+
+	protected File getFile() {
+		return file;
+	}
+
 }
