@@ -44,7 +44,7 @@ public class Document implements Validatable {
 		if (isBlank(getVersion())) {
 			result.add("Version is not set");
 		}
-		if (getDocumentFiles().isEmpty()) {
+		if (getDocumentFiles() == null || getDocumentFiles().isEmpty()) {
 			result.add("Document does not contain any DocumentFile");
 		}
 		validate(result, getDocumentFiles());

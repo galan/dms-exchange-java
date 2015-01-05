@@ -23,11 +23,6 @@
 						"description": "Name of the indexed document-file inside the container.",
 						"type": "string"
 					},
-					"scannedBy": {
-						"description": "User who has scanned the document-file.",
-						"type": "string",
-						"format": "email"
-					},
 					"rotation": {
 						"description": "Degree the document-file has to rotate clockwise to have a correct orientation.",
 						"enum": [0, 90, 180, 270],

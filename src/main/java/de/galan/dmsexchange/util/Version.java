@@ -5,7 +5,8 @@ import java.util.Map;
 
 
 /**
- * daniel should have written a comment here.
+ * Mapping of dxs versions against verjson. This is done manually since there is no version-wrapper which verjson is
+ * typically using.
  *
  * @author daniel
  */

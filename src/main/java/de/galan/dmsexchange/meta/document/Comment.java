@@ -8,7 +8,7 @@ import de.galan.dmsexchange.meta.ValidationResult;
 
 
 /**
- * daniel should have written a comment here.
+ * Contains a comment a user has added to a document
  *
  * @author daniel
  */

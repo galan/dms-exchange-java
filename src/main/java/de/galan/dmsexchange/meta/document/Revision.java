@@ -1,11 +1,15 @@
 package de.galan.dmsexchange.meta.document;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.time.ZonedDateTime;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.io.Files;
@@ -74,6 +78,25 @@ public class Revision implements Validatable {
 	@JsonIgnore
 	public byte[] getData() {
 		return data;
+	}
+
+
+	@JsonIgnore
+	public InputStream getDataInputStream() {
+		return new ByteArrayInputStream(getData());
+	}
+
+
+	@JsonIgnore
+	public OutputStream getDataOutputStream() throws IOException {
+		ByteArrayOutputStream result = new ByteArrayOutputStream();
+		result.write(getDataInputStream());
+		return result;
+	}
+
+
+	public void writeDataToFile(File file) throws IOException {
+		FileUtils.writeByteArrayToFile(file, getData());
 	}
 
 

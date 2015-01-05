@@ -17,7 +17,7 @@ import de.galan.dmsexchange.util.DmsExchangeException;
 
 
 /**
- * daniel should have written a comment here.
+ * Adds documents to a specified file. Using generated directories and document-container names during the process.
  *
  * @author daniel
  */
