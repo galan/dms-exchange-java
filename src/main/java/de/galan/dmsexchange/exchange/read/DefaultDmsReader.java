@@ -23,7 +23,8 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 	@Override
 	public void readDocuments() throws DmsExchangeException {
-		// check if listeners are registered (correct ones, otherwise DeadEvents will be send out)
+		// TODO check if listeners are registered (correct ones, otherwise DeadEvents will be send out)
+
 		// iterate over directories recursivly
 		// read found documents
 		// inform listeners

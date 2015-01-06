@@ -70,7 +70,7 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 		try {
 			//TODO avoid empty lists/arrays
 			String documentJson = getVerjsonDocument().writePlain(document);
-			getZipFs().addFile(nextDir + "meta.json", documentJson.getBytes());
+			getFs().addFile(nextDir + "meta.json", documentJson.getBytes());
 			export.incrementDocumentsSuccessfulAmount();
 			postEvent(new DocumentAddedEvent(document));
 		}
@@ -86,7 +86,7 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 				String filename = df.getFilename();
 				for (Revision revision: df.getRevisions()) {
 					String generated = revision.getTsAdded().format(FORMATTER) + "_" + filename;
-					getZipFs().addFile(nextDir + "revisions/" + generated, revision.getData());
+					getFs().addFile(nextDir + "revisions/" + generated, revision.getData());
 				}
 			}
 		}
@@ -129,7 +129,7 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	protected void writeExport() throws DmsExchangeException {
 		try {
 			String exportJson = getVerjsonExport().writePlain(export);
-			getZipFs().addFile("/export.json", exportJson.getBytes());
+			getFs().addFile("/export.json", exportJson.getBytes());
 		}
 		catch (IOException ex) {
 			throw new DmsExchangeException("Unable to write export metadata", ex);
@@ -139,7 +139,7 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 
 	protected void closeZipFs() throws DmsExchangeException {
 		try {
-			getZipFs().close();
+			getFs().close();
 		}
 		catch (IOException ex) {
 			throw new DmsExchangeException("Unable to close export-archive", ex);

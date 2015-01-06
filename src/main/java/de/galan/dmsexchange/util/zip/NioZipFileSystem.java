@@ -1,4 +1,4 @@
-package de.galan.dmsexchange.util;
+package de.galan.dmsexchange.util.zip;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,14 +21,14 @@ import java.util.Map;
  *
  * @author daniel
  */
-public class ZipFileSystem {
+public class NioZipFileSystem implements ArchiveFileSystem {
 
 	FileSystem fs;
 	private File file;
 	private boolean readonly;
 
 
-	public ZipFileSystem(File file, boolean readonly) throws IOException {
+	public NioZipFileSystem(File file, boolean readonly) throws IOException {
 		this.file = file;
 		this.readonly = readonly;
 		mountFile();
@@ -81,6 +81,28 @@ public class ZipFileSystem {
 	}
 
 
+	public void readDirectory(String directory) {
+		/*
+		try {
+			Path path = fs.getPath(directory);
+			boolean pathExportJsonExists = Files.isRegularFile(pathExportJson) & Files.isReadable(pathExportJson);
+			if (!pathExportJsonExists) {
+				throw new DmsExchangeException("export.json does not exist");
+			}
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			Files.copy(pathExportJson, baos);
+			String exportJson = baos.toString(Charsets.UTF_8.name());
+			JsonNode exportNode = verjsonExport.readTree(exportJson);
+			export = verjsonExport.readPlain(exportNode, determineVersion(exportNode)); // TODO read version from node and perform mapping
+			LOG.info("Read archive from '" + defaultString(export.getSourceAsString(), "unknown source") + "' exported on " + export.getTsExport());
+		}
+		catch (Exception ex) {
+			throw new InvalidArchiveException("Export-metadata could not be read", ex);
+		}
+		 */
+	}
+
+
 	private boolean verifyFile() throws IOException {
 		boolean fileExists = file.exists() && file.isFile();
 		if (isReadonly()) {
@@ -105,6 +127,7 @@ public class ZipFileSystem {
 
 
 	/** Closes the zip file */
+	@Override
 	public void close() throws IOException {
 		if (fs != null && fs.isOpen()) {
 			fs.close();
@@ -112,6 +135,7 @@ public class ZipFileSystem {
 	}
 
 
+	@Override
 	public void addFile(String filename, byte[] data) throws IOException {
 		ensureWritable();
 		Path path = fs.getPath(filename);

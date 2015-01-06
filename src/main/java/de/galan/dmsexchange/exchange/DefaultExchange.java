@@ -8,7 +8,8 @@ import com.google.common.eventbus.EventBus;
 import de.galan.dmsexchange.meta.document.Document;
 import de.galan.dmsexchange.meta.export.Export;
 import de.galan.dmsexchange.util.DmsExchangeException;
-import de.galan.dmsexchange.util.ZipFileSystem;
+import de.galan.dmsexchange.util.zip.ArchiveFileSystem;
+import de.galan.dmsexchange.util.zip.NioZipFileSystem;
 import de.galan.dmsexchange.verjson.document.DocumentVersions;
 import de.galan.dmsexchange.verjson.export.ExportVersions;
 import de.galan.verjson.core.Verjson;
@@ -23,7 +24,7 @@ public abstract class DefaultExchange {
 
 	private EventBus events;
 	private File file;
-	private ZipFileSystem zfs;
+	private ArchiveFileSystem afs;
 
 	private Verjson<Export> verjsonExport;
 	private Verjson<Document> verjsonDocument;
@@ -32,7 +33,8 @@ public abstract class DefaultExchange {
 	protected DefaultExchange(File file, boolean readonly) throws DmsExchangeException {
 		this.file = file;
 		try {
-			zfs = new ZipFileSystem(file, readonly);
+			afs = new NioZipFileSystem(file, readonly);
+			//afs = new ZtZipFileSystem(file, readonly);
 		}
 		catch (IOException ex) {
 			throw new DmsExchangeException(ex.getMessage(), ex);
@@ -43,8 +45,8 @@ public abstract class DefaultExchange {
 	}
 
 
-	protected ZipFileSystem getZipFs() {
-		return zfs;
+	protected ArchiveFileSystem getFs() {
+		return afs;
 	}
 
 

@@ -33,7 +33,7 @@ public class ConditionalDmsWriterTest extends DmsWriterTestParent {
 
 	@Test
 	public void createEmptyArchive() throws Exception {
-		setWriter(DmsExchange.createWriter(getFile(), 2, null));
+		setWriter(DmsExchange.createWriter(getFile(), 2));
 		getWriter().close();
 		assertArchiveList("createEmptyArchive", 1);
 	}
@@ -50,7 +50,7 @@ public class ConditionalDmsWriterTest extends DmsWriterTestParent {
 
 	@Test
 	public void createArchiveSplitAfter2Documents2() throws Exception {
-		setWriter(DmsExchange.createWriter(getFile(), 2, null));
+		setWriter(DmsExchange.createWriter(getFile(), 2));
 		getWriter().addQuietly(createSimpleDocument1(), createSimpleDocument2());
 		getWriter().close();
 		assertArchiveList("createArchiveSplitAfter2Documents2", 1);
@@ -59,7 +59,7 @@ public class ConditionalDmsWriterTest extends DmsWriterTestParent {
 
 	@Test
 	public void createArchiveSplitAfter2Documents3() throws Exception {
-		setWriter(DmsExchange.createWriter(getFile(), 2, null));
+		setWriter(DmsExchange.createWriter(getFile(), 2));
 		getWriter().addQuietly(createSimpleDocument1(), createSimpleDocument2(), createSimpleDocument3());
 		getWriter().close();
 		assertArchiveList("createArchiveSplitAfter2Documents3", 2);
@@ -69,7 +69,7 @@ public class ConditionalDmsWriterTest extends DmsWriterTestParent {
 	@Test
 	@Ignore
 	public void createArchiveSplitAfter30KDocuments11K() throws Exception {
-		setWriter(DmsExchange.createWriter(getFile(), null, 1024 * 30)); // TODO unable to split  when underlying zip gets not flushed (and can not be manually)
+		//TODO setWriter(DmsExchange.createWriter(getFile(), null, 1024 * 30)); // TODO unable to split  when underlying zip gets not flushed (and can not be manually)
 		getWriter().addQuietly(createSimpleDocument1(), createSimpleDocument2(), createSimpleDocument3(), createSimpleDocument4(), createSimpleDocument5());
 		getWriter().close();
 		assertArchiveList("createArchiveSplitAfter10KDocuments11K", 1);
