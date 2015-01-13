@@ -1,5 +1,7 @@
 package de.galan.dmsexchange.util.zip;
 
+import static java.util.stream.Collectors.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -10,7 +12,9 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 
 /**
@@ -81,25 +85,14 @@ public class NioZipFileSystem implements ArchiveFileSystem {
 	}
 
 
-	public void readDirectory(String directory) {
-		/*
-		try {
-			Path path = fs.getPath(directory);
-			boolean pathExportJsonExists = Files.isRegularFile(pathExportJson) & Files.isReadable(pathExportJson);
-			if (!pathExportJsonExists) {
-				throw new DmsExchangeException("export.json does not exist");
-			}
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			Files.copy(pathExportJson, baos);
-			String exportJson = baos.toString(Charsets.UTF_8.name());
-			JsonNode exportNode = verjsonExport.readTree(exportJson);
-			export = verjsonExport.readPlain(exportNode, determineVersion(exportNode)); // TODO read version from node and perform mapping
-			LOG.info("Read archive from '" + defaultString(export.getSourceAsString(), "unknown source") + "' exported on " + export.getTsExport());
+	@Override
+	public List<String> listFiles(String directory) throws IOException {
+		List<String> result = null;
+		Path path = fs.getPath(directory);
+		try (Stream<Path> stream = Files.list(path)) {
+			result = stream.map(p -> p.toString()).collect(toList());
 		}
-		catch (Exception ex) {
-			throw new InvalidArchiveException("Export-metadata could not be read", ex);
-		}
-		 */
+		return result;
 	}
 
 
@@ -144,6 +137,16 @@ public class NioZipFileSystem implements ArchiveFileSystem {
 		}
 		Files.createDirectories(path.getParent());
 		Files.write(path, data, StandardOpenOption.CREATE_NEW);
+	}
+
+
+	@Override
+	public byte[] readFile(String filename) throws IOException {
+		Path path = fs.getPath(filename);
+		if (!Files.exists(path, LinkOption.NOFOLLOW_LINKS)) {
+			throw new IOException("File '" + filename + "' does not exist");
+		}
+		return Files.readAllBytes(path);
 	}
 
 	/*

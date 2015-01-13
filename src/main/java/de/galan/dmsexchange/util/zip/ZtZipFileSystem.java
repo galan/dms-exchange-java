@@ -3,6 +3,7 @@ package de.galan.dmsexchange.util.zip;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.zip.ZipOutputStream;
 
 import org.zeroturnaround.zip.ZipUtil;
@@ -75,6 +76,18 @@ public class ZtZipFileSystem implements ArchiveFileSystem {
 			throw new IOException("File '" + filename + "' does already exist");
 		}
 		ZipUtil.addEntry(file, filename, data);
+	}
+
+
+	@Override
+	public List<String> listFiles(String directory) throws IOException {
+		return null;
+	}
+
+
+	@Override
+	public byte[] readFile(String filename) throws IOException {
+		return null;
 	}
 
 	/*

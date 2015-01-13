@@ -24,7 +24,11 @@ public class Version {
 
 
 	public static Long getVerjson(String dmsVersion) {
-		return versionToVerjson.get(dmsVersion);
+		Long result = null;
+		if (dmsVersion != null) {
+			result = versionToVerjson.get(dmsVersion);
+		}
+		return result;
 	}
 
 }
