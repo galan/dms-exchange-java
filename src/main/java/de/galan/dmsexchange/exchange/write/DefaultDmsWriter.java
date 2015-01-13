@@ -31,7 +31,6 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
 
 	private Export export;
-	private boolean closed = false;
 
 	private int counterBase = 0;
 	private int counterContainer = 0;
@@ -118,11 +117,10 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	/** Closes the zip file and writes the export-meta data */
 	@Override
 	public void close() throws DmsExchangeException {
-		if (!closed) {
+		if (!isClosed()) {
 			writeExport(); // add export-meta
-			closeZipFs(); // close zip-file
-			closed = true;
 		}
+		super.close();
 	}
 
 
@@ -133,16 +131,6 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 		}
 		catch (IOException ex) {
 			throw new DmsExchangeException("Unable to write export metadata", ex);
-		}
-	}
-
-
-	protected void closeZipFs() throws DmsExchangeException {
-		try {
-			getFs().close();
-		}
-		catch (IOException ex) {
-			throw new DmsExchangeException("Unable to close export-archive", ex);
 		}
 	}
 

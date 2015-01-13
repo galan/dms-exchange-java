@@ -20,11 +20,12 @@ import de.galan.verjson.core.Verjson;
  *
  * @author daniel
  */
-public abstract class DefaultExchange {
+public abstract class DefaultExchange implements AutoCloseable {
 
 	private EventBus events;
 	private File file;
 	private ArchiveFileSystem afs;
+	private boolean closed = false;
 
 	private Verjson<Export> verjsonExport;
 	private Verjson<Document> verjsonDocument;
@@ -72,6 +73,31 @@ public abstract class DefaultExchange {
 
 	protected File getFile() {
 		return file;
+	}
+
+
+	/** Closes and releases the access to the zip file. */
+	@Override
+	public void close() throws DmsExchangeException {
+		if (!isClosed()) {
+			closeZipFs(); // close zip-file
+			closed = true;
+		}
+	}
+
+
+	protected boolean isClosed() {
+		return closed;
+	}
+
+
+	protected void closeZipFs() throws DmsExchangeException {
+		try {
+			getFs().close();
+		}
+		catch (IOException ex) {
+			throw new DmsExchangeException("Unable to close export-archive", ex);
+		}
 	}
 
 }

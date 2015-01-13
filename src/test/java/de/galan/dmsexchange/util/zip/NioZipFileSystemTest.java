@@ -23,8 +23,17 @@ public class NioZipFileSystemTest extends AbstractTestParent {
 		URI uri = getClass().getResource("example.zip").toURI();
 		File file = new File(uri);
 		NioZipFileSystem fs = new NioZipFileSystem(file, true);
-		List<String> files = fs.listFiles("/");
-		assertThat(files).containsOnly("/export.json", "/0000/");
+		List<String> filesRoot = fs.listFiles("/");
+		assertThat(filesRoot).containsOnly("/export.json", "/0000/");
+		List<String> filesDir1 = fs.listFiles("/0000/");
+		assertThat(filesDir1).containsOnly("/0000/0000/");
+		List<String> filesDir2 = fs.listFiles("/0000/0000/");
+		assertThat(filesDir2).containsOnly("/0000/0000/meta.json", "/0000/0000/revisions/");
+		List<String> filesDir3 = fs.listFiles("/0000/0000/revisions/");
+		assertThat(filesDir3).containsOnly("/0000/0000/revisions/20150104T175952Z_third.doc", "/0000/0000/revisions/20150103T175942Z_third.doc",
+			"/0000/0000/revisions/20141230T081011Z_third.doc", "/0000/0000/revisions/20150103T175812Z_second.doc",
+			"/0000/0000/revisions/20141230T091030Z_second.doc", "/0000/0000/revisions/20150105T123710Z_first.pdf",
+			"/0000/0000/revisions/20150105T123032Z_first.pdf");
 		fs.close();
 	}
 

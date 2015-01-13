@@ -41,14 +41,11 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 	@Override
 	public void readDocuments() throws DmsExchangeException {
 		Export export = readExportJson();
-		LOG.info("reading ..."); // TODO
+		LOG.info("reading ..."); // TODO add information found about source
 		// TODO check if listeners are registered (correct ones, otherwise DeadEvents will be send out)
 
 		// iterate over directories recursivly
 		traverseDirectory("/");
-
-		// read found documents
-		// inform listeners
 		// close
 	}
 
