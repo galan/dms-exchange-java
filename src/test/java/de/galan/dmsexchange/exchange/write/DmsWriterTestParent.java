@@ -28,7 +28,7 @@ import de.galan.dmsexchange.meta.document.Revision;
 
 
 /**
- * daniel should have written a comment here.
+ * Parent for DmsWriter tests
  *
  * @author daniel
  */
@@ -47,7 +47,8 @@ public class DmsWriterTestParent extends AbstractTestParent {
 	@After
 	public void after() throws Exception {
 		if (getWriter() != null) {
-			getWriter().close(); // ensure file is closed, multiple calls to close() should be safe
+			getWriter().close(); // ensure file is closed
+			getWriter().close(); // test multiple calls to close() should be safe
 		}
 		if (getFile().exists()) {
 			assertThat(FileUtils.deleteQuietly(getFile())).isTrue();

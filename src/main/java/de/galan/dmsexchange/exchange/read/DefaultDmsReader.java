@@ -46,13 +46,15 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 		// iterate over directories recursivly
 		traverseDirectory("/");
-		// close
 	}
 
 
 	protected void traverseDirectory(String directory) throws DmsExchangeException {
 		try {
 			List<String> files = getFs().listFiles(directory);
+			if (directory.equals("/")) {
+				// ?
+			}
 			if (files.stream().anyMatch(f -> endsWith(f, "/meta.json"))) {
 				importDocumentContainerDirectory(directory);
 			}
@@ -76,13 +78,15 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 	}
 
 
-	protected void importDocumentContainerFile(String directory) {
-		LOG.info("Importing directory: " + directory);
+	protected void importDocumentContainerFile(String file) {
+		LOG.info("Importing file: " + file);
+		//TODO evaluate opening zipfs in zipfs
+
 	}
 
 
-	protected void importDocumentContainerDirectory(String file) {
-		LOG.info("Importing file: " + file);
+	protected void importDocumentContainerDirectory(String directory) {
+		LOG.info("Importing directory: " + directory);
 	}
 
 
@@ -102,7 +106,7 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 		// evaluate version string from export json
 		String version = null;
 		try {
-			version = getObj(obj(exportNode), "version").asText();
+			version = obj(exportNode).get("version").asText();
 		}
 		catch (Exception ex) {
 			throw new InvalidArchiveException("Unable to determine version from export.json");
