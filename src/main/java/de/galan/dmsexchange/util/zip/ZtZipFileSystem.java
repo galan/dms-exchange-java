@@ -3,6 +3,7 @@ package de.galan.dmsexchange.util.zip;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.zip.ZipOutputStream;
 
@@ -88,6 +89,11 @@ public class ZtZipFileSystem implements ArchiveFileSystem {
 	@Override
 	public byte[] readFile(String filename) throws IOException {
 		return null;
+	}
+
+
+	@Override
+	public void readFile(String file, OutputStream stream) throws IOException {
 	}
 
 	/*

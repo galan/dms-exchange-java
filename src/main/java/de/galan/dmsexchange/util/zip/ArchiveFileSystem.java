@@ -2,7 +2,12 @@ package de.galan.dmsexchange.util.zip;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
+
+import org.apache.commons.io.output.ByteArrayOutputStream;
+
+import com.google.common.base.Charsets;
 
 
 /**
@@ -27,6 +32,22 @@ public interface ArchiveFileSystem extends Closeable {
 
 
 	/** Reads the binary content of a file, given the full path to the file */
-	public byte[] readFile(String file) throws IOException;
+	default byte[] readFile(String file) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		readFile(file, baos);
+		return baos.toByteArray();
+	}
+
+
+	/** Reads the binary content of a file, given the full path to the file */
+	default String readFileAsString(String file) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		readFile(file, baos);
+		return new String(baos.toByteArray(), Charsets.UTF_8);
+	}
+
+
+	/** Reads the binary content of a file, given the full path to the file */
+	public void readFile(String file, OutputStream stream) throws IOException;
 
 }

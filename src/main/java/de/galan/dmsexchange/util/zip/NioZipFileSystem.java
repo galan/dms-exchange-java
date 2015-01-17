@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -147,6 +148,16 @@ public class NioZipFileSystem implements ArchiveFileSystem {
 			throw new IOException("File '" + filename + "' does not exist");
 		}
 		return Files.readAllBytes(path);
+	}
+
+
+	@Override
+	public void readFile(String filename, OutputStream stream) throws IOException {
+		Path path = fs.getPath(filename);
+		if (!Files.exists(path, LinkOption.NOFOLLOW_LINKS)) {
+			throw new IOException("File '" + filename + "' does not exist");
+		}
+		Files.copy(path, stream);
 	}
 
 	/*

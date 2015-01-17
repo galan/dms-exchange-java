@@ -7,11 +7,7 @@ import com.google.common.eventbus.Subscribe;
 
 import de.galan.dmsexchange.meta.document.Document;
 
-/**
- * daniel should have written a comment here.
- *
- * @author daniel
- */
+
 /** Collects documents for testing purpose */
 class DocumentCollector {
 

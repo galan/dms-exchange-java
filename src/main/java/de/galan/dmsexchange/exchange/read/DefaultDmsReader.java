@@ -4,10 +4,13 @@ import static de.galan.verjson.util.Transformations.*;
 import static org.apache.commons.lang3.StringUtils.*;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -20,6 +23,8 @@ import de.galan.dmsexchange.meta.export.Export;
 import de.galan.dmsexchange.util.DmsExchangeException;
 import de.galan.dmsexchange.util.InvalidArchiveException;
 import de.galan.dmsexchange.util.Version;
+import de.galan.dmsexchange.util.zip.ArchiveFileSystem;
+import de.galan.dmsexchange.util.zip.NioZipFileSystem;
 
 
 /**
@@ -31,10 +36,30 @@ import de.galan.dmsexchange.util.Version;
 public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 	private static final Logger LOG = Logr.get();
+	private File dirTemp;
 
 
 	public DefaultDmsReader(File file) throws DmsExchangeException {
 		super(file, true);
+		dirTemp = initTempDir();
+	}
+
+
+	protected File initTempDir() throws DmsExchangeException {
+		File dirSystemTemp = new File(System.getProperty("java.io.tmpdir"));
+		File result = new File(dirSystemTemp, "dms-exchange");
+		result.mkdirs();
+		if (!result.exists()) {
+			throw new DmsExchangeException("Unable to create intermediate temp-directory '" + result.getAbsolutePath() + "'");
+		}
+		return result;
+	}
+
+
+	protected File getTempZipFile() {
+		String uuid = UUID.randomUUID().toString();
+		File file = new File(dirTemp, uuid + ".zip");
+		return file;
 	}
 
 
@@ -80,7 +105,23 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 	protected void importDocumentContainerFile(String file) {
 		LOG.info("Importing file: " + file);
-		//TODO evaluate opening zipfs in zipfs
+		// extract to tmp
+		File fileTemp = getTempZipFile();
+		try {
+			getFs().readFile(file, new FileOutputStream(fileTemp));
+			ArchiveFileSystem zipFs = new NioZipFileSystem(fileTemp, true);
+			String meta = zipFs.readFileAsString("/meta.json");
+			LOG.info(meta);
+			zipFs.close();
+		}
+		catch (IOException ex) {
+			LOG.warn("Unspecified error from daniel", ex);
+		}
+		finally {
+			if (!FileUtils.deleteQuietly(fileTemp)) {
+				LOG.warn("Unable to delete intermediate zip file '" + fileTemp.getAbsolutePath() + "'");
+			}
+		}
 
 	}
 
