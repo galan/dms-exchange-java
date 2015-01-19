@@ -14,17 +14,20 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.base.Charsets;
 
 import de.galan.commons.logging.Logr;
 import de.galan.dmsexchange.exchange.DefaultExchange;
 import de.galan.dmsexchange.exchange.DmsReader;
+import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.document.DocumentFile;
+import de.galan.dmsexchange.meta.document.Revision;
 import de.galan.dmsexchange.meta.export.Export;
 import de.galan.dmsexchange.util.DmsExchangeException;
 import de.galan.dmsexchange.util.InvalidArchiveException;
 import de.galan.dmsexchange.util.Version;
 import de.galan.dmsexchange.util.zip.ArchiveFileSystem;
 import de.galan.dmsexchange.util.zip.NioZipFileSystem;
+import de.galan.verjson.util.ReadException;
 
 
 /**
@@ -70,26 +73,26 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 		// TODO check if listeners are registered (correct ones, otherwise DeadEvents will be send out)
 
 		// iterate over directories recursivly
-		traverseDirectory("/");
+		traverseDirectory("/", export);
 	}
 
 
-	protected void traverseDirectory(String directory) throws DmsExchangeException {
+	protected void traverseDirectory(String directory, Export export) throws DmsExchangeException {
 		try {
 			List<String> files = getFs().listFiles(directory);
 			if (directory.equals("/")) {
 				// ?
 			}
 			if (files.stream().anyMatch(f -> endsWith(f, "/meta.json"))) {
-				importDocumentContainerDirectory(directory);
+				importDocumentContainerDirectory(directory, export);
 			}
 			else {
 				for (String file: files) {
 					if (endsWith(file, "/")) {
-						traverseDirectory(file);
+						traverseDirectory(file, export);
 					}
 					else if (endsWith(file, ".zip")) {
-						importDocumentContainerFile(file);
+						importDocumentContainerFile(file, export);
 					}
 					else {
 						LOG.warn("Unrecognized filetype: " + file);
@@ -103,16 +106,15 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 	}
 
 
-	protected void importDocumentContainerFile(String file) {
+	protected void importDocumentContainerFile(String file, Export export) throws DmsExchangeException {
 		LOG.info("Importing file: " + file);
 		// extract to tmp
 		File fileTemp = getTempZipFile();
 		try {
 			getFs().readFile(file, new FileOutputStream(fileTemp));
-			ArchiveFileSystem zipFs = new NioZipFileSystem(fileTemp, true);
-			String meta = zipFs.readFileAsString("/meta.json");
-			LOG.info(meta);
-			zipFs.close();
+			try (ArchiveFileSystem zipFs = new NioZipFileSystem(fileTemp, true)) {
+				importDocumentContainer(zipFs, "/", export);
+			}
 		}
 		catch (IOException ex) {
 			LOG.warn("Unspecified error from daniel", ex);
@@ -126,14 +128,40 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 	}
 
 
-	protected void importDocumentContainerDirectory(String directory) {
+	protected void importDocumentContainerDirectory(String directory, Export export) throws DmsExchangeException {
 		LOG.info("Importing directory: " + directory);
+		importDocumentContainer(getFs(), directory, export);
+	}
+
+
+	protected void importDocumentContainer(ArchiveFileSystem afs, String directory, Export export) throws DmsExchangeException {
+		// TODO
+		try {
+			String metaJson = afs.readFileAsString(directory + "meta.json");
+			JsonNode node = getVerjsonExport().readTree(metaJson);
+			long version = determineVersion(node);
+			Document document = getVerjsonDocument().readPlain(node, version);
+
+			for (DocumentFile df: document.getDocumentFiles()) {
+				for (Revision revision: df.getRevisions()) {
+					String generated = revision.getTsAdded().format(FORMATTER) + "_" + df.getFilename();
+					revision.setData(afs.readFile(directory + "revisions/" + generated));
+				}
+			}
+
+		}
+		catch (IOException ex) {
+			throw new DmsExchangeException("Could not extract data from document container", ex);
+		}
+		catch (ReadException ex) {
+			throw new DmsExchangeException("Could not deserialize metadata from document container", ex);
+		}
 	}
 
 
 	protected Export readExportJson() throws DmsExchangeException {
 		try {
-			String exportJson = new String(getFs().readFile("/export.json"), Charsets.UTF_8);
+			String exportJson = getFs().readFileAsString("/export.json");
 			JsonNode node = getVerjsonExport().readTree(exportJson);
 			return getVerjsonExport().readPlain(node, determineVersion(node));
 		}

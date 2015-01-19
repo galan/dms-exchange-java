@@ -4,7 +4,6 @@ import static org.apache.commons.lang3.StringUtils.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
@@ -27,8 +26,6 @@ import de.galan.dmsexchange.util.FileGenerationUtil;
  * @author daniel
  */
 public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
-
-	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
 
 	private Export export;
 
@@ -82,9 +79,8 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	protected void addRevisions(Document document, String nextDir) throws DmsExchangeException {
 		try {
 			for (DocumentFile df: document.getDocumentFiles()) {
-				String filename = df.getFilename();
 				for (Revision revision: df.getRevisions()) {
-					String generated = revision.getTsAdded().format(FORMATTER) + "_" + filename;
+					String generated = revision.getTsAdded().format(FORMATTER) + "_" + df.getFilename();
 					getFs().addFile(nextDir + "revisions/" + generated, revision.getData());
 				}
 			}

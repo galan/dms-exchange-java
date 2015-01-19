@@ -2,6 +2,7 @@ package de.galan.dmsexchange.exchange;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 
 import com.google.common.eventbus.EventBus;
 
@@ -21,6 +22,8 @@ import de.galan.verjson.core.Verjson;
  * @author daniel
  */
 public abstract class DefaultExchange implements AutoCloseable {
+
+	protected static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
 
 	private EventBus events;
 	private File file;

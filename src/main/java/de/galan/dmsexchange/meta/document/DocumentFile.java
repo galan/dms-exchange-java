@@ -23,9 +23,14 @@ public class DocumentFile implements Validatable {
 	private List<Revision> revisions;
 
 
-	public DocumentFile(String filename) {
-		this.filename = filename;
+	public DocumentFile() {
 		revisions = new ArrayList<>();
+	}
+
+
+	public DocumentFile(String filename) {
+		this();
+		setFilename(filename);
 	}
 
 
@@ -43,6 +48,11 @@ public class DocumentFile implements Validatable {
 
 	public String getFilename() {
 		return filename;
+	}
+
+
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 

@@ -34,6 +34,11 @@ public class Revision implements Validatable {
 	private byte[] data;
 
 
+	public Revision() {
+		//nada
+	}
+
+
 	public Revision(ZonedDateTime tsAdded) {
 		this(tsAdded, null, null);
 	}
