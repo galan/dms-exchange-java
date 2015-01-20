@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -59,13 +60,6 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 	}
 
 
-	protected File getTempZipFile() {
-		String uuid = UUID.randomUUID().toString();
-		File file = new File(dirTemp, uuid + ".zip");
-		return file;
-	}
-
-
 	@Override
 	public void readDocuments() throws DmsExchangeException {
 		Export export = readExportJson();
@@ -80,10 +74,8 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 	protected void traverseDirectory(String directory, Export export) throws DmsExchangeException {
 		try {
 			List<String> files = getFs().listFiles(directory);
-			if (directory.equals("/")) {
-				// ?
-			}
-			if (files.stream().anyMatch(f -> endsWith(f, "/meta.json"))) {
+			boolean root = directory.equals("/");
+			if (!root && files.stream().anyMatch(f -> endsWith(f, "/meta.json"))) {
 				importDocumentContainerDirectory(directory, export);
 			}
 			else {
@@ -94,6 +86,9 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 					else if (endsWith(file, ".zip")) {
 						importDocumentContainerFile(file, export);
 					}
+					else if (root && StringUtils.equals(file, "/export.json")) {
+						// ignore
+					}
 					else {
 						LOG.warn("Unrecognized filetype: " + file);
 					}
@@ -103,6 +98,12 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 		catch (IOException ex) {
 			throw new DmsExchangeException("Unable to list files in archive", ex);
 		}
+	}
+
+
+	protected File getTempZipFile() {
+		String uuid = UUID.randomUUID().toString();
+		return new File(dirTemp, uuid + ".zip");
 	}
 
 
@@ -117,7 +118,7 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 			}
 		}
 		catch (IOException ex) {
-			LOG.warn("Unspecified error from daniel", ex);
+			LOG.warn("Unable to read intermediate zip file '" + fileTemp.getAbsolutePath() + "'", ex);
 		}
 		finally {
 			if (!FileUtils.deleteQuietly(fileTemp)) {
@@ -135,7 +136,6 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 
 	protected void importDocumentContainer(ArchiveFileSystem afs, String directory, Export export) throws DmsExchangeException {
-		// TODO
 		try {
 			String metaJson = afs.readFileAsString(directory + "meta.json");
 			JsonNode node = getVerjsonExport().readTree(metaJson);
@@ -148,7 +148,7 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 					revision.setData(afs.readFile(directory + "revisions/" + generated));
 				}
 			}
-
+			postEvent(document);
 		}
 		catch (IOException ex) {
 			throw new DmsExchangeException("Could not extract data from document container", ex);
