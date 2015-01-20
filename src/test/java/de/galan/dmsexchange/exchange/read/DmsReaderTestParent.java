@@ -47,6 +47,15 @@ public abstract class DmsReaderTestParent extends AbstractTestParent {
 	}
 
 
+	protected DocumentCollector readArchiveStream(String testcase) throws DmsExchangeException {
+		prepareArchive(testcase);
+		setReader(DmsExchange.createReader(getFile()));
+		DocumentCollector collector = new DocumentCollector();
+		getReader().readDocuments().forEach(collector::read);
+		return collector;
+	}
+
+
 	protected DocumentCollector readArchive(String testcase) throws DmsExchangeException {
 		prepareArchive(testcase);
 		setReader(DmsExchange.createReader(getFile()));

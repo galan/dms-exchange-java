@@ -1,5 +1,8 @@
 package de.galan.dmsexchange.exchange;
 
+import java.util.stream.Stream;
+
+import de.galan.dmsexchange.meta.document.Document;
 import de.galan.dmsexchange.util.DmsExchangeException;
 
 
@@ -15,7 +18,7 @@ import de.galan.dmsexchange.util.DmsExchangeException;
  */
 public interface DmsReader extends AutoCloseable {
 
-	public void readDocuments() throws DmsExchangeException;
+	public Stream<Document> readDocuments() throws DmsExchangeException;
 
 
 	public void registerListener(Object... listeners);

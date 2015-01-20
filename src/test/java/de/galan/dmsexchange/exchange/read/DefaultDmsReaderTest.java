@@ -21,4 +21,12 @@ public class DefaultDmsReaderTest extends DmsReaderTestParent {
 		assertThat(collector.getDocuments()).isNotEmpty();
 	}
 
+
+	@Test
+	public void readArchiveStream() throws Exception {
+		new DocumentFile("test");
+		DocumentCollector collector = readArchiveStream("readArchiveSingleDirectoryDocument");
+		assertThat(collector.getDocuments()).isNotEmpty();
+	}
+
 }
