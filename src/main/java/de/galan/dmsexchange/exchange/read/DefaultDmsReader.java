@@ -9,10 +9,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.function.Consumer;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -66,45 +63,26 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 
 	@Override
-	public Stream<Document> readDocuments() throws DmsExchangeException {
+	public void readDocuments(Consumer<Document> consumer) throws DmsExchangeException {
+		registerListener(new Object() {
+
+			@Subscribe
+			public void documentRead(Document doc) {
+				consumer.accept(doc);
+			}
+		});
+		readDocuments();
+	}
+
+
+	@Override
+	public void readDocuments() throws DmsExchangeException {
 		Export export = readExportJson();
 		LOG.info("reading ..."); // TODO add information found about source
 		// TODO check if listeners are registered (correct ones, otherwise DeadEvents will be send out)
 
-		//TODO doesn't work this way
-		Supplier<Document> consumer = new Supplier<Document>() {
-
-			BlockingQueue<Document> docs = new LinkedBlockingQueue<Document>();
-
-
-			@Override
-			public Document get() {
-				try {
-					return docs.take();
-				}
-				catch (InterruptedException ex) {
-					return null;
-				}
-			}
-
-
-			@Subscribe
-			public void documentRead(Document doc) {
-				try {
-					docs.put(doc);
-				}
-				catch (InterruptedException ex) {
-					LOG.error("Unable to put document to the queue", ex);
-				}
-			}
-
-		};
-		registerListener(consumer);
-		Stream<Document> result = Stream.generate(consumer);
-		// iterate over directories recursivly
+		// iterate over directories recursivly, this blocks until finished
 		traverseDirectory("/", export);
-
-		return result;
 	}
 
 

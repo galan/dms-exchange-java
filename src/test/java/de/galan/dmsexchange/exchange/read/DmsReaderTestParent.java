@@ -47,11 +47,11 @@ public abstract class DmsReaderTestParent extends AbstractTestParent {
 	}
 
 
-	protected DocumentCollector readArchiveStream(String testcase) throws DmsExchangeException {
+	protected DocumentCollector readArchiveConsumer(String testcase) throws DmsExchangeException {
 		prepareArchive(testcase);
 		setReader(DmsExchange.createReader(getFile()));
 		DocumentCollector collector = new DocumentCollector();
-		getReader().readDocuments().forEach(collector::read);
+		getReader().readDocuments(collector::read);
 		return collector;
 	}
 
