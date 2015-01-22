@@ -26,7 +26,7 @@ public class Export {
 	private Source source;
 	private ZonedDateTime tsExport;
 
-	private int documentsSuccessfulAmount;
+	private Integer documentsSuccessfulAmount;
 	private List<FailedDocument> documentsFailed;
 
 
@@ -93,11 +93,14 @@ public class Export {
 
 
 	public void incrementDocumentsSuccessfulAmount() {
+		if (documentsSuccessfulAmount == null) {
+			documentsSuccessfulAmount = 0;
+		}
 		documentsSuccessfulAmount++;
 	}
 
 
-	public int getDocumentsSuccessfulAmount() {
+	public Integer getDocumentsSuccessfulAmount() {
 		return documentsSuccessfulAmount;
 	}
 

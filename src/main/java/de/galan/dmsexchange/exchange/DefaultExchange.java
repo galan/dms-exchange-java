@@ -69,6 +69,11 @@ public abstract class DefaultExchange implements AutoCloseable {
 	}
 
 
+	protected void unregisterListener(Object object) {
+		events.unregister(object); // can throw IllegalArgumentException if no method with single-arg and @Subs
+	}
+
+
 	protected void postEvent(Object event) {
 		events.post(event);
 	}

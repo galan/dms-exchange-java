@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.eventbus.Subscribe;
 
 import de.galan.commons.logging.Logr;
 import de.galan.dmsexchange.exchange.DefaultExchange;
@@ -64,25 +63,29 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 	@Override
 	public void readDocuments(Consumer<Document> consumer) throws DmsExchangeException {
-		registerListener(new Object() {
-
-			@Subscribe
-			public void documentRead(Document doc) {
-				consumer.accept(doc);
-			}
-		});
+		if (consumer == null) {
+			throw new NullPointerException("consumer is null");
+		}
+		WrappingDocumentConsumer wrapper = new WrappingDocumentConsumer(consumer);
+		registerListener(wrapper);
 		readDocuments();
+		unregisterListener(wrapper);
 	}
 
 
 	@Override
 	public void readDocuments() throws DmsExchangeException {
 		Export export = readExportJson();
-		LOG.info("reading ..."); // TODO add information found about source
+		Integer successful = export.getDocumentsSuccessfulAmount();
+		LOG.info("Reading export-archive from with {} documents", successful == null ? "unknown" : successful);
 		// TODO check if listeners are registered (correct ones, otherwise DeadEvents will be send out)
 
 		// iterate over directories recursivly, this blocks until finished
+		CountingDocumentConsumer counter = new CountingDocumentConsumer();
+		registerListener(counter);
 		traverseDirectory("/", export);
+		unregisterListener(counter);
+		LOG.info("Finished reading export-archive with {} documents", counter.getCountedDocuments());
 	}
 
 
