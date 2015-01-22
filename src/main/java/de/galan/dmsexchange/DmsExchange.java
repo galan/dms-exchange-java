@@ -18,6 +18,11 @@ import de.galan.dmsexchange.util.DmsExchangeException;
  */
 public class DmsExchange {
 
+	public static DmsReader createReader(String file) throws DmsExchangeException {
+		return new DefaultDmsReader(new File(file));
+	}
+
+
 	public static DmsReader createReader(File file) throws DmsExchangeException {
 		return new DefaultDmsReader(file);
 	}

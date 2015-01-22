@@ -77,7 +77,8 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 	public void readDocuments() throws DmsExchangeException {
 		Export export = readExportJson();
 		Integer successful = export.getDocumentsSuccessfulAmount();
-		LOG.info("Reading export-archive from with {} documents", successful == null ? "unknown" : successful);
+		LOG.info("Reading export-archive from source '{}' with {} documents exported at '{}'", export.getSourceAsString(), successful == null ? "unknown"
+				: successful, export.getTsExport());
 		// TODO check if listeners are registered (correct ones, otherwise DeadEvents will be send out)
 
 		// iterate over directories recursivly, this blocks until finished

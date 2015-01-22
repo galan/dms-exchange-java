@@ -1,7 +1,6 @@
 package de.galan.dmsexchange;
 
 import static de.galan.verjson.util.Transformations.*;
-import static org.apache.commons.lang3.StringUtils.*;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -123,7 +122,7 @@ public class DmsExchangePrototype {
 				String exportJson = baos.toString(Charsets.UTF_8.name());
 				JsonNode exportNode = verjsonExport.readTree(exportJson);
 				export = verjsonExport.readPlain(exportNode, determineVersion(exportNode)); // TODO read version from node and perform mapping
-				LOG.info("Read archive from '" + defaultString(export.getSourceAsString(), "unknown source") + "' exported on " + export.getTsExport());
+				LOG.info("Read archive from source '" + export.getSourceAsString() + "' exported on " + export.getTsExport());
 			}
 			catch (Exception ex) {
 				throw new InvalidArchiveException("Export-metadata could not be read", ex);

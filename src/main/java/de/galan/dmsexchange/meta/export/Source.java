@@ -40,4 +40,10 @@ public class Source {
 		return email;
 	}
 
+
+	@Override
+	public String toString() {
+		return "Source [name=" + name + ", version=" + version + ", url=" + url + ", email=" + email + "]";
+	}
+
 }
