@@ -22,12 +22,10 @@ import com.google.common.base.Charsets;
 import com.google.common.eventbus.EventBus;
 
 import de.galan.commons.logging.Logr;
-import de.galan.dmsexchange.meta.document.Document;
 import de.galan.dmsexchange.meta.export.Export;
 import de.galan.dmsexchange.util.DmsExchangeException;
 import de.galan.dmsexchange.util.InvalidArchiveException;
 import de.galan.dmsexchange.util.Version;
-import de.galan.dmsexchange.verjson.document.DocumentVersions;
 import de.galan.dmsexchange.verjson.export.ExportVersions;
 import de.galan.verjson.core.Verjson;
 
@@ -45,7 +43,7 @@ public class DmsExchangePrototype {
 	File file;
 	FileSystem fs;
 	private Verjson<Export> verjsonExport;
-	private Verjson<Document> verjsonDocument;
+	//private Verjson<Document> verjsonDocument;
 	Export export;
 
 
@@ -91,7 +89,7 @@ public class DmsExchangePrototype {
 	protected void init() throws DmsExchangeException {
 		events = new EventBus("dms-exchange");
 		verjsonExport = Verjson.create(Export.class, new ExportVersions());
-		verjsonDocument = Verjson.create(Document.class, new DocumentVersions());
+		//verjsonDocument = Verjson.create(Document.class, new DocumentVersions());
 		mountFile();
 	}
 

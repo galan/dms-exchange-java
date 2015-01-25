@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>de.galan</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.5-SNAPSHOT</version>
+		<version>0.5</version>
 	</parent>
 
 	<scm>
@@ -23,25 +23,6 @@
 			<artifactId>verjson</artifactId>
 			<version>0.4-SNAPSHOT</version>
 		</dependency>
-
-
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>javax.mail-api</artifactId>
-			<version>1.5.2</version>
-		</dependency>
-		<!--
-		<dependency>
-			<groupId>net.lingala.zip4j</groupId>
-			<artifactId>zip4j</artifactId>
-			<version>1.3.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.zeroturnaround</groupId>
-			<artifactId>zt-zip</artifactId>
-			<version>1.8</version>
-		</dependency>
-		-->
 
 		<!-- logging -->
 		<dependency>

@@ -114,6 +114,7 @@ public class Revision implements Validatable {
 
 	public void setData(InputStream stream) throws IOException {
 		data = IOUtils.toByteArray(stream);
+		stream.close();
 	}
 
 

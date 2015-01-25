@@ -15,7 +15,7 @@ Feed the writer with documents:
 
     writer.add(...);
 
-As last step, close the writer (AutoClosable):
+As last step, close the writer (AutoClosable can be user):
 
     writer.close();
 
@@ -30,6 +30,6 @@ Read the documents using a single consumer:
 
     reader.readDocuments(doc -> /* eg. import to your system */);
 
-Close the reader when finished (AutoClosable):
+Close the reader when finished (AutoClosable can be user):
 
     reader.close();

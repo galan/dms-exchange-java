@@ -93,19 +93,8 @@ public class ZtZipFileSystem implements ArchiveFileSystem {
 
 
 	@Override
-	public void readFile(String file, OutputStream stream) throws IOException {
+	public void readFile(String fileToRead, OutputStream stream) throws IOException {
+		//TODO
 	}
-
-	/*
-	@Deprecated
-	private void writeTextFile(String absoluteFilePath, String exportJson) throws IOException {
-		Path pathExportJson = fs.getPath(absoluteFilePath);
-		Files.deleteIfExists(pathExportJson);
-		// write txt
-		try (BufferedWriter writer = Files.newBufferedWriter(pathExportJson, Charsets.UTF_8)) {
-			writer.write(exportJson, 0, exportJson.length());
-		}
-	}
-	 */
 
 }
