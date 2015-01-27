@@ -5,6 +5,9 @@ import static org.apache.commons.lang3.StringUtils.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import de.galan.dmsexchange.meta.Validatable;
 import de.galan.dmsexchange.meta.ValidationResult;
@@ -73,6 +76,22 @@ public class DocumentFile implements Validatable {
 
 	public void addRevision(Revision... revisionToAdd) {
 		revisions.addAll(Arrays.asList(revisionToAdd));
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(filename, rotation, revisions);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof DocumentFile) {
+			final DocumentFile other = (DocumentFile)obj;
+			return new EqualsBuilder().append(filename, other.filename).append(rotation, other.rotation).append(revisions, other.revisions).isEquals();
+		}
+		return false;
 	}
 
 }

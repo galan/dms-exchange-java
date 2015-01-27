@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import de.galan.dmsexchange.DmsExchange;
 import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.test.Documents;
 import de.galan.dmsexchange.util.DmsExchangeException;
 
 
@@ -40,7 +41,7 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 
 	@Test
 	public void createArchiveWithSingleSimpleDocument() throws Exception {
-		getWriter().add(createSimpleDocument1());
+		getWriter().add(Documents.createSimpleDocument1());
 		getWriter().close();
 		assertArchive("createArchiveWithSingleSimpleDocument");
 	}
@@ -48,7 +49,7 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 
 	@Test
 	public void createArchiveWithSingleComplexDocument() throws Exception {
-		getWriter().add(createComplexDocument());
+		getWriter().add(Documents.createComplexDocument());
 		getWriter().close();
 		assertArchive("createArchiveWithSingleComplexDocument");
 	}
@@ -56,8 +57,8 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 
 	@Test
 	public void createArchiveWithMultipleDocuments() throws Exception {
-		getWriter().add(createComplexDocument());
-		getWriter().add(createSimpleDocument1(), createSimpleDocument2());
+		getWriter().add(Documents.createComplexDocument());
+		getWriter().add(Documents.createSimpleDocument1(), Documents.createSimpleDocument2());
 		getWriter().close();
 		assertArchive("createArchiveWithMultipleDocuments");
 	}
@@ -80,13 +81,13 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 	@Test
 	public void createArchiveWithFailedDocument() throws Exception {
 		try {
-			getWriter().add(createInvalidDocument());
+			getWriter().add(Documents.createInvalidDocument());
 		}
 		catch (DmsExchangeValidationException ex) {
 			assertThat(ex.getMessage()).isEqualTo(
-				"Invalid Document (No data for revision, No user for comment, No timestamp for comment, No content for comment)");
+					"Invalid Document (No data for revision, No user for comment, No timestamp for comment, No content for comment)");
 			assertThat(ex.getValidationResult().getErrors()).containsOnly("No data for revision", "No user for comment", "No timestamp for comment",
-					"No content for comment");
+				"No content for comment");
 		}
 		getWriter().close();
 		assertArchive("createArchiveWithFailedDocument");
@@ -95,7 +96,7 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 
 	@Test
 	public void createArchiveWithMultipleFailedDocuments() throws Exception {
-		getWriter().addQuietly(new Document(), createInvalidDocument());
+		getWriter().addQuietly(new Document(), Documents.createInvalidDocument());
 		getWriter().close();
 		assertArchive("createArchiveWithMultipleFailedDocuments");
 	}
@@ -104,7 +105,7 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 	@Test(expected = ClosedFileSystemException.class)
 	public void addDocumentAfterClosed() throws Exception {
 		getWriter().close();
-		getWriter().add(createSimpleDocument1());
+		getWriter().add(Documents.createSimpleDocument1());
 	}
 
 }

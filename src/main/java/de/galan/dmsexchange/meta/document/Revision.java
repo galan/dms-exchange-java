@@ -6,10 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.io.Files;
@@ -120,6 +122,22 @@ public class Revision implements Validatable {
 
 	public void setData(File file) throws IOException {
 		setData(Files.toByteArray(file));
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(addedBy, tsAdded, data);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Revision) {
+			final Revision other = (Revision)obj;
+			return new EqualsBuilder().append(addedBy, other.addedBy).append(tsAdded, other.tsAdded).append(data, other.data).isEquals();
+		}
+		return false;
 	}
 
 }

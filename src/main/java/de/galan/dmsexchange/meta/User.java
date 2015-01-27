@@ -1,7 +1,11 @@
 package de.galan.dmsexchange.meta;
 
+import java.util.Objects;
+
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 
 /**
@@ -48,6 +52,22 @@ public class User implements Validatable {
 			result = false;
 		}
 		return result;
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(email);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof User) {
+			final User other = (User)obj;
+			return new EqualsBuilder().append(email, other.email).isEquals();
+		}
+		return false;
 	}
 
 }

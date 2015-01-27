@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 
 import de.galan.commons.logging.Logr;
 import de.galan.dmsexchange.DmsExchange;
+import de.galan.dmsexchange.test.Documents;
 
 
 /**
@@ -51,7 +52,7 @@ public class ConditionalDmsWriterTest extends DmsWriterTestParent {
 	@Test
 	public void createArchiveSplitAfter2Documents2() throws Exception {
 		setWriter(DmsExchange.createWriter(getFile(), 2));
-		getWriter().addQuietly(createSimpleDocument1(), createSimpleDocument2());
+		getWriter().addQuietly(Documents.createSimpleDocument1(), Documents.createSimpleDocument2());
 		getWriter().close();
 		assertArchiveList("createArchiveSplitAfter2Documents2", 1);
 	}
@@ -60,7 +61,7 @@ public class ConditionalDmsWriterTest extends DmsWriterTestParent {
 	@Test
 	public void createArchiveSplitAfter2Documents3() throws Exception {
 		setWriter(DmsExchange.createWriter(getFile(), 2));
-		getWriter().addQuietly(createSimpleDocument1(), createSimpleDocument2(), createSimpleDocument3());
+		getWriter().addQuietly(Documents.createSimpleDocument1(), Documents.createSimpleDocument2(), Documents.createSimpleDocument3());
 		getWriter().close();
 		assertArchiveList("createArchiveSplitAfter2Documents3", 2);
 	}
@@ -70,7 +71,8 @@ public class ConditionalDmsWriterTest extends DmsWriterTestParent {
 	@Ignore
 	public void createArchiveSplitAfter30KDocuments11K() throws Exception {
 		//TODO setWriter(DmsExchange.createWriter(getFile(), null, 1024 * 30)); // TODO unable to split  when underlying zip gets not flushed (and can not be manually)
-		getWriter().addQuietly(createSimpleDocument1(), createSimpleDocument2(), createSimpleDocument3(), createSimpleDocument4(), createSimpleDocument5());
+		getWriter().addQuietly(Documents.createSimpleDocument1(), Documents.createSimpleDocument2(), Documents.createSimpleDocument3(),
+			Documents.createSimpleDocument4(), Documents.createSimpleDocument5());
 		getWriter().close();
 		assertArchiveList("createArchiveSplitAfter10KDocuments11K", 1);
 	}

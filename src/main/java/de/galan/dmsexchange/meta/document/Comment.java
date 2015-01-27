@@ -1,6 +1,9 @@
 package de.galan.dmsexchange.meta.document;
 
 import java.time.ZonedDateTime;
+import java.util.Objects;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import de.galan.dmsexchange.meta.User;
 import de.galan.dmsexchange.meta.Validatable;
@@ -76,6 +79,22 @@ public class Comment implements Validatable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(commentBy, content, tsComment);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Comment) {
+			final Comment other = (Comment)obj;
+			return new EqualsBuilder().append(commentBy, other.commentBy).append(tsComment, other.tsComment).append(content, other.content).isEquals();
+		}
+		return false;
 	}
 
 }

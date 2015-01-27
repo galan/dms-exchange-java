@@ -5,6 +5,9 @@ import static org.apache.commons.lang3.StringUtils.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import de.galan.dmsexchange.meta.Validatable;
 import de.galan.dmsexchange.meta.ValidationResult;
@@ -181,6 +184,25 @@ public class Document implements Validatable {
 
 	public void setOptionOcr(Boolean optionOcr) {
 		this.optionOcr = optionOcr;
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(version, documentFiles, context, note, location, comments, idUser, idSystem, project, directory, labels, optionIndexed, optionOcr);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Document) {
+			final Document other = (Document)obj;
+			return new EqualsBuilder().append(version, other.version).append(documentFiles, other.documentFiles).append(context, other.context).append(note,
+				other.note).append(location, other.location).append(comments, other.comments).append(idUser, other.idUser).append(idSystem, other.idSystem).append(
+					project, other.project).append(directory, other.directory).append(labels, other.labels).append(optionIndexed, other.optionIndexed).append(
+						optionOcr, other.optionOcr).isEquals();
+		}
+		return false;
 	}
 
 }

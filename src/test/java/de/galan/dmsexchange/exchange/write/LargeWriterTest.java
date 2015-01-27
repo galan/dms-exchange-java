@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 
 import de.galan.commons.logging.Logr;
 import de.galan.dmsexchange.DmsExchange;
+import de.galan.dmsexchange.test.Documents;
 import de.galan.dmsexchange.util.DmsExchangeException;
 
 
@@ -37,7 +38,7 @@ public class LargeWriterTest extends DmsWriterTestParent {
 	@Test
 	public void createArchiveWithMultipleDocuments() throws Exception {
 		for (int i = 0; i < 10_000; i++) {
-			getWriter().add(createComplexDocument(), createSimpleDocument1(), createSimpleDocument2());
+			getWriter().add(Documents.createComplexDocument(), Documents.createSimpleDocument1(), Documents.createSimpleDocument2());
 			LOG.info("Added {} documents", i * 3);
 		}
 		getWriter().close();

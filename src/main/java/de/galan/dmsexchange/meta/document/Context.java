@@ -1,6 +1,9 @@
 package de.galan.dmsexchange.meta.document;
 
 import java.time.ZonedDateTime;
+import java.util.Objects;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import de.galan.dmsexchange.meta.Validatable;
 import de.galan.dmsexchange.meta.ValidationResult;
@@ -52,6 +55,22 @@ public class Context implements Validatable {
 
 	public void setTsDueDate(ZonedDateTime tsDueDate) {
 		this.tsDueDate = tsDueDate;
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(tsDocument, tsDueDate);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Context) {
+			final Context other = (Context)obj;
+			return new EqualsBuilder().append(tsDocument, other.tsDocument).append(tsDueDate, other.tsDueDate).isEquals();
+		}
+		return false;
 	}
 
 }
