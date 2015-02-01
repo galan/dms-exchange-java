@@ -12,14 +12,14 @@ import de.galan.dmsexchange.meta.User;
 
 
 /**
- * daniel should have written a comment here.
+ * CUT Comment
  *
  * @author daniel
  */
 public class CommentTest extends AbstractTestParent {
 
 	@Test
-	public void testName() throws Exception {
+	public void equality() throws Exception {
 		Comment c1 = new Comment(new User("first@example.com"), zdt("2014-12-28T20:00:15Z"), "Hello");
 		Comment c2 = new Comment(new User("first@example.com"), zdt("2014-12-28T20:00:15Z"), "Hello");
 		Comment c3 = new Comment(new User("other@example.com"), zdt("2014-12-28T20:00:15Z"), "Hello");

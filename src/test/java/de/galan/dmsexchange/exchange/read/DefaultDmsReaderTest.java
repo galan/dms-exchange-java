@@ -6,7 +6,9 @@ import static org.assertj.core.api.Assertions.*;
 import java.io.File;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+import org.zeroturnaround.zip.ZipUtil;
 
 import com.google.common.collect.Lists;
 
@@ -27,24 +29,29 @@ public class DefaultDmsReaderTest extends DmsReaderTestParent {
 	@Test
 	public void readArchiveSingleDirectory() throws Exception {
 		List<Document> documents = Lists.newArrayList(Documents.createSimpleDocument1());
-		createReadAndCompareListOfDocuments(documents);
+		createArchive(documents);
+		readAndCompareDocuments(documents);
 	}
 
 
 	@Test
 	public void readArchiveMultipleDirectory() throws Exception {
 		List<Document> documents = Lists.newArrayList(Documents.createSimpleDocument1(), Documents.createSimpleDocument2(), Documents.createSimpleDocument3(),
-			Documents.createSimpleDocument4(), Documents.createSimpleDocument5());
-		createReadAndCompareListOfDocuments(documents);
+			Documents.createSimpleDocument4(), Documents.createSimpleDocument5(), Documents.createComplexDocument());
+		createArchive(documents);
+		readAndCompareDocuments(documents);
 	}
 
 
-	protected void createReadAndCompareListOfDocuments(List<Document> documents) throws DmsExchangeException, Exception {
+	protected void createArchive(List<Document> documents) throws DmsExchangeException, Exception {
 		setFile(new File(getTestDirectory(), "input.zip"));
 		DmsWriter writer = DmsExchange.createWriter(getFile());
 		writer.add(documents);
 		writer.close();
+	}
 
+
+	protected void readAndCompareDocuments(List<Document> documents) throws DmsExchangeException {
 		setReader(DmsExchange.createReader(getFile()));
 		DocumentCollector collector = new DocumentCollector();
 		getReader().registerListener(collector);
@@ -54,25 +61,22 @@ public class DefaultDmsReaderTest extends DmsReaderTestParent {
 	}
 
 
-	/*
-	DocumentCollector collector = readArchive("readArchiveSingleDirectory");
-	assertThat(collector.getDocuments()).hasSize(1);
-
-	Document document = collector.getDocuments().get(0);
-	 */
-	/*
-	Verjson<Document> verjson = Verjson.create(Document.class, new DocumentVersions());
-	String directoryBase = getClass().getSimpleName() + "-" + "readArchiveSingleDirectory" + "/";
-	JsonNode node = verjson.readTree(readFile(getClass(), directoryBase + "0000/0000/meta.json"));
-	Document expected = verjson.readPlain(node, Version.getVerjson(Version.SUPPORTED_VERSION));
-	assertThat(document.getDirectory()).isEqualTo(expected.getDirectory());
-	//assertThat(document.get).isEqualToComparingFieldByField(expected);
-	 */
-
 	@Test
-	public void readArchiveStream() throws Exception {
-		DocumentCollector collector = readArchiveConsumer("readArchiveSingleDirectory");
-		assertThat(collector.getDocuments()).hasSize(1);
+	public void readArchiveMixedDirectoryAndZip() throws Exception {
+		List<Document> documents = Lists.newArrayList(Documents.createComplexDocument(), Documents.createSimpleDocument1(), Documents.createSimpleDocument2(),
+			Documents.createSimpleDocument3(), Documents.createSimpleDocument4(), Documents.createSimpleDocument5());
+		createArchive(documents);
+
+		ZipUtil.explode(getFile());
+
+		ZipUtil.unexplode(new File(getFile(), "0000/0004"));
+		FileUtils.moveFile(new File(getFile(), "0000/0004"), new File(getFile(), "doc-4-in-root.zip"));
+		ZipUtil.unexplode(new File(getFile(), "0000/0005"));
+		FileUtils.forceMkdir(new File(getFile(), "somewhere/deep/down/the/rabbit/hole"));
+		FileUtils.moveFile(new File(getFile(), "0000/0005"), new File(getFile(), "somewhere/deep/down/the/rabbit/hole/doc-5.zip"));
+		ZipUtil.unexplode(getFile());
+
+		readAndCompareDocuments(documents);
 	}
 
 
