@@ -34,6 +34,17 @@ public interface DmsWriter extends AutoCloseable {
 
 
 	/**
+	 * Validates and adds documents to the export-archive. Will abort on the first invalid document, an alternative is
+	 * using addQuiet(..) which swallows the Exceptions.
+	 */
+	default void add(List<Document> documents) throws DmsExchangeException {
+		for (Document doc: documents) {
+			add(doc);
+		}
+	}
+
+
+	/**
 	 * Validates and adds documents to the export-archive. Will swallow quietly the DmsExchangeExceptions, errormessages
 	 * will be added to the 'documentsFailed'-list.
 	 */

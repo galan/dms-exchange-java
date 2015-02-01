@@ -48,6 +48,7 @@ public class DmsExchange {
 			writer.addCondition(new DocumentsSplitCondition(thresholdDocuments));
 		}
 		if (thresholdFilesize != null) {
+			// Issues due to Nio ZipFileSystem
 			writer.addCondition(new FilesizeSplitCondition(thresholdFilesize));
 		}
 		return writer;

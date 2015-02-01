@@ -12,13 +12,13 @@ import de.galan.dmsexchange.meta.document.Document;
  *
  * @author daniel
  */
-public class DocumentFailedEvent extends ExchangeEvent {
+public class DocumentAddedFailedEvent extends ExchangeEvent {
 
 	private Document document;
 	private ValidationResult validationResult;
 
 
-	public DocumentFailedEvent(Document document, ValidationResult validationResult) {
+	public DocumentAddedFailedEvent(Document document, ValidationResult validationResult) {
 		this.document = document;
 		this.validationResult = validationResult;
 	}

@@ -64,7 +64,7 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 	@Override
 	public void readDocuments(Consumer<Document> consumer) throws DmsExchangeException {
 		if (consumer == null) {
-			throw new NullPointerException("consumer is null");
+			throw new NullPointerException("Consumer is null");
 		}
 		WrappingDocumentConsumer wrapper = new WrappingDocumentConsumer(consumer);
 		registerListener(wrapper);
@@ -109,6 +109,7 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 						// ignore
 					}
 					else {
+						postEvent(new DocumentReadInvalidEvent(file));
 						LOG.warn("Unrecognized filetype: " + file);
 					}
 				}

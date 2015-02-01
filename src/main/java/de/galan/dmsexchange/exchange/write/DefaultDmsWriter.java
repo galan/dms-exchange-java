@@ -37,7 +37,7 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 		super(FileGenerationUtil.determineFile(file), false);
 		export = new Export();
 		registerListener(new DocumentAddedListener());
-		registerListener(new DocumentFailedListener(export));
+		registerListener(new DocumentAddedFailedListener(export));
 	}
 
 
@@ -52,11 +52,11 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 			addMetadata(document, nextDir);
 		}
 		catch (DmsExchangeValidationException ex) {
-			postEvent(new DocumentFailedEvent(document, ex.getValidationResult()));
+			postEvent(new DocumentAddedFailedEvent(document, ex.getValidationResult()));
 			throw ex;
 		}
 		catch (DmsExchangeException ex) {
-			postEvent(new DocumentFailedEvent(document, null));
+			postEvent(new DocumentAddedFailedEvent(document, null));
 			throw ex;
 		}
 	}

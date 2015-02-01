@@ -14,20 +14,20 @@ import de.galan.dmsexchange.meta.export.Export;
  *
  * @author daniel
  */
-public class DocumentFailedListener {
+public class DocumentAddedFailedListener {
 
 	private static final Logger LOG = Logr.get();
 
 	private Export export;
 
 
-	public DocumentFailedListener(Export export) {
+	public DocumentAddedFailedListener(Export export) {
 		this.export = export;
 	}
 
 
 	@Subscribe
-	public void documentFailed(DocumentFailedEvent event) {
+	public void documentFailed(DocumentAddedFailedEvent event) {
 		if (event.getValidationResult() == null) {
 			LOG.info("Document adding failed");
 			export.addDocumentFailed("Document adding failed", event.getDocument().getIdSystem(), event.getDocument().getIdUser());
