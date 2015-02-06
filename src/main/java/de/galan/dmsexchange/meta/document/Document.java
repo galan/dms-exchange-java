@@ -40,6 +40,8 @@ public class Document implements Validatable {
 	public Document() {
 		version = Version.SUPPORTED_VERSION;
 		documentFiles = new ArrayList<>();
+		comments = new ArrayList<>();
+		labels = new ArrayList<>();
 	}
 
 
@@ -62,11 +64,14 @@ public class Document implements Validatable {
 
 
 	public void addDocumentFile(DocumentFile file) {
-		documentFiles.add(file);
+		getDocumentFiles().add(file);
 	}
 
 
 	public List<DocumentFile> getDocumentFiles() {
+		if (documentFiles == null) {
+			documentFiles = new ArrayList<>();
+		}
 		return documentFiles;
 	}
 

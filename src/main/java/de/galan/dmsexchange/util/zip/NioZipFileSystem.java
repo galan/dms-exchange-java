@@ -28,6 +28,8 @@ import java.util.stream.Stream;
  */
 public class NioZipFileSystem implements ArchiveFileSystem {
 
+	private static final FilelistComparator FILELIST_COMPARATOR = new FilelistComparator();
+
 	FileSystem fs;
 	private File file;
 	private boolean readonly;
@@ -64,28 +66,6 @@ public class NioZipFileSystem implements ArchiveFileSystem {
 	}
 
 
-	public void readFile() {
-		/*
-		try {
-			Path pathExportJson = fs.getPath("/export.json");
-			boolean pathExportJsonExists = Files.isRegularFile(pathExportJson) & Files.isReadable(pathExportJson);
-			if (!pathExportJsonExists) {
-				throw new DmsExchangeException("export.json does not exist");
-			}
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			Files.copy(pathExportJson, baos);
-			String exportJson = baos.toString(Charsets.UTF_8.name());
-			JsonNode exportNode = verjsonExport.readTree(exportJson);
-			export = verjsonExport.readPlain(exportNode, determineVersion(exportNode)); // TODO read version from node and perform mapping
-			LOG.info("Read archive from '" + defaultString(export.getSourceAsString(), "unknown source") + "' exported on " + export.getTsExport());
-		}
-		catch (Exception ex) {
-			throw new InvalidArchiveException("Export-metadata could not be read", ex);
-		}
-		 */
-	}
-
-
 	@Override
 	public List<String> listFiles(String directory) throws IOException {
 		List<String> result = null;
@@ -93,6 +73,7 @@ public class NioZipFileSystem implements ArchiveFileSystem {
 		try (Stream<Path> stream = Files.list(path)) {
 			result = stream.map(p -> p.toString()).collect(toList());
 		}
+		result.sort(FILELIST_COMPARATOR);
 		return result;
 	}
 
@@ -159,17 +140,5 @@ public class NioZipFileSystem implements ArchiveFileSystem {
 		}
 		Files.copy(path, stream);
 	}
-
-	/*
-	@Deprecated
-	private void writeTextFile(String absoluteFilePath, String exportJson) throws IOException {
-		Path pathExportJson = fs.getPath(absoluteFilePath);
-		Files.deleteIfExists(pathExportJson);
-		// write txt
-		try (BufferedWriter writer = Files.newBufferedWriter(pathExportJson, Charsets.UTF_8)) {
-			writer.write(exportJson, 0, exportJson.length());
-		}
-	}
-	 */
 
 }

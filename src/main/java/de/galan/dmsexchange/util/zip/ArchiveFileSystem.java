@@ -26,7 +26,7 @@ public interface ArchiveFileSystem extends Closeable {
 
 	/**
 	 * List the elements inside a directory. If an element is a directory, it ends with a slash. Root starts with a
-	 * slash.
+	 * slash. Lists files first, then directories.
 	 */
 	public List<String> listFiles(String directory) throws IOException;
 

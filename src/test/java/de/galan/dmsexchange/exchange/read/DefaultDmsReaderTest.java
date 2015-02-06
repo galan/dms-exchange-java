@@ -95,4 +95,22 @@ public class DefaultDmsReaderTest extends DmsReaderTestParent {
 		assertThat(collector2.getDocuments()).hasSize(1);
 	}
 
+
+	@Test
+	public void readArchiveWronglyNested() throws Exception {
+		List<Document> docsInput = Lists.newArrayList(Documents.createSimpleDocument1(), Documents.createSimpleDocument2(), Documents.createSimpleDocument3());
+		createArchive(docsInput);
+
+		ZipUtil.explode(getFile());
+
+		ZipUtil.unexplode(new File(getFile(), "0000/0001"));
+		FileUtils.moveFile(new File(getFile(), "0000/0001"), new File(getFile(), "0000/0000/a-zip-in.zip")); // has to start with "a", since "a" is before "meta.json"
+		FileUtils.moveDirectory(new File(getFile(), "0000/0002"), new File(getFile(), "0000/0000/container-in-container"));
+		ZipUtil.unexplode(getFile());
+
+		List<Document> documents = Lists.newArrayList(Documents.createSimpleDocument1());
+
+		readAndCompareDocuments(documents);
+	}
+
 }
