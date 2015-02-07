@@ -81,20 +81,14 @@ public class ZtZipFileSystem implements ArchiveFileSystem {
 
 
 	@Override
+	public void readFile(String fileToRead, OutputStream stream) throws IOException {
+		// ...
+	}
+
+
+	@Override
 	public List<String> listFiles(String directory) throws IOException {
 		return null;
-	}
-
-
-	@Override
-	public byte[] readFile(String filename) throws IOException {
-		return null;
-	}
-
-
-	@Override
-	public void readFile(String fileToRead, OutputStream stream) throws IOException {
-		//TODO
 	}
 
 }
