@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.galan.dmsexchange.DmsExchange;
+import de.galan.dmsexchange.exchange.DocumentValidationException;
 import de.galan.dmsexchange.meta.document.Document;
 import de.galan.dmsexchange.test.Documents;
 import de.galan.dmsexchange.util.DmsExchangeException;
@@ -69,7 +70,7 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 		try {
 			getWriter().add(new Document());
 		}
-		catch (DmsExchangeValidationException ex) {
+		catch (DocumentValidationException ex) {
 			assertThat(ex.getMessage()).isEqualTo("Invalid Document (Document does not contain any DocumentFile)");
 			assertThat(ex.getValidationResult().getErrors()).containsOnly("Document does not contain any DocumentFile");
 		}
@@ -83,7 +84,7 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 		try {
 			getWriter().add(Documents.createInvalidDocument());
 		}
-		catch (DmsExchangeValidationException ex) {
+		catch (DocumentValidationException ex) {
 			assertThat(ex.getMessage()).isEqualTo(
 					"Invalid Document (No data for revision, No user for comment, No timestamp for comment, No content for comment)");
 			assertThat(ex.getValidationResult().getErrors()).containsOnly("No data for revision", "No user for comment", "No timestamp for comment",

@@ -7,12 +7,9 @@ import java.time.format.DateTimeFormatter;
 import com.google.common.eventbus.EventBus;
 
 import de.galan.dmsexchange.meta.document.Document;
-import de.galan.dmsexchange.meta.export.Export;
 import de.galan.dmsexchange.util.DmsExchangeException;
 import de.galan.dmsexchange.util.zip.ArchiveFileSystem;
-import de.galan.dmsexchange.util.zip.NioZipFileSystem;
 import de.galan.dmsexchange.verjson.document.DocumentVersions;
-import de.galan.dmsexchange.verjson.export.ExportVersions;
 import de.galan.verjson.core.Verjson;
 
 
@@ -30,10 +27,16 @@ public abstract class DefaultExchange implements AutoCloseable {
 	private ArchiveFileSystem afs;
 	private boolean closed = false;
 
-	private Verjson<Export> verjsonExport;
 	private Verjson<Document> verjsonDocument;
 
 
+	protected DefaultExchange() throws DmsExchangeException {
+		verjsonDocument = Verjson.create(Document.class, new DocumentVersions());
+		events = new EventBus("dms-exchange"); // TODO include filename in name?
+	}
+
+
+	/*
 	protected DefaultExchange(File file, boolean readonly) throws DmsExchangeException {
 		this.file = file;
 		try {
@@ -43,19 +46,11 @@ public abstract class DefaultExchange implements AutoCloseable {
 		catch (IOException ex) {
 			throw new DmsExchangeException(ex.getMessage(), ex);
 		}
-		verjsonExport = Verjson.create(Export.class, new ExportVersions());
-		verjsonDocument = Verjson.create(Document.class, new DocumentVersions());
-		events = new EventBus("dms-exchange"); // TODO include filename in name?
 	}
-
+	 */
 
 	protected ArchiveFileSystem getFs() {
 		return afs;
-	}
-
-
-	protected Verjson<Export> getVerjsonExport() {
-		return verjsonExport;
 	}
 
 

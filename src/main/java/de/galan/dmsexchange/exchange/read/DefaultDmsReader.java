@@ -23,7 +23,6 @@ import de.galan.dmsexchange.exchange.DmsReader;
 import de.galan.dmsexchange.meta.document.Document;
 import de.galan.dmsexchange.meta.document.DocumentFile;
 import de.galan.dmsexchange.meta.document.Revision;
-import de.galan.dmsexchange.meta.export.Export;
 import de.galan.dmsexchange.util.DmsExchangeException;
 import de.galan.dmsexchange.util.InvalidArchiveException;
 import de.galan.dmsexchange.util.Version;
@@ -45,7 +44,7 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 
 	public DefaultDmsReader(File file) throws DmsExchangeException {
-		super(file, true);
+		//super(file, true);
 		dirTemp = initTempDir();
 	}
 
@@ -75,35 +74,34 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 	@Override
 	public void readDocuments() throws DmsExchangeException {
-		Export export = readExportJson();
-		Integer successful = export.getDocumentsSuccessfulAmount();
-		LOG.info("Reading export-archive from source '{}' with {} documents exported at '{}'", export.getSourceAsString(), successful == null ? "unknown"
-				: successful, export.getTsExport());
-		// TODO check if listeners are registered (correct ones, otherwise DeadEvents will be send out)
-
 		// iterate over directories recursivly, this blocks until finished
 		CountingDocumentConsumer counter = new CountingDocumentConsumer();
 		registerListener(counter);
-		traverseDirectory("/", export);
+		readArchive();
 		unregisterListener(counter);
 		LOG.info("Finished reading export-archive with {} documents", counter.getCountedDocuments());
 	}
 
 
-	protected void traverseDirectory(String directory, Export export) throws DmsExchangeException {
+	private void readArchive() {
+
+	}
+
+
+	protected void traverseDirectory(String directory) throws DmsExchangeException {
 		try {
 			List<String> files = getFs().listFiles(directory);
 			boolean root = directory.equals("/");
 			if (!root && files.stream().anyMatch(f -> endsWith(f, "/meta.json"))) {
-				importDocumentContainerDirectory(directory, export);
+				importDocumentContainerDirectory(directory);
 			}
 			else {
 				for (String file: files) {
 					if (endsWith(file, "/")) {
-						traverseDirectory(file, export);
+						traverseDirectory(file);
 					}
 					else if (endsWith(file, ".zip")) {
-						importDocumentContainerFile(file, export);
+						importDocumentContainerFile(file);
 					}
 					else if (root && StringUtils.equals(file, "/export.json")) {
 						// ignore
@@ -127,14 +125,14 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 	}
 
 
-	protected void importDocumentContainerFile(String file, Export export) throws DmsExchangeException {
+	protected void importDocumentContainerFile(String file) throws DmsExchangeException {
 		LOG.info("Importing file: " + file);
 		// extract to tmp
 		File fileTemp = getTempZipFile();
 		try {
 			getFs().readFile(file, new FileOutputStream(fileTemp));
 			try (ArchiveFileSystem zipFs = new NioZipFileSystem(fileTemp, true)) {
-				importDocumentContainer(zipFs, "/", export);
+				importDocumentContainer(zipFs, "/");
 			}
 		}
 		catch (IOException ex) {
@@ -149,13 +147,13 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 	}
 
 
-	protected void importDocumentContainerDirectory(String directory, Export export) throws DmsExchangeException {
+	protected void importDocumentContainerDirectory(String directory) throws DmsExchangeException {
 		LOG.info("Importing directory: " + directory);
-		importDocumentContainer(getFs(), directory, export);
+		importDocumentContainer(getFs(), directory);
 	}
 
 
-	protected void importDocumentContainer(ArchiveFileSystem afs, String directory, Export export) throws DmsExchangeException {
+	protected void importDocumentContainer(ArchiveFileSystem afs, String directory) throws DmsExchangeException {
 		try {
 			String metaJson = afs.readFileAsString(directory + "meta.json");
 			JsonNode node = getVerjsonExport().readTree(metaJson);
@@ -175,18 +173,6 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 		}
 		catch (ReadException ex) {
 			throw new DmsExchangeException("Could not deserialize metadata from document container", ex);
-		}
-	}
-
-
-	protected Export readExportJson() throws DmsExchangeException {
-		try {
-			String exportJson = getFs().readFileAsString("/export.json");
-			JsonNode node = getVerjsonExport().readTree(exportJson);
-			return getVerjsonExport().readPlain(node, determineVersion(node));
-		}
-		catch (Exception ex) {
-			throw new DmsExchangeException("Invalid Archiv, no valid export.json found.", ex);
 		}
 	}
 

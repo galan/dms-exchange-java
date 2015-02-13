@@ -1,0 +1,38 @@
+package de.galan.dmsexchange.exchange.container;
+
+import java.time.format.DateTimeFormatter;
+
+import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.document.DocumentFile;
+import de.galan.dmsexchange.meta.document.Revision;
+import de.galan.dmsexchange.verjson.document.DocumentVersions;
+import de.galan.verjson.core.Verjson;
+
+
+/**
+ * Base for container serialization/deserialization
+ *
+ * @author daniel
+ */
+public abstract class AbstractContainer {
+
+	protected static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
+	protected static final String REVISIONS_DIRNAME = "revisions";
+	private Verjson<Document> verjson;
+
+
+	public AbstractContainer() {
+		verjson = Verjson.create(Document.class, new DocumentVersions());
+	}
+
+
+	protected Verjson<Document> getVerjson() {
+		return verjson;
+	}
+
+
+	protected String generateRevisionName(DocumentFile df, Revision revision) {
+		return REVISIONS_DIRNAME + "/" + revision.getTsAdded().format(FORMATTER) + "_" + df.getFilename();
+	}
+
+}

@@ -14,7 +14,7 @@ import de.galan.commons.logging.Logr;
  *
  * @author daniel
  */
-public class DocumentAddedListener {
+public class DocumentAddedLoggingListener {
 
 	private static final Logger LOG = Logr.get();
 
@@ -38,4 +38,5 @@ public class DocumentAddedListener {
 		}
 		LOG.info(line.toString());
 	}
+
 }

@@ -5,8 +5,8 @@ import java.util.Map;
 
 
 /**
- * Mapping of dxs versions against verjson. This is done manually since there is no version-wrapper which verjson is
- * typically using.
+ * Mapping of dms-exchange-specification versions against verjson. This is done manually since there is no
+ * version-wrapper which verjson is typically using.
  *
  * @author daniel
  */
@@ -23,10 +23,10 @@ public class Version {
 	}
 
 
-	public static Long getVerjson(String dmsVersion) {
+	public static Long getVerjson(String metaVersion) {
 		Long result = null;
-		if (dmsVersion != null) {
-			result = versionToVerjson.get(dmsVersion);
+		if (metaVersion != null) {
+			result = versionToVerjson.get(metaVersion);
 		}
 		return result;
 	}

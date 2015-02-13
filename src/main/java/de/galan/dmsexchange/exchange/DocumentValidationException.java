@@ -1,4 +1,4 @@
-package de.galan.dmsexchange.exchange.write;
+package de.galan.dmsexchange.exchange;
 
 import static org.apache.commons.lang3.StringUtils.*;
 import de.galan.dmsexchange.meta.ValidationResult;
@@ -11,24 +11,24 @@ import de.galan.dmsexchange.util.DmsExchangeException;
  *
  * @author daniel
  */
-public class DmsExchangeValidationException extends DmsExchangeException {
+public class DocumentValidationException extends DmsExchangeException {
 
 	private ValidationResult validationResult;
 
 
-	public DmsExchangeValidationException(String message, ValidationResult validationResult) {
+	public DocumentValidationException(String message, ValidationResult validationResult) {
 		super(message);
 		this.validationResult = validationResult;
 	}
 
 
-	public DmsExchangeValidationException(Throwable cause, ValidationResult validationResult) {
+	public DocumentValidationException(Throwable cause, ValidationResult validationResult) {
 		super(cause);
 		this.validationResult = validationResult;
 	}
 
 
-	public DmsExchangeValidationException(String message, Throwable cause, ValidationResult validationResult) {
+	public DocumentValidationException(String message, Throwable cause, ValidationResult validationResult) {
 		super(message, cause);
 		this.validationResult = validationResult;
 	}
