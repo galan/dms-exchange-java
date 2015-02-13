@@ -8,7 +8,7 @@
 	"properties": {
 		"version": {
 			"description": "Valid version for this schema.",
-			"enum": ["1.0.0-beta.3"]
+			"enum": ["1.0.0-beta.4"]
 		},
 		"documentFiles": {
 			"description": "Groups the document-files in the given order that form a document.",

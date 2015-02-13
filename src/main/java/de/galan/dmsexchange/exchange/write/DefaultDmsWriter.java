@@ -9,9 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.ImmutableList;
@@ -22,6 +20,7 @@ import de.galan.dmsexchange.exchange.DocumentValidationException;
 import de.galan.dmsexchange.exchange.container.ContainerSerializer;
 import de.galan.dmsexchange.meta.document.Document;
 import de.galan.dmsexchange.util.DmsExchangeException;
+import de.galan.dmsexchange.util.archive.TarUtil;
 
 
 /**
@@ -46,7 +45,7 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	public DefaultDmsWriter(OutputStream outputstream) throws DmsExchangeException {
 		serializer = new ContainerSerializer();
 		try {
-			tar = new TarArchiveOutputStream(new GzipCompressorOutputStream(outputstream));
+			tar = TarUtil.create(outputstream, true);
 		}
 		catch (IOException ex) {
 			throw new DmsExchangeException("Unable to create archive stream", ex);
@@ -58,12 +57,9 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	@Override
 	public void add(Document document) throws DmsExchangeException {
 		try {
-			String nextContainer = getNextContainerPath();
-			//addRevisions(document, nextDir);
-			//addMetadata(document, nextDir);
+			String pathForContainer = getNextContainerPath();
 			byte[] container = serializer.archive(document, false);
-
-			addEntry(tar, container, nextContainer);
+			TarUtil.addEntry(tar, container, pathForContainer);
 			postEvent(new DocumentAddedEvent(document));
 		}
 		catch (DocumentValidationException ex) {
@@ -71,17 +67,9 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 			throw ex;
 		}
 		catch (IOException ex) {
-			//Say.warn("Unspecified error from daniel", ex);
+			postEvent(new DocumentAddedFailedEvent(document, null, ex));
+			throw new DmsExchangeException("Failed adding", ex);
 		}
-	}
-
-
-	protected void addEntry(TarArchiveOutputStream tar, byte[] data, String name) throws IOException {
-		TarArchiveEntry entry = new TarArchiveEntry(name);
-		entry.setSize(data.length);
-		tar.putArchiveEntry(entry);
-		tar.write(data);
-		tar.closeArchiveEntry();
 	}
 
 

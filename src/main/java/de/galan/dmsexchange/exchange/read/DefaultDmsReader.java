@@ -21,14 +21,11 @@ import de.galan.commons.logging.Logr;
 import de.galan.dmsexchange.exchange.DefaultExchange;
 import de.galan.dmsexchange.exchange.DmsReader;
 import de.galan.dmsexchange.meta.document.Document;
-import de.galan.dmsexchange.meta.document.DocumentFile;
-import de.galan.dmsexchange.meta.document.Revision;
 import de.galan.dmsexchange.util.DmsExchangeException;
 import de.galan.dmsexchange.util.InvalidArchiveException;
 import de.galan.dmsexchange.util.Version;
 import de.galan.dmsexchange.util.zip.ArchiveFileSystem;
 import de.galan.dmsexchange.util.zip.NioZipFileSystem;
-import de.galan.verjson.util.ReadException;
 
 
 /**
@@ -154,6 +151,7 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 
 	protected void importDocumentContainer(ArchiveFileSystem afs, String directory) throws DmsExchangeException {
+		/*
 		try {
 			String metaJson = afs.readFileAsString(directory + "meta.json");
 			JsonNode node = getVerjsonExport().readTree(metaJson);
@@ -174,6 +172,7 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 		catch (ReadException ex) {
 			throw new DmsExchangeException("Could not deserialize metadata from document container", ex);
 		}
+		 */
 	}
 
 

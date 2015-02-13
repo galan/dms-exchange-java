@@ -1,7 +1,6 @@
 package de.galan.dmsexchange.exchange;
 
 import java.io.File;
-import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 
 import com.google.common.eventbus.EventBus;
@@ -95,12 +94,14 @@ public abstract class DefaultExchange implements AutoCloseable {
 
 
 	protected void closeZipFs() throws DmsExchangeException {
+		/*
 		try {
 			getFs().close();
 		}
 		catch (IOException ex) {
 			throw new DmsExchangeException("Unable to close export-archive", ex);
 		}
+		 */
 	}
 
 }

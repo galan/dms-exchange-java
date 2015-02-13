@@ -4,6 +4,7 @@ import static de.galan.commons.test.Tests.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.file.ClosedFileSystemException;
 
 import org.junit.Before;
@@ -23,11 +24,11 @@ import de.galan.dmsexchange.util.DmsExchangeException;
  */
 public class DefaultDmsWriterTest extends DmsWriterTestParent {
 
-	private static final String EXPORT_FILENAME = "write.zip";
+	private static final String EXPORT_FILENAME = "write.tgz";
 
 
 	@Before
-	public void createWriter() throws DmsExchangeException {
+	public void createWriter() throws DmsExchangeException, FileNotFoundException {
 		setFile(new File(getTestDirectory(true), EXPORT_FILENAME));
 		setWriter(DmsExchange.createWriter(getFile()));
 	}

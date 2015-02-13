@@ -3,9 +3,7 @@ package de.galan.dmsexchange.exchange.container;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import com.google.common.base.Charsets;
@@ -15,6 +13,7 @@ import de.galan.dmsexchange.meta.ValidationResult;
 import de.galan.dmsexchange.meta.document.Document;
 import de.galan.dmsexchange.meta.document.DocumentFile;
 import de.galan.dmsexchange.meta.document.Revision;
+import de.galan.dmsexchange.util.archive.TarUtil;
 
 
 /**
@@ -33,29 +32,21 @@ public class ContainerSerializer extends AbstractContainer {
 
 	public void archive(Document document, boolean standalone, OutputStream outputstream) throws IOException, DocumentValidationException {
 		validateDocument(document);
-		TarArchiveOutputStream tar = new TarArchiveOutputStream(standalone ? new GzipCompressorOutputStream(outputstream) : outputstream);
+		try (TarArchiveOutputStream tar = TarUtil.create(outputstream, standalone)) {
 
-		// serialize metadata
-		String documentJson = getVerjson().writePlain(document);
-		byte[] metadata = documentJson.getBytes(Charsets.UTF_8);
-		addEntry(tar, metadata, "meta.json");
-		// serialize documents
-		for (DocumentFile df: document.getDocumentFiles()) {
-			for (Revision revision: df.getRevisions()) {
-				String generated = generateRevisionName(df, revision);
-				addEntry(tar, revision.getData(), generated);
+			// serialize metadata
+			String documentJson = getVerjson().writePlain(document);
+			byte[] metadata = documentJson.getBytes(Charsets.UTF_8);
+			TarUtil.addEntry(tar, metadata, "meta.json");
+			// serialize documents
+			for (DocumentFile df: document.getDocumentFiles()) {
+				for (Revision revision: df.getRevisions()) {
+					String generated = generateRevisionName(df, revision);
+					TarUtil.addEntry(tar, revision.getData(), generated);
+				}
 			}
+			tar.flush();
 		}
-		tar.flush();
-	}
-
-
-	protected void addEntry(TarArchiveOutputStream tar, byte[] data, String name) throws IOException {
-		TarArchiveEntry entry = new TarArchiveEntry(name);
-		entry.setSize(data.length);
-		tar.putArchiveEntry(entry);
-		tar.write(data);
-		tar.closeArchiveEntry();
 	}
 
 

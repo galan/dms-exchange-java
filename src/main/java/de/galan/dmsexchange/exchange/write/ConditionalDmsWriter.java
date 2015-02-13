@@ -31,7 +31,7 @@ public class ConditionalDmsWriter implements DmsWriter {
 		conditions = new ArrayList<>();
 		files = new ArrayList<>();
 		documentsAdded = 0;
-		setWriter(new DefaultDmsWriter(getNextFile()));
+		//setWriter(new DefaultDmsWriter(getNextFile()));
 	}
 
 
@@ -84,7 +84,7 @@ public class ConditionalDmsWriter implements DmsWriter {
 		catch (Exception ex) {
 			throw new DmsExchangeException("Unable to close splitted export-archive", ex);
 		}
-		setWriter(new DefaultDmsWriter(getNextFile()));
+		//setWriter(new DefaultDmsWriter(getNextFile()));
 		documentsAdded = 0;
 	}
 
