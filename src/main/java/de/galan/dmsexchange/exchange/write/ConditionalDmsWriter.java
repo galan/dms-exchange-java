@@ -1,6 +1,9 @@
 package de.galan.dmsexchange.exchange.write;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,14 +27,18 @@ public class ConditionalDmsWriter implements DmsWriter {
 
 	private List<SplitCondition> conditions;
 	private int documentsAdded;
+	private FileOutputStream currentFileOutputStream;
 
 
 	public ConditionalDmsWriter(File directory) throws DmsExchangeException {
+		if (directory == null || !directory.isDirectory()) {
+			throw new DmsExchangeException("File passed to ConditionalDmsWriter must be an existing directory");
+		}
 		this.directory = directory;
 		conditions = new ArrayList<>();
 		files = new ArrayList<>();
 		documentsAdded = 0;
-		//setWriter(new DefaultDmsWriter(getNextFile()));
+		setWriter(getNextWriter());
 	}
 
 
@@ -50,18 +57,6 @@ public class ConditionalDmsWriter implements DmsWriter {
 	}
 
 
-	protected File getNextFile() throws DmsExchangeException {
-		try {
-			File result = FileGenerationUtil.generateUniqueFilename(directory);
-			files.add(result);
-			return result;
-		}
-		catch (Exception ex) {
-			throw new DmsExchangeException("Unable to create unique filename in directory", ex);
-		}
-	}
-
-
 	protected File getCurrentFile() {
 		return getFiles().get(getFiles().size() - 1);
 	}
@@ -73,6 +68,12 @@ public class ConditionalDmsWriter implements DmsWriter {
 			split();
 		}
 		writer.add(document);
+		try {
+			currentFileOutputStream.flush();
+		}
+		catch (IOException ex) {
+			throw new DmsExchangeException("Unable to flush data to file", ex);
+		}
 		documentsAdded++;
 	}
 
@@ -84,8 +85,32 @@ public class ConditionalDmsWriter implements DmsWriter {
 		catch (Exception ex) {
 			throw new DmsExchangeException("Unable to close splitted export-archive", ex);
 		}
-		//setWriter(new DefaultDmsWriter(getNextFile()));
+		setWriter(getNextWriter());
 		documentsAdded = 0;
+	}
+
+
+	protected DmsWriter getNextWriter() throws DmsExchangeException {
+		File file = getNextFile();
+		try {
+			currentFileOutputStream = new FileOutputStream(file);
+			return new DefaultDmsWriter(currentFileOutputStream);
+		}
+		catch (FileNotFoundException ex) {
+			throw new DmsExchangeException("Unable to create file '" + file.getAbsolutePath() + "'", ex);
+		}
+	}
+
+
+	protected File getNextFile() throws DmsExchangeException {
+		try {
+			File result = FileGenerationUtil.generateUniqueFilename(directory);
+			files.add(result);
+			return result;
+		}
+		catch (Exception ex) {
+			throw new DmsExchangeException("Unable to create unique filename in directory", ex);
+		}
 	}
 
 

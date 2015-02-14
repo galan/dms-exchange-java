@@ -23,6 +23,9 @@ public class FileGenerationUtil {
 		if (file.isDirectory()) {
 			result = generateUniqueFilename(file);
 		}
+		else if (file.isFile()) {
+			file.getParentFile().mkdirs();
+		}
 		return result;
 	}
 
@@ -35,7 +38,7 @@ public class FileGenerationUtil {
 		if (directory.exists() && directory.isDirectory()) {
 			directory.mkdirs();
 		}
-		return new File(directory, UUID.randomUUID().toString() + ".zip");
+		return new File(directory, UUID.randomUUID().toString() + ".tgz");
 	}
 
 }

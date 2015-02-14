@@ -70,9 +70,20 @@ public class ConditionalDmsWriterTest extends DmsWriterTestParent {
 	@Test
 	@Ignore
 	public void createArchiveSplitAfter30KDocuments11K() throws Exception {
-		//TODO setWriter(DmsExchange.createWriter(getFile(), null, 1024 * 30)); // TODO unable to split  when underlying zip gets not flushed (and can not be manually)
+		//TODO setWriter(DmsExchange.createWriter(getFile(), null, 1024 * 30)); // TODO unable to split  when underlying archive gets not flushed (and can not be manually)
 		getWriter().addQuietly(Documents.createSimpleDocument1(), Documents.createSimpleDocument2(), Documents.createSimpleDocument3(),
 			Documents.createSimpleDocument4(), Documents.createSimpleDocument5());
+		getWriter().close();
+		assertArchiveList("createArchiveSplitAfter10KDocuments11K", 1);
+	}
+
+
+	@Test
+	public void createArchiveSplitAfterLoop() throws Exception {
+		setWriter(DmsExchange.createWriter(getFile(), null, 1024 * 30));
+		for (int i = 0; i < 10_000; i++) {
+			getWriter().addQuietly(Documents.createComplexDocument());
+		}
 		getWriter().close();
 		assertArchiveList("createArchiveSplitAfter10KDocuments11K", 1);
 	}

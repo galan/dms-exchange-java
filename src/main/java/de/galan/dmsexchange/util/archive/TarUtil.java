@@ -28,6 +28,7 @@ public class TarUtil {
 		tar.putArchiveEntry(entry);
 		tar.write(data);
 		tar.closeArchiveEntry();
+		tar.flush();
 	}
 
 }
