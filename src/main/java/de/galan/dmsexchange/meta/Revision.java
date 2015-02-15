@@ -1,4 +1,4 @@
-package de.galan.dmsexchange.meta.document;
+package de.galan.dmsexchange.meta;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -15,10 +15,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.io.Files;
-
-import de.galan.dmsexchange.meta.User;
-import de.galan.dmsexchange.meta.Validatable;
-import de.galan.dmsexchange.meta.ValidationResult;
 
 
 /**

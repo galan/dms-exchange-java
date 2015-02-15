@@ -6,12 +6,13 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 
 import de.galan.dmsexchange.exchange.test.revisions.Revisions;
+import de.galan.dmsexchange.meta.Comment;
+import de.galan.dmsexchange.meta.Context;
+import de.galan.dmsexchange.meta.Document;
+import de.galan.dmsexchange.meta.DocumentFile;
+import de.galan.dmsexchange.meta.Revision;
+import de.galan.dmsexchange.meta.Source;
 import de.galan.dmsexchange.meta.User;
-import de.galan.dmsexchange.meta.document.Comment;
-import de.galan.dmsexchange.meta.document.Context;
-import de.galan.dmsexchange.meta.document.Document;
-import de.galan.dmsexchange.meta.document.DocumentFile;
-import de.galan.dmsexchange.meta.document.Revision;
 
 
 /**
@@ -54,6 +55,7 @@ public class Documents {
 
 	public static Document createSimpleDocument2() throws IOException {
 		Document doc = new Document();
+		doc.setCreatedBy(new User("who@example.com"));
 		doc.setIdUser("id123");
 		DocumentFile docFile = new DocumentFile("lorem.txt");
 		docFile.addRevision(Revisions.read("lorem-04-01.txt", "2012-01-09T18:11:22Z", null));
@@ -104,6 +106,8 @@ public class Documents {
 
 	public static Document createComplexDocument() throws IOException {
 		Document doc = new Document();
+		doc.setCreatedBy(new User("creator@example.com"));
+		doc.setSource(new Source("SourceName", "SourceVersion", "http://www.example.com/dms", "SourceEmai@example.com"));
 		doc.setContext(new Context(zdt("2015-01-05T12:30:32Z"), zdt("2015-01-08T16:00:00Z")));
 		doc.setDirectory("/projects/exchange");
 		doc.setIdSystem("mySystemId-0123456789");

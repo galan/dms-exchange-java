@@ -17,9 +17,9 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Charsets;
 
-import de.galan.dmsexchange.meta.document.Document;
-import de.galan.dmsexchange.meta.document.DocumentFile;
-import de.galan.dmsexchange.meta.document.Revision;
+import de.galan.dmsexchange.meta.Document;
+import de.galan.dmsexchange.meta.DocumentFile;
+import de.galan.dmsexchange.meta.Revision;
 import de.galan.dmsexchange.util.InvalidArchiveException;
 import de.galan.dmsexchange.util.Version;
 import de.galan.verjson.core.IOReadException;

@@ -1,4 +1,4 @@
-package de.galan.dmsexchange.meta.document;
+package de.galan.dmsexchange.meta;
 
 /**
  * Rotation a document-file is stored in.

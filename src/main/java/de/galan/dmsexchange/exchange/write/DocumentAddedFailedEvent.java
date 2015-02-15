@@ -5,8 +5,8 @@ import static org.apache.commons.lang3.StringUtils.*;
 import com.google.common.base.Joiner;
 
 import de.galan.dmsexchange.exchange.ExchangeEvent;
+import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.meta.ValidationResult;
-import de.galan.dmsexchange.meta.document.Document;
 
 
 /**

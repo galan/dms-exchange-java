@@ -9,10 +9,10 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 import com.google.common.base.Charsets;
 
 import de.galan.dmsexchange.exchange.DocumentValidationException;
+import de.galan.dmsexchange.meta.Document;
+import de.galan.dmsexchange.meta.DocumentFile;
+import de.galan.dmsexchange.meta.Revision;
 import de.galan.dmsexchange.meta.ValidationResult;
-import de.galan.dmsexchange.meta.document.Document;
-import de.galan.dmsexchange.meta.document.DocumentFile;
-import de.galan.dmsexchange.meta.document.Revision;
 import de.galan.dmsexchange.util.archive.TarUtil;
 
 

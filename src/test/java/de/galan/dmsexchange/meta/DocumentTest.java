@@ -1,4 +1,4 @@
-package de.galan.dmsexchange.meta.document;
+package de.galan.dmsexchange.meta;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 
 import de.galan.commons.logging.Logr;
 import de.galan.commons.test.AbstractTestParent;
+import de.galan.dmsexchange.meta.Commenimport de.galan.dmsexchange.meta.document.Comment;
+import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.meta.User;
 import de.galan.dmsexchange.test.Documents;
 import de.galan.dmsexchange.verjson.document.DocumentVersions;

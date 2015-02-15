@@ -1,7 +1,7 @@
 package de.galan.dmsexchange.exchange.write;
 
 import de.galan.dmsexchange.exchange.ExchangeEvent;
-import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.Document;
 
 
 /**

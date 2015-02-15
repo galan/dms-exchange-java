@@ -1,7 +1,8 @@
-package de.galan.dmsexchange.meta.document;
+package de.galan.dmsexchange.meta;
 
 import static org.apache.commons.lang3.StringUtils.*;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,8 +10,9 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-import de.galan.dmsexchange.meta.Validatable;
-import de.galan.dmsexchange.meta.ValidationResult;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import de.galan.commons.time.ApplicationClock;
 import de.galan.dmsexchange.util.Version;
 
 
@@ -23,6 +25,10 @@ import de.galan.dmsexchange.util.Version;
 public class Document implements Validatable {
 
 	private String version;
+	private ZonedDateTime tsCreate;
+	private User createdBy;
+	private Source source;
+
 	private List<DocumentFile> documentFiles;
 	private Context context;
 	private String note;
@@ -39,6 +45,7 @@ public class Document implements Validatable {
 
 	public Document() {
 		version = Version.SUPPORTED_VERSION;
+		tsCreate = ZonedDateTime.now(ApplicationClock.getClock());
 		documentFiles = new ArrayList<>();
 		comments = new ArrayList<>();
 		labels = new ArrayList<>();
@@ -55,11 +62,48 @@ public class Document implements Validatable {
 		}
 		validate(result, getDocumentFiles());
 		validate(result, getComments());
+		validate(result, getSource());
 	}
 
 
 	public String getVersion() {
 		return version;
+	}
+
+
+	public ZonedDateTime getTsCreate() {
+		return tsCreate;
+	}
+
+
+	public void setTsCreate(ZonedDateTime tsCreate) {
+		this.tsCreate = tsCreate;
+	}
+
+
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+
+	public Source getSource() {
+		return source;
+	}
+
+
+	public void setSource(Source source) {
+		this.source = source;
+	}
+
+
+	@JsonIgnore
+	public String getSourceAsString() {
+		return (source == null) ? "unknown" : getSource().toString();
 	}
 
 
@@ -204,8 +248,8 @@ public class Document implements Validatable {
 			final Document other = (Document)obj;
 			return new EqualsBuilder().append(version, other.version).append(documentFiles, other.documentFiles).append(context, other.context).append(note,
 				other.note).append(location, other.location).append(comments, other.comments).append(idUser, other.idUser).append(idSystem, other.idSystem).append(
-					project, other.project).append(directory, other.directory).append(labels, other.labels).append(optionIndexed, other.optionIndexed).append(
-						optionOcr, other.optionOcr).isEquals();
+				project, other.project).append(directory, other.directory).append(labels, other.labels).append(optionIndexed, other.optionIndexed).append(
+				optionOcr, other.optionOcr).isEquals();
 		}
 		return false;
 	}

@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import com.google.common.eventbus.EventBus;
 
-import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.util.DmsExchangeException;
 import de.galan.dmsexchange.util.zip.ArchiveFileSystem;
 import de.galan.dmsexchange.verjson.document.DocumentVersions;

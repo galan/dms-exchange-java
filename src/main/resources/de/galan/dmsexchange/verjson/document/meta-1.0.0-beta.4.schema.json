@@ -4,11 +4,46 @@
 	"description": "This schema defines the metadata for a single document as specified by the dms-exchange-specification.",
 	"type": "object",
 	"additionalProperties": false,
-	"required": ["version", "documentFiles"],
+	"required": ["version", "tsCreate", "documentFiles"],
 	"properties": {
 		"version": {
 			"description": "Valid version for this schema.",
 			"enum": ["1.0.0-beta.4"]
+		},
+		"tsCreate": {
+			"description": "Timestamp when the container was created/exported.",
+			"type": "string",
+			"format": "date-time"
+		},
+		"source": {
+		    "description": "Information about the system that has created the export.",
+		    "type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"name": {
+					"description": "Name of the system that has created the export.",
+					"type": "string"
+				},
+				"version": {
+					"description": "Version of the system that has created the export.",
+					"type": "string"
+				},
+				"url": {
+					"description": "Website from the vendor of the system that has created the export.",
+					"type": "string",
+					"format": "uri"
+				},
+				"email": {
+					"description": "Email to contact the vendor of the system that has created the export.",
+					"type": "string",
+					"format": "email"
+				}
+			}
+		},
+		"exportBy": {
+			"description": "User who has triggered the export.",
+			"type": "string",
+			"format": "email"
 		},
 		"documentFiles": {
 			"description": "Groups the document-files in the given order that form a document.",

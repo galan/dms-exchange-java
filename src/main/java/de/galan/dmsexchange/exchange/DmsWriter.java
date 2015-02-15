@@ -3,7 +3,7 @@ package de.galan.dmsexchange.exchange;
 import java.io.File;
 import java.util.List;
 
-import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.util.DmsExchangeException;
 
 

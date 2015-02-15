@@ -1,12 +1,9 @@
-package de.galan.dmsexchange.meta.document;
+package de.galan.dmsexchange.meta;
 
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
-
-import de.galan.dmsexchange.meta.Validatable;
-import de.galan.dmsexchange.meta.ValidationResult;
 
 
 /**

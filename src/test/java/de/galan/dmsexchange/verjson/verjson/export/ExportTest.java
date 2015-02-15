@@ -28,8 +28,8 @@ public class ExportTest extends AbstractTestParent {
 	public void testName() throws Exception {
 		Export export = new Export();
 		export.setDescription("test desc");
-		export.setExportBy(new User("hello@example.com"));
-		export.setTsExport(ZonedDateTime.now());
+		export.setCreatedBy(new User("hello@example.com"));
+		export.setTsCreate(ZonedDateTime.now());
 
 		Verjson<Export> verjson = Verjson.create(Export.class, new ExportVersions());
 		String write = verjson.write(export);

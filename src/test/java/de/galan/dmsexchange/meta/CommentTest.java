@@ -1,4 +1,4 @@
-package de.galan.dmsexchange.meta.document;
+package de.galan.dmsexchange.meta;
 
 import static de.galan.commons.time.Instants.*;
 import static org.assertj.core.api.Assertions.*;
@@ -8,6 +8,8 @@ import java.time.ZonedDateTime;
 import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
+import de.galan.dmsexchange.meta.Commenimport de.galan.dmsexchange.meta.document.Comment;
+t;
 import de.galan.dmsexchange.meta.User;
 
 

@@ -14,7 +14,7 @@ import com.google.common.collect.Lists;
 
 import de.galan.dmsexchange.DmsExchange;
 import de.galan.dmsexchange.exchange.DmsWriter;
-import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.test.Documents;
 import de.galan.dmsexchange.util.DmsExchangeException;
 

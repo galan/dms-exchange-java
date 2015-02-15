@@ -2,7 +2,7 @@ package de.galan.dmsexchange.exchange;
 
 import java.util.function.Consumer;
 
-import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.util.DmsExchangeException;
 
 

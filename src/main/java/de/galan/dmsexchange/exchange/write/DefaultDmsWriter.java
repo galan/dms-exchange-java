@@ -16,7 +16,7 @@ import de.galan.dmsexchange.exchange.DefaultExchange;
 import de.galan.dmsexchange.exchange.DmsWriter;
 import de.galan.dmsexchange.exchange.DocumentValidationException;
 import de.galan.dmsexchange.exchange.container.ContainerSerializer;
-import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.util.DmsExchangeException;
 import de.galan.dmsexchange.util.archive.TarUtil;
 

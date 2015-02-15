@@ -1,4 +1,4 @@
-package de.galan.dmsexchange.meta.document;
+package de.galan.dmsexchange.meta;
 
 import static org.apache.commons.lang3.StringUtils.*;
 
@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
-
-import de.galan.dmsexchange.meta.Validatable;
-import de.galan.dmsexchange.meta.ValidationResult;
 
 
 /**

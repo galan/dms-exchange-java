@@ -1,4 +1,4 @@
-This java-library is the reference-implementation for the dms-exchange-specification. It covers the following use-cases:
+This java-library is the reference-implementation for the [dms-exchange-specification](https://github.com/galan/dms-exchange-specification). It covers the following use-cases:
 * Creating new export-archives and adding document-containers
 * Reading existing document-container from existing export-archives
 

@@ -5,8 +5,8 @@ import static org.apache.commons.lang3.StringUtils.*;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 
+import de.galan.dmsexchange.meta.Revision;
 import de.galan.dmsexchange.meta.User;
-import de.galan.dmsexchange.meta.document.Revision;
 
 
 /**

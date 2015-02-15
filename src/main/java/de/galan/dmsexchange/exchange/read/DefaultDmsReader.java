@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import de.galan.commons.logging.Logr;
 import de.galan.dmsexchange.exchange.DefaultExchange;
 import de.galan.dmsexchange.exchange.DmsReader;
-import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.util.DmsExchangeException;
 import de.galan.dmsexchange.util.InvalidArchiveException;
 import de.galan.dmsexchange.util.Version;

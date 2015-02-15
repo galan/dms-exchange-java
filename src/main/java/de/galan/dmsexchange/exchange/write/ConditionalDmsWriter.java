@@ -9,7 +9,7 @@ import java.util.List;
 
 import de.galan.dmsexchange.exchange.DmsWriter;
 import de.galan.dmsexchange.exchange.write.condition.SplitCondition;
-import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.util.DmsExchangeException;
 import de.galan.dmsexchange.util.FileGenerationUtil;
 

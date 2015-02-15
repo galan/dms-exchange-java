@@ -2,9 +2,9 @@ package de.galan.dmsexchange.exchange.container;
 
 import java.time.format.DateTimeFormatter;
 
-import de.galan.dmsexchange.meta.document.Document;
-import de.galan.dmsexchange.meta.document.DocumentFile;
-import de.galan.dmsexchange.meta.document.Revision;
+import de.galan.dmsexchange.meta.Document;
+import de.galan.dmsexchange.meta.DocumentFile;
+import de.galan.dmsexchange.meta.Revision;
 import de.galan.dmsexchange.verjson.document.DocumentVersions;
 import de.galan.verjson.core.Verjson;
 
