@@ -64,8 +64,12 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 		}
 		WrappingDocumentConsumer wrapper = new WrappingDocumentConsumer(consumer);
 		registerListener(wrapper);
-		readDocuments();
-		unregisterListener(wrapper);
+		try {
+			readDocuments();
+		}
+		finally {
+			unregisterListener(wrapper);
+		}
 	}
 
 
@@ -74,18 +78,22 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 		// iterate over directories recursivly, this blocks until finished
 		CountingDocumentConsumer counter = new CountingDocumentConsumer();
 		registerListener(counter);
-		readArchive();
-		unregisterListener(counter);
+		try {
+			readArchive();
+		}
+		finally {
+			unregisterListener(counter);
+		}
 		LOG.info("Finished reading export-archive with {} documents", counter.getCountedDocuments());
 	}
 
 
 	private void readArchive() {
-
+		//TODO
 	}
 
 
-	protected void traverseDirectory(String directory) throws DmsExchangeException {
+	private void traverseDirectory(String directory) throws DmsExchangeException {
 		try {
 			List<String> files = getFs().listFiles(directory);
 			boolean root = directory.equals("/");
@@ -97,7 +105,7 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 					if (endsWith(file, "/")) {
 						traverseDirectory(file);
 					}
-					else if (endsWith(file, ".zip")) {
+					else if (endsWith(file, ".tar")) {
 						importDocumentContainerFile(file);
 					}
 					else if (root && StringUtils.equals(file, "/export.json")) {

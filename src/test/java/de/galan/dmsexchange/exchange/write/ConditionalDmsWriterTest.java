@@ -4,6 +4,7 @@ import static de.galan.commons.test.Tests.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -40,7 +41,7 @@ public class ConditionalDmsWriterTest extends DmsWriterTestParent {
 	}
 
 
-	protected void assertArchiveList(String testcase, int expectedArchives) {
+	protected void assertArchiveList(String testcase, int expectedArchives) throws IOException {
 		assertThat(getWriter().getFiles()).hasSize(expectedArchives);
 		for (int i = 0; i < getWriter().getFiles().size() - 1; i++) {
 			LOG.info("Testing archive {}: {}", i, getWriter().getFiles().get(i));

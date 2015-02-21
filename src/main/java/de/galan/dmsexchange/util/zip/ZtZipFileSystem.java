@@ -1,13 +1,9 @@
 package de.galan.dmsexchange.util.zip;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
-import java.util.zip.ZipOutputStream;
-
-import org.zeroturnaround.zip.ZipUtil;
 
 
 /**
@@ -52,6 +48,7 @@ public class ZtZipFileSystem implements ArchiveFileSystem {
 
 
 	private void ensureWritable() throws IOException {
+		/*
 		if (isReadonly()) {
 			throw new IOException("File is not opened as writable");
 		}
@@ -60,6 +57,7 @@ public class ZtZipFileSystem implements ArchiveFileSystem {
 			//ZipFile zip = new ZipFile(file);
 			//zip.close();
 		}
+		 */
 	}
 
 
@@ -72,11 +70,13 @@ public class ZtZipFileSystem implements ArchiveFileSystem {
 
 	@Override
 	public void addFile(String filename, byte[] data) throws IOException {
+		/*
 		ensureWritable();
 		if (ZipUtil.containsEntry(file, filename)) {
 			throw new IOException("File '" + filename + "' does already exist");
 		}
 		ZipUtil.addEntry(file, filename, data);
+		 */
 	}
 
 

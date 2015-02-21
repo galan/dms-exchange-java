@@ -35,19 +35,6 @@ public abstract class DefaultExchange implements AutoCloseable {
 	}
 
 
-	/*
-	protected DefaultExchange(File file, boolean readonly) throws DmsExchangeException {
-		this.file = file;
-		try {
-			afs = new NioZipFileSystem(file, readonly);
-			//afs = new ZtZipFileSystem(file, readonly);
-		}
-		catch (IOException ex) {
-			throw new DmsExchangeException(ex.getMessage(), ex);
-		}
-	}
-	 */
-
 	protected ArchiveFileSystem getFs() {
 		return afs;
 	}
@@ -78,7 +65,7 @@ public abstract class DefaultExchange implements AutoCloseable {
 	}
 
 
-	/** Closes and releases the access to the zip file. */
+	/** Closes and releases the access to the archive file. */
 	@Override
 	public void close() throws DmsExchangeException {
 		if (!isClosed()) {

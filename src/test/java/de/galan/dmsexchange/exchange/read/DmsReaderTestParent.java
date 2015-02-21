@@ -4,17 +4,18 @@ import static de.galan.commons.test.Tests.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.zeroturnaround.zip.ZipUtil;
 
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.commons.time.ApplicationClock;
 import de.galan.dmsexchange.DmsExchange;
 import de.galan.dmsexchange.exchange.DmsReader;
+import de.galan.dmsexchange.test.TarTests;
 import de.galan.dmsexchange.util.DmsExchangeException;
 
 
@@ -47,7 +48,7 @@ public abstract class DmsReaderTestParent extends AbstractTestParent {
 	}
 
 
-	protected DocumentCollector readArchiveConsumer(String testcase) throws DmsExchangeException {
+	protected DocumentCollector readArchiveConsumer(String testcase) throws DmsExchangeException, IOException {
 		prepareArchive(testcase);
 		setReader(DmsExchange.createReader(getFile()));
 		DocumentCollector collector = new DocumentCollector();
@@ -56,12 +57,12 @@ public abstract class DmsReaderTestParent extends AbstractTestParent {
 	}
 
 
-	protected DocumentCollector readArchive(String testcase) throws DmsExchangeException {
+	protected DocumentCollector readArchive(String testcase) throws DmsExchangeException, IOException {
 		return readArchive(testcase, true);
 	}
 
 
-	protected DocumentCollector readArchive(String testcase, boolean createReader) throws DmsExchangeException {
+	protected DocumentCollector readArchive(String testcase, boolean createReader) throws DmsExchangeException, IOException {
 		prepareArchive(testcase);
 		if (createReader) {
 			setReader(DmsExchange.createReader(getFile()));
@@ -73,11 +74,11 @@ public abstract class DmsReaderTestParent extends AbstractTestParent {
 	}
 
 
-	protected void prepareArchive(String testcase) {
+	protected void prepareArchive(String testcase) throws IOException {
 		URL url = getClass().getResource(getClass().getSimpleName() + "-" + testcase);
 		File dirToPack = new File(url.getFile());
-		setFile(new File(getTestDirectory(), "input.zip"));
-		ZipUtil.pack(dirToPack, getFile());
+		setFile(new File(getTestDirectory(), "input.tgz"));
+		TarTests.pack(dirToPack, getFile(), true);
 	}
 
 

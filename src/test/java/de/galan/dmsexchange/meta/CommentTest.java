@@ -8,9 +8,6 @@ import java.time.ZonedDateTime;
 import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
-import de.galan.dmsexchange.meta.Commenimport de.galan.dmsexchange.meta.document.Comment;
-t;
-import de.galan.dmsexchange.meta.User;
 
 
 /**

@@ -4,7 +4,6 @@ import static de.galan.commons.test.Tests.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.nio.file.ClosedFileSystemException;
 
 import org.junit.Before;
@@ -28,7 +27,7 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 
 
 	@Before
-	public void createWriter() throws DmsExchangeException, FileNotFoundException {
+	public void createWriter() throws DmsExchangeException {
 		setFile(new File(getTestDirectory(true), EXPORT_FILENAME));
 		setWriter(DmsExchange.createWriter(getFile()));
 	}
@@ -87,9 +86,9 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 		}
 		catch (DocumentValidationException ex) {
 			assertThat(ex.getMessage()).isEqualTo(
-					"Invalid Document (No data for revision, No user for comment, No timestamp for comment, No content for comment)");
+				"Invalid Document (No data for revision, No user for comment, No timestamp for comment, No content for comment)");
 			assertThat(ex.getValidationResult().getErrors()).containsOnly("No data for revision", "No user for comment", "No timestamp for comment",
-				"No content for comment");
+					"No content for comment");
 		}
 		getWriter().close();
 		assertArchive("createArchiveWithFailedDocument");

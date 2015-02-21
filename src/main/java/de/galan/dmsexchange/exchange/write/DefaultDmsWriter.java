@@ -89,7 +89,7 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	}
 
 
-	/** Closes the zip file and writes the export-meta data */
+	/** Closes the archive file and writes the export-meta data */
 	@Override
 	public void close() throws DmsExchangeException {
 		try {

@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
-import org.zeroturnaround.zip.ZipUtil;
 
 import com.google.common.collect.Lists;
 
@@ -16,6 +15,7 @@ import de.galan.dmsexchange.DmsExchange;
 import de.galan.dmsexchange.exchange.DmsWriter;
 import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.test.Documents;
+import de.galan.dmsexchange.test.TarTests;
 import de.galan.dmsexchange.util.DmsExchangeException;
 
 
@@ -44,7 +44,7 @@ public class DefaultDmsReaderTest extends DmsReaderTestParent {
 
 
 	protected void createArchive(List<Document> documents) throws DmsExchangeException, Exception {
-		setFile(new File(getTestDirectory(), "input.zip"));
+		setFile(new File(getTestDirectory(), "input.tgz"));
 		DmsWriter writer = DmsExchange.createWriter(getFile());
 		writer.add(documents);
 		writer.close();
@@ -62,19 +62,19 @@ public class DefaultDmsReaderTest extends DmsReaderTestParent {
 
 
 	@Test
-	public void readArchiveMixedDirectoryAndZip() throws Exception {
+	public void readArchiveMixedDirectoryAndTgz() throws Exception {
 		List<Document> documents = Lists.newArrayList(Documents.createComplexDocument(), Documents.createSimpleDocument1(), Documents.createSimpleDocument2(),
 			Documents.createSimpleDocument3(), Documents.createSimpleDocument4(), Documents.createSimpleDocument5());
 		createArchive(documents);
 
-		ZipUtil.explode(getFile());
+		TarTests.explode(getFile(), true);
 
-		ZipUtil.unexplode(new File(getFile(), "0000/0004"));
-		FileUtils.moveFile(new File(getFile(), "0000/0004"), new File(getFile(), "doc-4-in-root.zip"));
-		ZipUtil.unexplode(new File(getFile(), "0000/0005"));
+		TarTests.unexplode(new File(getFile(), "0000/0004"), false);
+		FileUtils.moveFile(new File(getFile(), "0000/0004"), new File(getFile(), "doc-4-in-root.tar"));
+		TarTests.unexplode(new File(getFile(), "0000/0005"), false);
 		FileUtils.forceMkdir(new File(getFile(), "somewhere/deep/down/the/rabbit/hole"));
-		FileUtils.moveFile(new File(getFile(), "0000/0005"), new File(getFile(), "somewhere/deep/down/the/rabbit/hole/doc-5.zip"));
-		ZipUtil.unexplode(getFile());
+		FileUtils.moveFile(new File(getFile(), "0000/0005"), new File(getFile(), "somewhere/deep/down/the/rabbit/hole/doc-5.tar"));
+		TarTests.unexplode(getFile(), true);
 
 		readAndCompareDocuments(documents);
 	}
@@ -101,12 +101,12 @@ public class DefaultDmsReaderTest extends DmsReaderTestParent {
 		List<Document> docsInput = Lists.newArrayList(Documents.createSimpleDocument1(), Documents.createSimpleDocument2(), Documents.createSimpleDocument3());
 		createArchive(docsInput);
 
-		ZipUtil.explode(getFile());
+		TarTests.explode(getFile(), true);
 
-		ZipUtil.unexplode(new File(getFile(), "0000/0001"));
+		TarTests.unexplode(new File(getFile(), "0000/0001"), false);
 		FileUtils.moveFile(new File(getFile(), "0000/0001"), new File(getFile(), "0000/0000/a-zip-in.zip")); // has to start with "a", since "a" is before "meta.json"
 		FileUtils.moveDirectory(new File(getFile(), "0000/0002"), new File(getFile(), "0000/0000/container-in-container"));
-		ZipUtil.unexplode(getFile());
+		TarTests.unexplode(getFile(), true);
 
 		List<Document> documents = Lists.newArrayList(Documents.createSimpleDocument1());
 
