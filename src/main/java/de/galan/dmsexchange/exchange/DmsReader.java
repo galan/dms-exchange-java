@@ -16,7 +16,7 @@ import de.galan.dmsexchange.util.DmsExchangeException;
  *
  * @author daniel
  */
-public interface DmsReader extends AutoCloseable {
+public interface DmsReader {
 
 	public void readDocuments() throws DmsExchangeException;
 

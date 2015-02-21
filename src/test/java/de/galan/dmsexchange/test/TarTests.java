@@ -10,6 +10,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomUtils;
 
@@ -34,9 +35,10 @@ public class TarTests {
 	 */
 	public static void explode(File file, boolean compressed) throws IOException {
 		File tempFile = new File(file.getAbsoluteFile() + "." + RandomUtils.nextInt(0, Integer.MAX_VALUE));
+		tempFile.mkdirs();
 		unpack(file, tempFile, compressed);
 		FileUtils.deleteQuietly(file);
-		FileUtils.moveFile(tempFile, file);
+		FileUtils.moveDirectory(tempFile, file);
 	}
 
 
@@ -49,9 +51,9 @@ public class TarTests {
 	 * @param file input directory as well as the target tar/tgz file.
 	 * @param compress true if file has to be gzipped as well.
 	 */
-	public static void unexplode(File file, boolean compressed) throws IOException {
+	public static void unexplode(File file, boolean compress) throws IOException {
 		File tempFile = new File(file.getAbsoluteFile() + "." + RandomUtils.nextInt(0, Integer.MAX_VALUE));
-		pack(file, tempFile, compressed);
+		pack(file, tempFile, compress);
 		FileUtils.deleteQuietly(file);
 		FileUtils.moveFile(tempFile, file);
 	}
@@ -98,7 +100,11 @@ public class TarTests {
 					new File(targetDir, entry.getName()).mkdirs();
 				}
 				else {
-					FileUtils.copyInputStreamToFile(tar, new File(targetDir, entry.getName()));
+					File targetFile = new File(targetDir, entry.getName());
+					byte[] data = IOUtils.toByteArray(tar);
+					FileUtils.writeByteArrayToFile(targetFile, data);
+					//IOUtils.copy(tar, new FileOutputStream(targetFile));
+					//FileUtils.copyInputStreamToFile(tar, targetFile);
 				}
 			}
 		}

@@ -15,7 +15,7 @@ Feed the writer with documents:
 
     writer.add(...);
 
-As last step, close the writer (AutoClosable can be user):
+As last step, close the writer (AutoClosable can be used):
 
     writer.close();
 
@@ -29,10 +29,6 @@ Create the reader using one of the convenience construction methods from DmsExch
 Read the documents using a single consumer:
 
     reader.readDocuments(document -> /* eg. import to your system */);
-
-Close the reader when finished (AutoClosable can be user):
-
-    reader.close();
 
 
 

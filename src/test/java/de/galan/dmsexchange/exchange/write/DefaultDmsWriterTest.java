@@ -4,7 +4,6 @@ import static de.galan.commons.test.Tests.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
-import java.nio.file.ClosedFileSystemException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -86,9 +85,9 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 		}
 		catch (DocumentValidationException ex) {
 			assertThat(ex.getMessage()).isEqualTo(
-				"Invalid Document (No data for revision, No user for comment, No timestamp for comment, No content for comment)");
+					"Invalid Document (No data for revision, No user for comment, No timestamp for comment, No content for comment)");
 			assertThat(ex.getValidationResult().getErrors()).containsOnly("No data for revision", "No user for comment", "No timestamp for comment",
-					"No content for comment");
+				"No content for comment");
 		}
 		getWriter().close();
 		assertArchive("createArchiveWithFailedDocument");
@@ -103,7 +102,7 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 	}
 
 
-	@Test(expected = ClosedFileSystemException.class)
+	@Test(expected = DmsExchangeException.class)
 	public void addDocumentAfterClosed() throws Exception {
 		getWriter().close();
 		getWriter().add(Documents.createSimpleDocument1());

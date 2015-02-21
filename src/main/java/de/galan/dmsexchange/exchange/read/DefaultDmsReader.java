@@ -78,7 +78,6 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 	private void readArchive() {
 		try (TarArchiveInputStream tar = new TarArchiveInputStream(new GzipCompressorInputStream(inputstream))) {
-			int i = 0;
 			TarArchiveEntry entry = null;
 			while((entry = tar.getNextTarEntry()) != null) {
 				if (!entry.isDirectory()) {

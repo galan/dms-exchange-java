@@ -26,9 +26,14 @@ import de.galan.dmsexchange.util.archive.TarUtil;
  */
 public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 
+	private static final String ZERO = "0";
+	private static final String EXTENSION = ".tar";
+	private static final String SLASH = "/";
+
 	private long counterContainer = 0;
 	private ContainerSerializer serializer;
 	private TarArchiveOutputStream tar;
+	private boolean closed = false;
 
 
 	public DefaultDmsWriter(OutputStream outputstream) throws DmsExchangeException {
@@ -45,6 +50,9 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 
 	@Override
 	public void add(Document document) throws DmsExchangeException {
+		if (isClosed()) {
+			throw new DmsExchangeException("The export-archive is already closed");
+		}
 		try {
 			String pathForContainer = getNextContainerPath();
 			byte[] container = serializer.archive(document, false);
@@ -73,14 +81,14 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 		if (counterContainer - 1 > 1_0000_0000_0000L) {
 			throw new DmsExchangeException("Limit for containers in single archive exceeded");
 		}
-		String string = leftPad("" + counterContainer++, 12, "0");
+		String string = leftPad(EMPTY + counterContainer++, 12, ZERO);
 		StringBuffer result = new StringBuffer();
 		result.append(StringUtils.substring(string, 0, 4));
-		result.append("/");
+		result.append(SLASH);
 		result.append(StringUtils.substring(string, 4, 8));
-		result.append("/");
+		result.append(SLASH);
 		result.append(StringUtils.substring(string, 8, 12));
-		result.append(".tar");
+		result.append(EXTENSION);
 		return result.toString();
 	}
 
@@ -88,17 +96,22 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 	/** Closes the archive file and writes the export-meta data */
 	@Override
 	public void close() throws DmsExchangeException {
-		try {
-			if (tar != null) {
-				tar.close();
+		if (!isClosed()) {
+			try {
+				if (tar != null) {
+					tar.close();
+				}
 			}
+			catch (IOException ex) {
+				throw new DmsExchangeException("Unable to close tar stream", ex);
+			}
+			closed = true;
 		}
-		catch (IOException ex) {
-			throw new DmsExchangeException("Unable to close tar stream", ex);
-		}
-		finally {
-			super.close();
-		}
+	}
+
+
+	protected boolean isClosed() {
+		return closed;
 	}
 
 }

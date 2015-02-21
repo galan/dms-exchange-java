@@ -1,8 +1,6 @@
 package de.galan.dmsexchange.exchange.write;
 
-import static de.galan.commons.test.Tests.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +13,7 @@ import org.junit.Before;
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.commons.time.ApplicationClock;
 import de.galan.dmsexchange.exchange.DmsWriter;
-import de.galan.dmsexchange.test.TarTests;
+import de.galan.dmsexchange.test.Archives;
 
 
 /**
@@ -55,10 +53,8 @@ public class DmsWriterTestParent extends AbstractTestParent {
 	protected void assertArchive(String testcase, File archiveFile) throws IOException {
 		assertThat(archiveFile).exists();
 		URL url = getClass().getResource(getClass().getSimpleName() + "-" + testcase);
-		File dirToPack = new File(url.getFile());
-		File expectedArchive = new File(getTestDirectory(), "expected.tgz");
-		TarTests.pack(dirToPack, expectedArchive, true);
-		assertTrue("Export-Archive is not identical to expected one", TarTests.archiveEquals(expectedArchive, archiveFile));
+		File expectedDirectory = new File(url.getFile());
+		Archives.assertArchive(expectedDirectory, archiveFile);
 	}
 
 
