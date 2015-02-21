@@ -38,10 +38,6 @@ public abstract class DmsReaderTestParent extends AbstractTestParent {
 
 	@After
 	public void after() throws Exception {
-		if (getReader() != null) {
-			getReader().close(); // ensure file is closed
-			getReader().close(); // test multiple calls to close() should be safe
-		}
 		if (getFile().exists()) {
 			assertThat(FileUtils.deleteQuietly(getFile())).isTrue();
 		}

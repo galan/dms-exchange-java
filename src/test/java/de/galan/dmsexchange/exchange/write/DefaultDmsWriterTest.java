@@ -79,7 +79,7 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 
 
 	@Test
-	public void createArchiveWithFailedDocument() throws Exception {
+	public void createArchiveWithInvalidDocument() throws Exception {
 		try {
 			getWriter().add(Documents.createInvalidDocument());
 		}
@@ -90,15 +90,15 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 				"No content for comment");
 		}
 		getWriter().close();
-		assertArchive("createArchiveWithFailedDocument");
+		assertArchive("createArchiveWithInvalidDocument");
 	}
 
 
 	@Test
-	public void createArchiveWithMultipleFailedDocuments() throws Exception {
+	public void createArchiveWithMultipleInvalidDocuments() throws Exception {
 		getWriter().addQuietly(new Document(), Documents.createInvalidDocument());
 		getWriter().close();
-		assertArchive("createArchiveWithMultipleFailedDocuments");
+		assertArchive("createArchiveWithMultipleInvalidDocuments");
 	}
 
 

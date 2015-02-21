@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -33,20 +34,26 @@ public class DefaultConditionalDmsWriterTest extends DmsWriterTestParent {
 	}
 
 
+	protected ConditionalDmsWriter getConditional() {
+		return (ConditionalDmsWriter)getWriter();
+	}
+
+
+	protected void assertArchiveList(String testcase, int expectedArchives) throws IOException {
+		List<File> files = getConditional().getFiles();
+		assertThat(files).hasSize(expectedArchives);
+		for (int i = 0; i < files.size(); i++) {
+			LOG.info("Testing archive {}: {}", i, files.get(i));
+			assertArchive(testcase + "-" + i, files.get(i));
+		}
+	}
+
+
 	@Test
 	public void createEmptyArchive() throws Exception {
 		setWriter(DmsExchange.createWriter(getFile(), 2));
 		getWriter().close();
 		assertArchiveList("createEmptyArchive", 1);
-	}
-
-
-	protected void assertArchiveList(String testcase, int expectedArchives) throws IOException {
-		assertThat(getWriter().getFiles()).hasSize(expectedArchives);
-		for (int i = 0; i < getWriter().getFiles().size() - 1; i++) {
-			LOG.info("Testing archive {}: {}", i, getWriter().getFiles().get(i));
-			assertArchive(testcase + "-" + i, getWriter().getFiles().get(i));
-		}
 	}
 
 
@@ -80,6 +87,7 @@ public class DefaultConditionalDmsWriterTest extends DmsWriterTestParent {
 
 
 	@Test
+	@Ignore
 	public void createArchiveSplitAfterLoop() throws Exception {
 		setWriter(DmsExchange.createWriter(getFile(), null, 1024 * 30));
 		for (int i = 0; i < 10_000; i++) {
