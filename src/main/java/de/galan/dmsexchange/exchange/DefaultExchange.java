@@ -1,6 +1,5 @@
 package de.galan.dmsexchange.exchange;
 
-import java.io.File;
 import java.time.format.DateTimeFormatter;
 
 import com.google.common.eventbus.EventBus;
@@ -22,14 +21,13 @@ public abstract class DefaultExchange implements AutoCloseable {
 	protected static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
 
 	private EventBus events;
-	private File file;
 	private ArchiveFileSystem afs;
 	private boolean closed = false;
 
 	private Verjson<Document> verjsonDocument;
 
 
-	protected DefaultExchange() throws DmsExchangeException {
+	protected DefaultExchange() {
 		verjsonDocument = Verjson.create(Document.class, new DocumentVersions());
 		events = new EventBus("dms-exchange"); // TODO include filename in name?
 	}
@@ -57,11 +55,6 @@ public abstract class DefaultExchange implements AutoCloseable {
 
 	protected void postEvent(Object event) {
 		events.post(event);
-	}
-
-
-	protected File getFile() {
-		return file;
 	}
 
 

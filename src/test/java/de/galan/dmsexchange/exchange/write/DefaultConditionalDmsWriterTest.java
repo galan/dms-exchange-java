@@ -21,7 +21,7 @@ import de.galan.dmsexchange.test.Documents;
  *
  * @author daniel
  */
-public class ConditionalDmsWriterTest extends DmsWriterTestParent {
+public class DefaultConditionalDmsWriterTest extends DmsWriterTestParent {
 
 	private static final Logger LOG = Logr.get();
 

@@ -28,8 +28,33 @@ Create the reader using one of the convenience construction methods from DmsExch
 
 Read the documents using a single consumer:
 
-    reader.readDocuments(doc -> /* eg. import to your system */);
+    reader.readDocuments(document -> /* eg. import to your system */);
 
 Close the reader when finished (AutoClosable can be user):
 
     reader.close();
+
+
+
+## Creating a single container
+Use a ContainerSerializer that can be used to convert a single container to a tgz archive. 
+
+    ContainerSerializer serializer = new ContainerSerializer(); // thread-safe
+
+Archive a single container:
+
+	// to an bytearray
+    byte[] tgz = serialzer.archive(document, true);
+    // to an OutputStream
+    serialzer.archive(document, true, new FileOutputStream(..));
+
+
+
+## Reading a single container
+Use a ContainerDeserializer to convert tgz archive back to a single container:
+
+    ContainerDeserializer deserializer = new ContainerDeserializer(); // thread-safe
+
+Unarchive a single container:
+
+    Document document = deserializer.unarchive(new FileInputStream(..), true);

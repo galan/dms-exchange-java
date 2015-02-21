@@ -1,31 +1,23 @@
 package de.galan.dmsexchange.exchange.read;
 
-import static de.galan.verjson.util.Transformations.*;
-import static org.apache.commons.lang3.StringUtils.*;
-
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 import java.util.function.Consumer;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.slf4j.Logger;
-
-import com.fasterxml.jackson.databind.JsonNode;
 
 import de.galan.commons.logging.Logr;
 import de.galan.dmsexchange.exchange.DefaultExchange;
 import de.galan.dmsexchange.exchange.DmsReader;
+import de.galan.dmsexchange.exchange.container.ContainerDeserializer;
 import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.util.DmsExchangeException;
-import de.galan.dmsexchange.util.InvalidArchiveException;
-import de.galan.dmsexchange.util.Version;
-import de.galan.dmsexchange.util.zip.ArchiveFileSystem;
-import de.galan.dmsexchange.util.zip.NioZipFileSystem;
+import de.galan.verjson.util.ReadException;
 
 
 /**
@@ -37,23 +29,19 @@ import de.galan.dmsexchange.util.zip.NioZipFileSystem;
 public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 	private static final Logger LOG = Logr.get();
-	private File dirTemp;
+	private InputStream inputstream;
+	private ContainerDeserializer deserializer;
 
 
-	public DefaultDmsReader(File file) throws DmsExchangeException {
-		//super(file, true);
-		dirTemp = initTempDir();
+	public DefaultDmsReader(InputStream inputstream) {
+		this.inputstream = inputstream;
+		deserializer = new ContainerDeserializer();
 	}
 
 
-	protected File initTempDir() throws DmsExchangeException {
-		File dirSystemTemp = new File(System.getProperty("java.io.tmpdir"));
-		File result = new File(dirSystemTemp, "dms-exchange");
-		result.mkdirs();
-		if (!result.exists()) {
-			throw new DmsExchangeException("Unable to create intermediate temp-directory '" + result.getAbsolutePath() + "'");
-		}
-		return result;
+	@Override
+	public void registerListener(Object... listeners) {
+		Arrays.asList(listeners).stream().forEach(this::registerListener);
 	}
 
 
@@ -89,7 +77,48 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 
 	private void readArchive() {
-		//TODO
+		try (TarArchiveInputStream tar = new TarArchiveInputStream(new GzipCompressorInputStream(inputstream))) {
+			int i = 0;
+			TarArchiveEntry entry = null;
+			while((entry = tar.getNextTarEntry()) != null) {
+				if (!entry.isDirectory()) {
+					if (entry.getName().endsWith(".tgz") || entry.getName().endsWith(".tar.gz")) {
+						//byte[] baos = IOUtils.toByteArray(tar);
+						try {
+							Document document = deserializer.unarchive(tar, false);
+							postEvent(document);
+						}
+						catch (DmsExchangeException ex) {
+							//TODO
+						}
+						catch (ReadException ex) {
+							// TODO
+						}
+					}
+					else {
+						LOG.warn("Unrecognized element: {}", entry.getName());
+					}
+				}
+			}
+		}
+		catch (FileNotFoundException ex) {
+			//Say.warn("Unspecified error from daniel", ex);
+		}
+		catch (IOException ex) {
+			//Say.warn("Unspecified error from daniel", ex);
+		}
+	}
+
+	/*
+
+	private File initTempDir() throws DmsExchangeException {
+		File dirSystemTemp = new File(System.getProperty("java.io.tmpdir"));
+		File result = new File(dirSystemTemp, "dms-exchange");
+		result.mkdirs();
+		if (!result.exists()) {
+			throw new DmsExchangeException("Unable to create intermediate temp-directory '" + result.getAbsolutePath() + "'");
+		}
+		return result;
 	}
 
 
@@ -159,7 +188,6 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 
 	protected void importDocumentContainer(ArchiveFileSystem afs, String directory) throws DmsExchangeException {
-		/*
 		try {
 			String metaJson = afs.readFileAsString(directory + "meta.json");
 			JsonNode node = getVerjsonExport().readTree(metaJson);
@@ -180,7 +208,6 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 		catch (ReadException ex) {
 			throw new DmsExchangeException("Could not deserialize metadata from document container", ex);
 		}
-		 */
 	}
 
 
@@ -200,11 +227,6 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 		}
 		return result;
 	}
-
-
-	@Override
-	public void registerListener(Object... listeners) {
-		Arrays.asList(listeners).stream().forEach(this::registerListener);
-	}
+	 */
 
 }

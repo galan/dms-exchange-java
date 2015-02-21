@@ -2,15 +2,11 @@ package de.galan.dmsexchange.exchange.write;
 
 import static org.apache.commons.lang3.StringUtils.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.lang3.StringUtils;
-
-import com.google.common.collect.ImmutableList;
 
 import de.galan.dmsexchange.exchange.DefaultExchange;
 import de.galan.dmsexchange.exchange.DmsWriter;
@@ -103,12 +99,6 @@ public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 		finally {
 			super.close();
 		}
-	}
-
-
-	@Override
-	public List<File> getFiles() {
-		return ImmutableList.of(getFile());
 	}
 
 }

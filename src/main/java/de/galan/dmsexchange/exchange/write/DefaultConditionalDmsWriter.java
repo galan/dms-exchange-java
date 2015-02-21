@@ -19,7 +19,7 @@ import de.galan.dmsexchange.util.FileGenerationUtil;
  *
  * @author daniel
  */
-public class ConditionalDmsWriter implements DmsWriter {
+public class DefaultConditionalDmsWriter implements ConditionalDmsWriter {
 
 	private DmsWriter writer;
 	private File directory;
@@ -30,7 +30,7 @@ public class ConditionalDmsWriter implements DmsWriter {
 	private FileOutputStream currentFileOutputStream;
 
 
-	public ConditionalDmsWriter(File directory) throws DmsExchangeException {
+	public DefaultConditionalDmsWriter(File directory) throws DmsExchangeException {
 		if (directory == null || !directory.isDirectory()) {
 			throw new DmsExchangeException("File passed to ConditionalDmsWriter must be an existing directory");
 		}
