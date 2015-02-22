@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -76,25 +75,11 @@ public class DefaultConditionalDmsWriterTest extends DmsWriterTestParent {
 
 
 	@Test
-	@Ignore
-	public void createArchiveSplitAfter30KDocuments11K() throws Exception {
-		//TODO setWriter(DmsExchange.createWriter(getFile(), null, 1024 * 30)); // TODO unable to split  when underlying archive gets not flushed (and can not be manually)
-		getWriter().addQuietly(Documents.createSimpleDocument1(), Documents.createSimpleDocument2(), Documents.createSimpleDocument3(),
-			Documents.createSimpleDocument4(), Documents.createSimpleDocument5());
+	public void createArchiveSplitAfter20KbDocuments4() throws Exception {
+		setWriter(DmsExchange.createWriter(getFile(), null, 1024 * 20));
+		getWriter().addQuietly(Documents.createComplexDocument(), Documents.createComplexDocument(), Documents.createSimpleDocument1());
 		getWriter().close();
-		assertArchiveList("createArchiveSplitAfter10KDocuments11K", 1);
-	}
-
-
-	@Test
-	@Ignore
-	public void createArchiveSplitAfterLoop() throws Exception {
-		setWriter(DmsExchange.createWriter(getFile(), null, 1024 * 30));
-		for (int i = 0; i < 10_000; i++) {
-			getWriter().addQuietly(Documents.createComplexDocument());
-		}
-		getWriter().close();
-		assertArchiveList("createArchiveSplitAfter10KDocuments11K", 1);
+		assertArchiveList("createArchiveSplitAfter20KbDocuments4", 2);
 	}
 
 }

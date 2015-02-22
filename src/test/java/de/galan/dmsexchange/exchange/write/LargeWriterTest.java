@@ -16,7 +16,7 @@ import de.galan.dmsexchange.util.DmsExchangeException;
 
 
 /**
- * CUT DefaultDmsWriter
+ * Testing memory/performance behaviour on large exports
  *
  * @author daniel
  */
@@ -42,7 +42,6 @@ public class LargeWriterTest extends DmsWriterTestParent {
 			LOG.info("Added {} documents", i * 3);
 		}
 		getWriter().close();
-		//assertArchive("createArchiveWithMultipleDocuments");
 	}
 
 }
