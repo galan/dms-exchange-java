@@ -4,13 +4,13 @@
 	"description": "This schema defines the metadata for a single document as specified by the dms-exchange-specification.",
 	"type": "object",
 	"additionalProperties": false,
-	"required": ["version", "tsCreate", "documentFiles"],
+	"required": ["version", "createdTime", "documentFiles"],
 	"properties": {
 		"version": {
 			"description": "Valid version for this schema.",
 			"enum": ["1.0.0-beta.4"]
 		},
-		"tsCreate": {
+		"createdTime": {
 			"description": "Timestamp when the container was created/exported.",
 			"type": "string",
 			"format": "date-time"
@@ -69,14 +69,14 @@
 						"items": {
 							"type": "object",
 							"additionalProperties": false,
-							"required": ["tsAdded"],
+							"required": ["addedTime"],
 							"properties": {
 								"addedBy": {
 									"description": "User who has added or changed the revision.",
 									"type": "string",
 									"format": "email"
 								},
-								"tsAdded": {
+								"addedTime": {
 									"description": "Timestamp when the revision of the document-file has been added or changed.",
 									"type": "string",
 									"format": "date-time"
@@ -92,12 +92,12 @@
 			"type": "object",
 			"additionalProperties": false,
 			"properties": {
-				"tsDocument": {
+				"documentTime": {
 					"description": "Date of the document.",
 					"type": "string",
 					"format": "date-time"
 				},
-				"tsDueDate": {
+				"dueDateTime": {
 					"description": "A due date the document might have.",
 					"type": "string",
 					"format": "date-time"
@@ -119,14 +119,14 @@
 			"items": {
 				"type": "object",
 				"additionalProperties": false,
-				"required": ["commentBy", "tsComment", "content"],
+				"required": ["commentBy", "commentTime", "content"],
 				"properties": {
 					"commentBy": {
 						"description": "User who has added a comment.",
 						"type": "string",
 						"format": "email"
 					},
-					"tsComment": {
+					"commentTime": {
 						"description": "Timestamp when the comment was added.",
 						"type": "string",
 						"format": "date-time"

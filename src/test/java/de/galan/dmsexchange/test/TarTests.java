@@ -111,35 +111,4 @@ public class TarTests {
 		fis.close();
 	}
 
-
-	/**
-	 * Compares two tar/tgz files and returns <code>true</code> if they contain same entries.
-	 * <p>
-	 * First the two files are compared byte-by-byte. If a difference is found the corresponding entries of both
-	 * archives files are compared. Thus if same contents is packed differently the two archives may still be the same.
-	 * </p>
-	 * <p>
-	 * Two archives are considered the same if
-	 * <ol>
-	 * <li>they contain same number of entries,</li>
-	 * <li>for each entry in the first archive there exists an entry with the same in the second archive</li>
-	 * <li>for each entry in the first archive and the entry with the same name in the second archive
-	 * <ol>
-	 * <li>both are either directories or files,</li>
-	 * <li>both have the same size,</li>
-	 * <li>both have the same CRC,</li>
-	 * <li>both have the same contents (compared byte-by-byte).</li>
-	 * </ol>
-	 * </li>
-	 * </ol>
-	 *
-	 * @param f1 first ZIP file.
-	 * @param f2 second ZIP file.
-	 * @return <code>true</code> if the two ZIP files contain same entries, <code>false</code> if a difference was found
-	 *         or an error occurred during the comparison.
-	 */
-	public static boolean archiveEquals(File f1, File f2) {
-		return true;
-	}
-
 }

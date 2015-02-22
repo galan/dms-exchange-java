@@ -25,7 +25,7 @@ import de.galan.dmsexchange.util.Version;
 public class Document implements Validatable {
 
 	private String version;
-	private ZonedDateTime tsCreate;
+	private ZonedDateTime createdTime;
 	private User createdBy;
 	private Source source;
 
@@ -45,7 +45,7 @@ public class Document implements Validatable {
 
 	public Document() {
 		version = Version.SUPPORTED_VERSION;
-		tsCreate = from(now()).toZdt();
+		createdTime = from(now()).toZdt();
 		documentFiles = new ArrayList<>();
 		comments = new ArrayList<>();
 		labels = new ArrayList<>();
@@ -71,13 +71,13 @@ public class Document implements Validatable {
 	}
 
 
-	public ZonedDateTime getTsCreate() {
-		return tsCreate;
+	public ZonedDateTime getCreatedTime() {
+		return createdTime;
 	}
 
 
-	public void setTsCreate(ZonedDateTime tsCreate) {
-		this.tsCreate = tsCreate;
+	public void setCreatedTime(ZonedDateTime createdTime) {
+		this.createdTime = createdTime;
 	}
 
 
@@ -246,7 +246,7 @@ public class Document implements Validatable {
 	public boolean equals(Object obj) {
 		if (obj instanceof Document) {
 			final Document other = (Document)obj;
-			return new EqualsBuilder().append(version, other.version).append(tsCreate, other.tsCreate).append(createdBy, other.createdBy).append(source,
+			return new EqualsBuilder().append(version, other.version).append(createdTime, other.createdTime).append(createdBy, other.createdBy).append(source,
 				other.source).append(documentFiles, other.documentFiles).append(context, other.context).append(note, other.note).append(location,
 					other.location).append(comments, other.comments).append(idUser, other.idUser).append(idSystem, other.idSystem).append(project, other.project).append(
 						directory, other.directory).append(labels, other.labels).append(optionIndexed, other.optionIndexed).append(optionOcr, other.optionOcr).isEquals();

@@ -9,7 +9,7 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 
 
 /**
- * daniel should have written a comment here.
+ * Common operations with tar streams
  *
  * @author daniel
  */

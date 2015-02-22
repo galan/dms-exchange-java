@@ -32,7 +32,7 @@ public abstract class AbstractContainer {
 
 
 	protected String generateRevisionName(DocumentFile df, Revision revision) {
-		return REVISIONS_DIRNAME + "/" + revision.getTsAdded().format(FORMATTER) + "_" + df.getFilename();
+		return REVISIONS_DIRNAME + "/" + revision.getAddedTime().format(FORMATTER) + "_" + df.getFilename();
 	}
 
 }

@@ -6,9 +6,7 @@ import java.time.ZonedDateTime;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
 
-import de.galan.commons.logging.Logr;
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.commons.time.ApplicationClock;
 import de.galan.dmsexchange.test.Documents;
@@ -20,9 +18,6 @@ import de.galan.dmsexchange.test.Documents;
  * @author daniel
  */
 public class DocumentTest extends AbstractTestParent {
-
-	private static final Logger LOG = Logr.get();
-
 
 	@Before
 	public void before() {

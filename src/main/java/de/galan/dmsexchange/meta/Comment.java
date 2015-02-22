@@ -15,7 +15,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 public class Comment implements Validatable {
 
 	private User commentBy;
-	private ZonedDateTime tsComment;
+	private ZonedDateTime commentTime;
 	private String content;
 
 
@@ -24,9 +24,9 @@ public class Comment implements Validatable {
 	}
 
 
-	public Comment(User commentBy, ZonedDateTime tsComment, String content) {
+	public Comment(User commentBy, ZonedDateTime commentTime, String content) {
 		setCommentBy(commentBy);
-		setTsComment(tsComment);
+		setCommentTime(commentTime);
 		setContent(content);
 	}
 
@@ -39,7 +39,7 @@ public class Comment implements Validatable {
 		else {
 			getCommentBy().validate(result);
 		}
-		if (getTsComment() == null) {
+		if (getCommentTime() == null) {
 			result.add("No timestamp for comment");
 		}
 		if (getContent() == null) {
@@ -58,13 +58,13 @@ public class Comment implements Validatable {
 	}
 
 
-	public ZonedDateTime getTsComment() {
-		return tsComment;
+	public ZonedDateTime getCommentTime() {
+		return commentTime;
 	}
 
 
-	public void setTsComment(ZonedDateTime tsComment) {
-		this.tsComment = tsComment;
+	public void setCommentTime(ZonedDateTime commentTime) {
+		this.commentTime = commentTime;
 	}
 
 
@@ -80,7 +80,7 @@ public class Comment implements Validatable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(commentBy, content, tsComment);
+		return Objects.hash(commentBy, content, commentTime);
 	}
 
 
@@ -88,7 +88,7 @@ public class Comment implements Validatable {
 	public boolean equals(Object obj) {
 		if (obj instanceof Comment) {
 			final Comment other = (Comment)obj;
-			return new EqualsBuilder().append(commentBy, other.commentBy).append(tsComment, other.tsComment).append(content, other.content).isEquals();
+			return new EqualsBuilder().append(commentBy, other.commentBy).append(commentTime, other.commentTime).append(content, other.content).isEquals();
 		}
 		return false;
 	}

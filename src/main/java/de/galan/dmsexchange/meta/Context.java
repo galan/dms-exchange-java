@@ -14,8 +14,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
  */
 public class Context implements Validatable {
 
-	private ZonedDateTime tsDocument;
-	private ZonedDateTime tsDueDate;
+	private ZonedDateTime documentTime;
+	private ZonedDateTime dueDateTime;
 
 
 	public Context() {
@@ -23,9 +23,9 @@ public class Context implements Validatable {
 	}
 
 
-	public Context(ZonedDateTime tsDocument, ZonedDateTime tsDueDate) {
-		setTsDocument(tsDocument);
-		setTsDueDate(tsDueDate);
+	public Context(ZonedDateTime documentTime, ZonedDateTime dueDateTime) {
+		setDocumentTime(documentTime);
+		setDueDateTime(dueDateTime);
 	}
 
 
@@ -35,29 +35,29 @@ public class Context implements Validatable {
 	}
 
 
-	public ZonedDateTime getTsDocument() {
-		return tsDocument;
+	public ZonedDateTime getDocumentTime() {
+		return documentTime;
 	}
 
 
-	public void setTsDocument(ZonedDateTime tsDocument) {
-		this.tsDocument = tsDocument;
+	public void setDocumentTime(ZonedDateTime documentTime) {
+		this.documentTime = documentTime;
 	}
 
 
-	public ZonedDateTime getTsDueDate() {
-		return tsDueDate;
+	public ZonedDateTime getDueDateTime() {
+		return dueDateTime;
 	}
 
 
-	public void setTsDueDate(ZonedDateTime tsDueDate) {
-		this.tsDueDate = tsDueDate;
+	public void setDueDateTime(ZonedDateTime dueDateTime) {
+		this.dueDateTime = dueDateTime;
 	}
 
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(tsDocument, tsDueDate);
+		return Objects.hash(documentTime, dueDateTime);
 	}
 
 
@@ -65,7 +65,7 @@ public class Context implements Validatable {
 	public boolean equals(Object obj) {
 		if (obj instanceof Context) {
 			final Context other = (Context)obj;
-			return new EqualsBuilder().append(tsDocument, other.tsDocument).append(tsDueDate, other.tsDueDate).isEquals();
+			return new EqualsBuilder().append(documentTime, other.documentTime).append(dueDateTime, other.dueDateTime).isEquals();
 		}
 		return false;
 	}

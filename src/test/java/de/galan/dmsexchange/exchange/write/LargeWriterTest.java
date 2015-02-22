@@ -25,7 +25,7 @@ public class LargeWriterTest extends DmsWriterTestParent {
 
 	private static final Logger LOG = Logr.get();
 
-	private static final String EXPORT_FILENAME = "write.zip";
+	private static final String EXPORT_FILENAME = "write.tgz";
 
 
 	@Before

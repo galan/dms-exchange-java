@@ -12,8 +12,11 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
+
+import de.galan.commons.logging.Logr;
 
 
 /**
@@ -79,6 +82,9 @@ public class Archives {
 				entry += ", " + Files.hash(file, Hashing.md5());
 			}
 			result.add(entry);
+			if (file.getName().equals("meta.json")) {
+				Logr.get().info("meta '{}':  {}", file.getAbsoluteFile(), FileUtils.readFileToString(file, Charsets.UTF_8));
+			}
 		}
 		return result;
 	}

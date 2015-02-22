@@ -55,9 +55,7 @@ public abstract class DmsReaderTestParent extends AbstractTestParent {
 	protected void prepareArchive(String testcase) throws IOException {
 		URL url = getClass().getResource(getClass().getSimpleName() + "-" + testcase);
 		File dirToPack = new File(url.getFile());
-		//setFile(new File(getTestDirectory(), "input.tgz"));
 		setFile(Archives.prepareArchive(dirToPack));
-		//TarTests.pack(dirToPack, getFile(), true);
 	}
 
 

@@ -27,7 +27,7 @@ import com.google.common.io.Files;
 public class Revision implements Validatable {
 
 	private User addedBy;
-	private ZonedDateTime tsAdded;
+	private ZonedDateTime addedTime;
 	@JsonIgnore
 	private byte[] data;
 
@@ -37,13 +37,13 @@ public class Revision implements Validatable {
 	}
 
 
-	public Revision(ZonedDateTime tsAdded) {
-		this(tsAdded, null, null);
+	public Revision(ZonedDateTime addedTime) {
+		this(addedTime, null, null);
 	}
 
 
-	public Revision(ZonedDateTime tsAdded, User addedBy, byte[] data) {
-		setTsAdded(tsAdded);
+	public Revision(ZonedDateTime addedTime, User addedBy, byte[] data) {
+		setAddedTime(addedTime);
 		setAddedBy(addedBy);
 		setData(data);
 	}
@@ -51,7 +51,7 @@ public class Revision implements Validatable {
 
 	@Override
 	public void validate(ValidationResult result) {
-		if (getTsAdded() == null) {
+		if (getAddedTime() == null) {
 			result.add("No datetime for revision");
 		}
 		if (getData() == null || getData().length == 0) {
@@ -70,13 +70,13 @@ public class Revision implements Validatable {
 	}
 
 
-	public ZonedDateTime getTsAdded() {
-		return tsAdded;
+	public ZonedDateTime getAddedTime() {
+		return addedTime;
 	}
 
 
-	public void setTsAdded(ZonedDateTime tsAdded) {
-		this.tsAdded = tsAdded;
+	public void setAddedTime(ZonedDateTime addedTime) {
+		this.addedTime = addedTime;
 	}
 
 
@@ -123,7 +123,7 @@ public class Revision implements Validatable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(addedBy, tsAdded, data);
+		return Objects.hash(addedBy, addedTime, data);
 	}
 
 
@@ -131,7 +131,7 @@ public class Revision implements Validatable {
 	public boolean equals(Object obj) {
 		if (obj instanceof Revision) {
 			final Revision other = (Revision)obj;
-			return new EqualsBuilder().append(addedBy, other.addedBy).append(tsAdded, other.tsAdded).append(data, other.data).isEquals();
+			return new EqualsBuilder().append(addedBy, other.addedBy).append(addedTime, other.addedTime).append(data, other.data).isEquals();
 		}
 		return false;
 	}
