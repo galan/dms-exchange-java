@@ -1,5 +1,6 @@
 package de.galan.dmsexchange.meta;
 
+import static de.galan.commons.time.Instants.*;
 import static org.apache.commons.lang3.StringUtils.*;
 
 import java.time.ZonedDateTime;
@@ -12,7 +13,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import de.galan.commons.time.ApplicationClock;
 import de.galan.dmsexchange.util.Version;
 
 
@@ -45,7 +45,7 @@ public class Document implements Validatable {
 
 	public Document() {
 		version = Version.SUPPORTED_VERSION;
-		tsCreate = ZonedDateTime.now(ApplicationClock.getClock());
+		tsCreate = from(now()).toZdt();
 		documentFiles = new ArrayList<>();
 		comments = new ArrayList<>();
 		labels = new ArrayList<>();
@@ -246,10 +246,10 @@ public class Document implements Validatable {
 	public boolean equals(Object obj) {
 		if (obj instanceof Document) {
 			final Document other = (Document)obj;
-			return new EqualsBuilder().append(version, other.version).append(documentFiles, other.documentFiles).append(context, other.context).append(note,
-				other.note).append(location, other.location).append(comments, other.comments).append(idUser, other.idUser).append(idSystem, other.idSystem).append(
-				project, other.project).append(directory, other.directory).append(labels, other.labels).append(optionIndexed, other.optionIndexed).append(
-				optionOcr, other.optionOcr).isEquals();
+			return new EqualsBuilder().append(version, other.version).append(tsCreate, other.tsCreate).append(createdBy, other.createdBy).append(source,
+				other.source).append(documentFiles, other.documentFiles).append(context, other.context).append(note, other.note).append(location,
+					other.location).append(comments, other.comments).append(idUser, other.idUser).append(idSystem, other.idSystem).append(project, other.project).append(
+						directory, other.directory).append(labels, other.labels).append(optionIndexed, other.optionIndexed).append(optionOcr, other.optionOcr).isEquals();
 		}
 		return false;
 	}

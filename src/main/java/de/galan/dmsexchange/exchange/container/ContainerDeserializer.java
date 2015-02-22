@@ -2,6 +2,7 @@ package de.galan.dmsexchange.exchange.container;
 
 import static de.galan.verjson.util.Transformations.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -38,28 +39,32 @@ public class ContainerDeserializer extends AbstractContainer {
 	private static final Pattern REVISION_PATTERN = Pattern.compile("^" + REVISIONS_DIRNAME + "/[0-9]{4}[01][0-9][0-3][0-9]T[0-2][0-9]([0-5][0-9]){2}Z_.*");
 
 
-	public Document unarchive(byte[] data, boolean standalone) {
-		return null;
+	protected Document unarchive(byte[] data, boolean standalone) throws InvalidArchiveException, VersionNotSupportedException, NamespaceMismatchException, ProcessStepException, IOReadException, IOException {
+		return unarchive(new ByteArrayInputStream(data), standalone);
 	}
 
 
+	/**
+	 * Reads a tar/tgz from the given InputStream and extracts the Document containing. The given InputStream is not
+	 * closed and must be closed by the caller.
+	 */
 	public Document unarchive(InputStream is, boolean standalone) throws IOException, InvalidArchiveException, VersionNotSupportedException, NamespaceMismatchException, ProcessStepException, IOReadException {
 		Document result = null;
 		Map<String, byte[]> revisions = new HashMap<>();
-		try (TarArchiveInputStream tar = new TarArchiveInputStream(standalone ? new GzipCompressorInputStream(is) : is)) {
-			TarArchiveEntry entry = null;
-			while((entry = tar.getNextTarEntry()) != null) {
-				if (!entry.isDirectory()) {
-					if (isMetadata(entry.getName())) {
-						result = readMeta(IOUtils.toByteArray(tar));
-					}
-					else if (isRevision(entry.getName())) {
-						byte[] baos = IOUtils.toByteArray(tar);
-						revisions.put(entry.getName(), baos);
-					}
-					else {
-						throw new IOException("Container has invalid files");
-					}
+		@SuppressWarnings("resource")
+		TarArchiveInputStream tar = new TarArchiveInputStream(standalone ? new GzipCompressorInputStream(is) : is);
+		TarArchiveEntry entry = null;
+		while((entry = tar.getNextTarEntry()) != null) {
+			if (!entry.isDirectory()) {
+				if (isMetadata(entry.getName())) {
+					result = readMeta(IOUtils.toByteArray(tar));
+				}
+				else if (isRevision(entry.getName())) {
+					byte[] baos = IOUtils.toByteArray(tar);
+					revisions.put(entry.getName(), baos);
+				}
+				else {
+					throw new InvalidArchiveException("Container has invalid files ('" + entry.getName() + "')");
 				}
 			}
 		}

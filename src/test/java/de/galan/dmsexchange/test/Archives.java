@@ -27,6 +27,8 @@ public class Archives {
 		File result = new File(getTestDirectory(true), "expected.tgz");
 		// copy to test
 		FileUtils.copyDirectory(directory, result);
+		// remove placeholder for directories that should be able to exist in git
+		Files.fileTreeTraverser().postOrderTraversal(result).filter(file -> file.getName().equals("git-empty-dir")).toList().forEach(FileUtils::deleteQuietly);
 		// iterate over directories
 		List<File> metas = Files.fileTreeTraverser().postOrderTraversal(result).filter(file -> file.getName().equals("meta.json")).toList();
 		// tar directories with meta.json

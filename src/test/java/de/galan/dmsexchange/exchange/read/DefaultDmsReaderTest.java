@@ -4,6 +4,7 @@ import static de.galan.commons.test.Tests.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -52,31 +53,19 @@ public class DefaultDmsReaderTest extends DmsReaderTestParent {
 
 
 	protected void readAndCompareDocuments(List<Document> documents) throws DmsExchangeException {
-		setReader(DmsExchange.createReader(getFile()));
+		readAndCompareDocuments(documents, true);
+	}
+
+
+	protected void readAndCompareDocuments(List<Document> documents, boolean createReader) throws DmsExchangeException {
+		if (createReader) {
+			setReader(DmsExchange.createReader(getFile()));
+		}
 		DocumentCollector collector = new DocumentCollector();
 		getReader().registerListener(collector);
 		getReader().readDocuments();
 
 		assertThat(collector.getDocuments()).containsOnly(documents.toArray(new Document[] {}));
-	}
-
-
-	@Test
-	public void readArchiveMixedDirectoryAndTgz() throws Exception {
-		List<Document> documents = Lists.newArrayList(Documents.createComplexDocument(), Documents.createSimpleDocument1(), Documents.createSimpleDocument2(),
-			Documents.createSimpleDocument3(), Documents.createSimpleDocument4(), Documents.createSimpleDocument5());
-		createArchive(documents);
-
-		TarTests.explode(getFile(), true);
-
-		TarTests.unexplode(new File(getFile(), "0000/0004"), false);
-		FileUtils.moveFile(new File(getFile(), "0000/0004"), new File(getFile(), "doc-4-in-root.tar"));
-		TarTests.unexplode(new File(getFile(), "0000/0005"), false);
-		FileUtils.forceMkdir(new File(getFile(), "somewhere/deep/down/the/rabbit/hole"));
-		FileUtils.moveFile(new File(getFile(), "0000/0005"), new File(getFile(), "somewhere/deep/down/the/rabbit/hole/doc-5.tar"));
-		TarTests.unexplode(getFile(), true);
-
-		readAndCompareDocuments(documents);
 	}
 
 
@@ -89,23 +78,39 @@ public class DefaultDmsReaderTest extends DmsReaderTestParent {
 
 	@Test
 	public void readArchiveTwice() throws Exception {
-		DocumentCollector collector1 = readArchive("readArchiveSingleDirectory");
-		assertThat(collector1.getDocuments()).hasSize(1);
-		DocumentCollector collector2 = readArchive("readArchiveSingleDirectory", false);
-		assertThat(collector2.getDocuments()).hasSize(1);
+		List<Document> documents = Lists.newArrayList(Documents.createSimpleDocument1());
+		createArchive(documents);
+
+		readAndCompareDocuments(documents, true);
+		try {
+			readAndCompareDocuments(documents, false); // inputstream has already been slurped
+		}
+		catch (DmsExchangeException ex) {
+			assertThat(ex).hasMessage("Unable to read container tar");
+			assertThat(ex).hasCauseInstanceOf(IOException.class);
+			assertThat(ex.getCause()).hasMessage("Stream Closed");
+		}
 	}
 
 
 	@Test
 	public void readArchiveWronglyNested() throws Exception {
-		List<Document> docsInput = Lists.newArrayList(Documents.createSimpleDocument1(), Documents.createSimpleDocument2(), Documents.createSimpleDocument3());
+		List<Document> docsInput = Lists.newArrayList(Documents.createSimpleDocument1(), Documents.createSimpleDocument2(), Documents.createSimpleDocument3(),
+			Documents.createSimpleDocument4(), Documents.createSimpleDocument5());
 		createArchive(docsInput);
 
 		TarTests.explode(getFile(), true);
 
-		TarTests.unexplode(new File(getFile(), "0000/0001"), false);
-		FileUtils.moveFile(new File(getFile(), "0000/0001"), new File(getFile(), "0000/0000/a-zip-in.zip")); // has to start with "a", since "a" is before "meta.json"
-		FileUtils.moveDirectory(new File(getFile(), "0000/0002"), new File(getFile(), "0000/0000/container-in-container"));
+		// flat directory, name ends with tar but is directory
+		TarTests.explode(new File(getFile(), "0000/0000/0001.tar"), false);
+
+		// Add container in container (tar and flat)
+		TarTests.explode(new File(getFile(), "0000/0000/0002.tar"), false);
+		TarTests.explode(new File(getFile(), "0000/0000/0004.tar"), false);
+		FileUtils.moveDirectory(new File(getFile(), "0000/0000/0002.tar"), new File(getFile(), "0000/0000/0004.tar/flat-in-container"));
+		FileUtils.moveFile(new File(getFile(), "0000/0000/0003.tar"), new File(getFile(), "0000/0000/0004.tar/packed-in-container.tar"));
+		TarTests.unexplode(new File(getFile(), "0000/0000/0004.tar"), false);
+
 		TarTests.unexplode(getFile(), true);
 
 		List<Document> documents = Lists.newArrayList(Documents.createSimpleDocument1());

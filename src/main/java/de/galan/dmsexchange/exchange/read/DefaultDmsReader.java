@@ -1,6 +1,5 @@
 package de.galan.dmsexchange.exchange.read;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -76,22 +75,21 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 	}
 
 
-	private void readArchive() {
+	private void readArchive() throws DmsExchangeException {
 		try (TarArchiveInputStream tar = new TarArchiveInputStream(new GzipCompressorInputStream(inputstream))) {
 			TarArchiveEntry entry = null;
 			while((entry = tar.getNextTarEntry()) != null) {
 				if (!entry.isDirectory()) {
-					if (entry.getName().endsWith(".tgz") || entry.getName().endsWith(".tar.gz")) {
-						//byte[] baos = IOUtils.toByteArray(tar);
+					if (entry.isFile() && entry.getName().endsWith(".tar")) {
 						try {
 							Document document = deserializer.unarchive(tar, false);
 							postEvent(document);
 						}
 						catch (DmsExchangeException ex) {
-							//TODO
+							postEvent(new DocumentReadInvalidEvent(entry.getName()));
 						}
 						catch (ReadException ex) {
-							// TODO
+							postEvent(new DocumentReadInvalidEvent(entry.getName()));
 						}
 					}
 					else {
@@ -100,11 +98,8 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 				}
 			}
 		}
-		catch (FileNotFoundException ex) {
-			//Say.warn("Unspecified error from daniel", ex);
-		}
 		catch (IOException ex) {
-			//Say.warn("Unspecified error from daniel", ex);
+			throw new DmsExchangeException("Unable to read container tar", ex);
 		}
 	}
 

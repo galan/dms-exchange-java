@@ -65,6 +65,7 @@ public class ZipPocTest extends AbstractTestParent {
 
 
 	@Test
+	@Ignore
 	public void readStreaming() throws Exception {
 		File file = new File("/home/daniel/temp/tartest-02/test-01.zip");
 		ZipArchiveInputStream zip = new ZipArchiveInputStream(new FileInputStream(file));

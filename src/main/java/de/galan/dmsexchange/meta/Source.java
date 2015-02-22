@@ -2,9 +2,12 @@ package de.galan.dmsexchange.meta;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 
 /**
@@ -18,6 +21,11 @@ public class Source implements Validatable {
 	private String version;
 	private String url;
 	private String email;
+
+
+	public Source() {
+		// nada
+	}
 
 
 	public Source(String name, String version, String url, String email) {
@@ -51,6 +59,22 @@ public class Source implements Validatable {
 	@Override
 	public String toString() {
 		return "Source [name=" + name + ", version=" + version + ", url=" + url + ", email=" + email + "]";
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(name, version, url, email);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Source) {
+			final Source other = (Source)obj;
+			return new EqualsBuilder().append(name, other.name).append(version, other.version).append(url, other.url).append(email, other.email).isEquals();
+		}
+		return false;
 	}
 
 
