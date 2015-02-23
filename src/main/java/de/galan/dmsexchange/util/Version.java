@@ -5,28 +5,28 @@ import java.util.Map;
 
 
 /**
- * Mapping of dxs versions against verjson. This is done manually since there is no version-wrapper which verjson is
- * typically using.
+ * Mapping of dms-exchange-specification versions against verjson. This is done manually since there is no
+ * version-wrapper which verjson is typically using.
  *
  * @author daniel
  */
 public class Version {
 
 	/** Latest version this library supports up to. */
-	public static final String SUPPORTED_VERSION = "1.0.0-beta.3";
+	public static final String SUPPORTED_VERSION = "1.0.0-beta.4";
 
 	private static Map<String, Long> versionToVerjson;
 
 	static {
 		versionToVerjson = new HashMap<>();
-		versionToVerjson.put("1.0.0-beta.3", 1L);
+		versionToVerjson.put("1.0.0-beta.4", 1L);
 	}
 
 
-	public static Long getVerjson(String dmsVersion) {
+	public static Long getVerjson(String metaVersion) {
 		Long result = null;
-		if (dmsVersion != null) {
-			result = versionToVerjson.get(dmsVersion);
+		if (metaVersion != null) {
+			result = versionToVerjson.get(metaVersion);
 		}
 		return result;
 	}

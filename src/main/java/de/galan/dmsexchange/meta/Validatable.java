@@ -26,4 +26,11 @@ public interface Validatable {
 		}
 	}
 
+
+	default void validate(ValidationResult result, Validatable validatable) {
+		if (validatable != null) {
+			validatable.validate(result);
+		}
+	}
+
 }

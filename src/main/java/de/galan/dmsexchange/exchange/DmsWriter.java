@@ -1,9 +1,8 @@
 package de.galan.dmsexchange.exchange;
 
-import java.io.File;
 import java.util.List;
 
-import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.util.DmsExchangeException;
 
 
@@ -65,9 +64,5 @@ public interface DmsWriter extends AutoCloseable {
 	 * the 'documentsFailed'-list before throwing a DmsExchangeException.
 	 */
 	public void add(Document document) throws DmsExchangeException;
-
-
-	/** Returns the list of export-archives files the DmsWriter has created during export. */
-	public List<File> getFiles();
 
 }

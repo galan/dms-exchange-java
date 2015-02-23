@@ -4,13 +4,13 @@ import static de.galan.commons.test.Tests.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
-import java.nio.file.ClosedFileSystemException;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import de.galan.dmsexchange.DmsExchange;
-import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.exchange.DocumentValidationException;
+import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.test.Documents;
 import de.galan.dmsexchange.util.DmsExchangeException;
 
@@ -22,7 +22,7 @@ import de.galan.dmsexchange.util.DmsExchangeException;
  */
 public class DefaultDmsWriterTest extends DmsWriterTestParent {
 
-	private static final String EXPORT_FILENAME = "write.zip";
+	private static final String EXPORT_FILENAME = "write.tgz";
 
 
 	@Before
@@ -69,7 +69,7 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 		try {
 			getWriter().add(new Document());
 		}
-		catch (DmsExchangeValidationException ex) {
+		catch (DocumentValidationException ex) {
 			assertThat(ex.getMessage()).isEqualTo("Invalid Document (Document does not contain any DocumentFile)");
 			assertThat(ex.getValidationResult().getErrors()).containsOnly("Document does not contain any DocumentFile");
 		}
@@ -79,30 +79,30 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 
 
 	@Test
-	public void createArchiveWithFailedDocument() throws Exception {
+	public void createArchiveWithInvalidDocument() throws Exception {
 		try {
 			getWriter().add(Documents.createInvalidDocument());
 		}
-		catch (DmsExchangeValidationException ex) {
+		catch (DocumentValidationException ex) {
 			assertThat(ex.getMessage()).isEqualTo(
 					"Invalid Document (No data for revision, No user for comment, No timestamp for comment, No content for comment)");
 			assertThat(ex.getValidationResult().getErrors()).containsOnly("No data for revision", "No user for comment", "No timestamp for comment",
 				"No content for comment");
 		}
 		getWriter().close();
-		assertArchive("createArchiveWithFailedDocument");
+		assertArchive("createArchiveWithInvalidDocument");
 	}
 
 
 	@Test
-	public void createArchiveWithMultipleFailedDocuments() throws Exception {
+	public void createArchiveWithMultipleInvalidDocuments() throws Exception {
 		getWriter().addQuietly(new Document(), Documents.createInvalidDocument());
 		getWriter().close();
-		assertArchive("createArchiveWithMultipleFailedDocuments");
+		assertArchive("createArchiveWithMultipleInvalidDocuments");
 	}
 
 
-	@Test(expected = ClosedFileSystemException.class)
+	@Test(expected = DmsExchangeException.class)
 	public void addDocumentAfterClosed() throws Exception {
 		getWriter().close();
 		getWriter().add(Documents.createSimpleDocument1());

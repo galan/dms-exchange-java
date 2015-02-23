@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 
 import com.google.common.eventbus.Subscribe;
 
-import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.Document;
 
 
 /**

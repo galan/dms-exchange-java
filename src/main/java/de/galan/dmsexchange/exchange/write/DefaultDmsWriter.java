@@ -2,138 +2,116 @@ package de.galan.dmsexchange.exchange.write;
 
 import static org.apache.commons.lang3.StringUtils.*;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.io.OutputStream;
 
-import com.google.common.collect.ImmutableList;
+import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
+import org.apache.commons.lang3.StringUtils;
 
 import de.galan.dmsexchange.exchange.DefaultExchange;
 import de.galan.dmsexchange.exchange.DmsWriter;
-import de.galan.dmsexchange.meta.ValidationResult;
-import de.galan.dmsexchange.meta.document.Document;
-import de.galan.dmsexchange.meta.document.DocumentFile;
-import de.galan.dmsexchange.meta.document.Revision;
-import de.galan.dmsexchange.meta.export.Export;
+import de.galan.dmsexchange.exchange.DocumentValidationException;
+import de.galan.dmsexchange.exchange.container.ContainerSerializer;
+import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.util.DmsExchangeException;
-import de.galan.dmsexchange.util.FileGenerationUtil;
+import de.galan.dmsexchange.util.archive.TarUtil;
 
 
 /**
  * Adds documents to a specified file. Using generated directories and document-container names inside the archive
- * during the process.
+ * during the process. It is artifical limited to one billion containers, otherwise the archive should be splitted using
+ * the ConditionalDmsWriter.
  *
  * @author daniel
  */
 public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 
-	private Export export;
+	private static final String ZERO = "0";
+	private static final String EXTENSION = ".tar";
+	private static final String SLASH = "/";
 
-	private int counterBase = 0;
-	private int counterContainer = 0;
+	private long counterContainer = 0;
+	private ContainerSerializer serializer;
+	private TarArchiveOutputStream tar;
+	private boolean closed = false;
 
 
-	public DefaultDmsWriter(File file) throws DmsExchangeException {
-		super(FileGenerationUtil.determineFile(file), false);
-		export = new Export();
-		registerListener(new DocumentAddedListener());
-		registerListener(new DocumentAddedFailedListener(export));
+	public DefaultDmsWriter(OutputStream outputstream) throws DmsExchangeException {
+		serializer = new ContainerSerializer();
+		try {
+			tar = TarUtil.create(outputstream, true);
+		}
+		catch (IOException ex) {
+			throw new DmsExchangeException("Unable to create archive stream", ex);
+		}
+		registerListener(new DocumentAddedLoggingListener());
 	}
 
 
 	@Override
 	public void add(Document document) throws DmsExchangeException {
-		try {
-			// validate document
-			validateDocument(document);
-			// add revisions and metadata to next generated directory
-			String nextDir = getNextContainerDirectory();
-			addRevisions(document, nextDir);
-			addMetadata(document, nextDir);
+		if (isClosed()) {
+			throw new DmsExchangeException("The export-archive is already closed");
 		}
-		catch (DmsExchangeValidationException ex) {
+		try {
+			String pathForContainer = getNextContainerPath();
+			byte[] container = serializer.archive(document, false);
+			TarUtil.addEntry(tar, container, pathForContainer);
+			postEvent(new DocumentAddedEvent(document));
+		}
+		catch (DocumentValidationException ex) {
 			postEvent(new DocumentAddedFailedEvent(document, ex.getValidationResult()));
 			throw ex;
 		}
-		catch (DmsExchangeException ex) {
-			postEvent(new DocumentAddedFailedEvent(document, null));
-			throw ex;
-		}
-	}
-
-
-	protected void addMetadata(Document document, String nextDir) throws DmsExchangeException {
-		try {
-			//TODO avoid empty lists/arrays
-			String documentJson = getVerjsonDocument().writePlain(document);
-			getFs().addFile(nextDir + "meta.json", documentJson.getBytes());
-			export.incrementDocumentsSuccessfulAmount();
-			postEvent(new DocumentAddedEvent(document));
-		}
 		catch (IOException ex) {
-			throw new DmsExchangeException("Unable to add document meta-data to export-archive", ex);
+			postEvent(new DocumentAddedFailedEvent(document, null, ex));
+			throw new DmsExchangeException("Failed adding", ex);
 		}
 	}
 
 
-	protected void addRevisions(Document document, String nextDir) throws DmsExchangeException {
-		try {
-			for (DocumentFile df: document.getDocumentFiles()) {
-				for (Revision revision: df.getRevisions()) {
-					String generated = revision.getTsAdded().format(FORMATTER) + "_" + df.getFilename();
-					getFs().addFile(nextDir + "revisions/" + generated, revision.getData());
-				}
-			}
+	/**
+	 * Returns the name of the next container in the export-archive. It is limited to a trillion containers, which
+	 * should be enough. Large archives should be splitted, or own implementations should be used. Even if an average
+	 * container is only 10k in size, this would result in a single export-archive with ~1 PB data.
+	 *
+	 * @throws DmsExchangeException
+	 */
+	protected String getNextContainerPath() throws DmsExchangeException {
+		if (counterContainer - 1 > 1_0000_0000_0000L) {
+			throw new DmsExchangeException("Limit for containers in single archive exceeded");
 		}
-		catch (IOException ex) {
-			throw new DmsExchangeException("Unable to add revision to export-archive", ex);
-		}
+		String string = leftPad(EMPTY + counterContainer++, 12, ZERO);
+		StringBuffer result = new StringBuffer();
+		result.append(StringUtils.substring(string, 0, 4));
+		result.append(SLASH);
+		result.append(StringUtils.substring(string, 4, 8));
+		result.append(SLASH);
+		result.append(StringUtils.substring(string, 8, 12));
+		result.append(EXTENSION);
+		return result.toString();
 	}
 
 
-	protected void validateDocument(Document document) throws DmsExchangeValidationException {
-		ValidationResult result = document.validate();
-		if (result.hasErrors()) {
-			throw new DmsExchangeValidationException("Invalid Document", result);
-		}
-	}
-
-
-	protected String getNextContainerDirectory() {
-		if (counterContainer > 9999) {
-			counterContainer = 0;
-			counterBase++;
-		}
-		String dirBase = leftPad("" + counterBase, 4, "0");
-		String dirContainer = leftPad("" + counterContainer++, 4, "0");
-		return "/" + dirBase + "/" + dirContainer + "/";
-	}
-
-
-	/** Closes the zip file and writes the export-meta data */
+	/** Closes the archive file and writes the export-meta data */
 	@Override
 	public void close() throws DmsExchangeException {
 		if (!isClosed()) {
-			writeExport(); // add export-meta
-		}
-		super.close();
-	}
-
-
-	protected void writeExport() throws DmsExchangeException {
-		try {
-			String exportJson = getVerjsonExport().writePlain(export);
-			getFs().addFile("/export.json", exportJson.getBytes());
-		}
-		catch (IOException ex) {
-			throw new DmsExchangeException("Unable to write export metadata", ex);
+			try {
+				if (tar != null) {
+					tar.close();
+				}
+			}
+			catch (IOException ex) {
+				throw new DmsExchangeException("Unable to close tar stream", ex);
+			}
+			closed = true;
 		}
 	}
 
 
-	@Override
-	public List<File> getFiles() {
-		return ImmutableList.of(getFile());
+	protected boolean isClosed() {
+		return closed;
 	}
 
 }

@@ -1,20 +1,19 @@
 package de.galan.dmsexchange.exchange.write;
 
-import static de.galan.commons.test.Tests.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.zeroturnaround.zip.ZipUtil;
 
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.commons.time.ApplicationClock;
 import de.galan.dmsexchange.exchange.DmsWriter;
+import de.galan.dmsexchange.test.Archives;
 
 
 /**
@@ -46,18 +45,16 @@ public class DmsWriterTestParent extends AbstractTestParent {
 	}
 
 
-	protected void assertArchive(String testcase) {
+	protected void assertArchive(String testcase) throws IOException {
 		assertArchive(testcase, getFile());
 	}
 
 
-	protected void assertArchive(String testcase, File zipFile) {
-		assertThat(zipFile).exists();
+	protected void assertArchive(String testcase, File archiveFile) throws IOException {
+		assertThat(archiveFile).exists();
 		URL url = getClass().getResource(getClass().getSimpleName() + "-" + testcase);
-		File dirToPack = new File(url.getFile());
-		File expectedArchive = new File(getTestDirectory(), "expected.zip");
-		ZipUtil.pack(dirToPack, expectedArchive);
-		assertTrue("Export-Archive is not identical to expected one", ZipUtil.archiveEquals(expectedArchive, zipFile));
+		File expectedDirectory = new File(url.getFile());
+		Archives.assertArchive(expectedDirectory, archiveFile);
 	}
 
 

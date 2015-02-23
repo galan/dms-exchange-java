@@ -2,7 +2,7 @@ package de.galan.dmsexchange.exchange.read;
 
 import com.google.common.eventbus.Subscribe;
 
-import de.galan.dmsexchange.meta.document.Document;
+import de.galan.dmsexchange.meta.Document;
 
 
 /**

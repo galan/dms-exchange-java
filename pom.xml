@@ -24,19 +24,17 @@
 			<version>0.4-SNAPSHOT</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>1.9</version>
+		</dependency>
+
 		<!-- logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
 			<optional>true</optional>
-		</dependency>
-
-		<!-- testing -->
-		<dependency>
-			<groupId>org.zeroturnaround</groupId>
-			<artifactId>zt-zip</artifactId>
-			<version>1.8</version>
-			<scope>test</scope>
 		</dependency>
 
 	</dependencies>

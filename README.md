@@ -1,4 +1,4 @@
-This java-library is the reference-implementation for the dms-exchange-specification. It covers the following use-cases:
+This java-library is the reference-implementation for the [dms-exchange-specification](https://github.com/galan/dms-exchange-specification). It covers the following use-cases:
 * Creating new export-archives and adding document-containers
 * Reading existing document-container from existing export-archives
 
@@ -15,7 +15,7 @@ Feed the writer with documents:
 
     writer.add(...);
 
-As last step, close the writer (AutoClosable can be user):
+As last step, close the writer (AutoClosable can be used):
 
     writer.close();
 
@@ -28,8 +28,29 @@ Create the reader using one of the convenience construction methods from DmsExch
 
 Read the documents using a single consumer:
 
-    reader.readDocuments(doc -> /* eg. import to your system */);
+    reader.readDocuments(document -> /* eg. import to your system */);
 
-Close the reader when finished (AutoClosable can be user):
 
-    reader.close();
+
+## Creating a single container
+Use a ContainerSerializer that can be used to convert a single container to a tgz archive. 
+
+    ContainerSerializer serializer = new ContainerSerializer(); // thread-safe
+
+Archive a single container:
+
+	// to an bytearray
+    byte[] tgz = serialzer.archive(document, true);
+    // to an OutputStream
+    serialzer.archive(document, true, new FileOutputStream(..));
+
+
+
+## Reading a single container
+Use a ContainerDeserializer to convert tgz archive back to a single container:
+
+    ContainerDeserializer deserializer = new ContainerDeserializer(); // thread-safe
+
+Unarchive a single container:
+
+    Document document = deserializer.unarchive(new FileInputStream(..), true);
