@@ -31,3 +31,6 @@ Read the documents using a single consumer:
 
     reader.readDocuments(document -> /* eg. import to your system */);
 
+
+# Integration with Maven
+Use the [maven repository and artifact](https://github.com/galan/maven-repository) on github.
