@@ -9,7 +9,7 @@ The library can be used in any existing dms/software to enable support for the d
 ## Creating an export-archive
 Create the writer using one of the convenience construction methods from DmsExchange: 
 
-    DmsWriter writer = DmsExchange.createWriter("/path/to/archive.zip");
+    DmsWriter writer = DmsExchange.createWriter("/path/to/archive.tgz");
 
 Feed the writer with documents:
 
@@ -19,38 +19,15 @@ As last step, close the writer (AutoClosable can be used):
 
     writer.close();
 
+Other writer also support writing to OutputStreams or splitting files depending on conditions, such as amount of document or filesize.
 
 
 ## Reading an export-archive
 Create the reader using one of the convenience construction methods from DmsExchange: 
 
-    DmsReader reader = DmsExchange.createReader("/path/to/archive.zip");
+    DmsReader reader = DmsExchange.createReader("/path/to/archive.tgz");
 
 Read the documents using a single consumer:
 
     reader.readDocuments(document -> /* eg. import to your system */);
 
-
-
-## Creating a single container
-Use a ContainerSerializer that can be used to convert a single container to a tgz archive. 
-
-    ContainerSerializer serializer = new ContainerSerializer(); // thread-safe
-
-Archive a single container:
-
-	// to an bytearray
-    byte[] tgz = serialzer.archive(document, true);
-    // to an OutputStream
-    serialzer.archive(document, true, new FileOutputStream(..));
-
-
-
-## Reading a single container
-Use a ContainerDeserializer to convert tgz archive back to a single container:
-
-    ContainerDeserializer deserializer = new ContainerDeserializer(); // thread-safe
-
-Unarchive a single container:
-
-    Document document = deserializer.unarchive(new FileInputStream(..), true);
