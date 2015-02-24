@@ -8,7 +8,7 @@ import de.galan.dmsexchange.meta.Document;
 
 
 /**
- * Passes readed documents to the consumer.
+ * Listens to {@link Document}s and passes them to the consumer.
  *
  * @author daniel
  */

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.galan.dmsexchange.exchange.ConditionalDmsWriter;
 import de.galan.dmsexchange.exchange.DmsWriter;
 import de.galan.dmsexchange.exchange.write.condition.SplitCondition;
 import de.galan.dmsexchange.meta.Document;

@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 
 import de.galan.commons.logging.Logr;
 import de.galan.dmsexchange.DmsExchange;
+import de.galan.dmsexchange.exchange.ConditionalDmsWriter;
 import de.galan.dmsexchange.test.Documents;
 
 

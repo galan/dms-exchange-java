@@ -17,7 +17,7 @@ import de.galan.dmsexchange.util.archive.TarUtil;
 
 
 /**
- * Converts document-containers to archives.
+ * Converts {@link Document}s to container-archives.
  *
  * @author daniel
  */

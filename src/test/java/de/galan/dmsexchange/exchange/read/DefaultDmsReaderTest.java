@@ -62,7 +62,7 @@ public class DefaultDmsReaderTest extends DmsReaderTestParent {
 			setReader(DmsExchange.createReader(getFile()));
 		}
 		DocumentCollector collector = new DocumentCollector();
-		getReader().registerListener(collector);
+		getReader().registerSubscriber(collector);
 		getReader().readDocuments();
 
 		assertThat(collector.getDocuments()).containsOnly(documents.toArray(new Document[] {}));

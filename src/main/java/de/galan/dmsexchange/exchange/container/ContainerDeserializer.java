@@ -30,7 +30,7 @@ import de.galan.verjson.step.ProcessStepException;
 
 
 /**
- * Converts archives back to document-containers.
+ * Converts container-archives back to {@link Document}s.
  *
  * @author daniel
  */

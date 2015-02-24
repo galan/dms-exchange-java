@@ -1,7 +1,5 @@
 package de.galan.dmsexchange.exchange;
 
-import java.time.format.DateTimeFormatter;
-
 import com.google.common.eventbus.EventBus;
 
 import de.galan.dmsexchange.meta.Document;
@@ -10,13 +8,11 @@ import de.galan.verjson.core.Verjson;
 
 
 /**
- * Base-class for dxs-based reader/writer.
+ * Base-class for reader and writer.
  *
  * @author daniel
  */
 public abstract class DefaultExchange {
-
-	protected static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
 
 	private EventBus events;
 	private Verjson<Document> verjsonDocument;
@@ -34,12 +30,12 @@ public abstract class DefaultExchange {
 
 
 	public void registerListener(Object object) {
-		events.register(object); // can throw IllegalArgumentException if no method with single-arg and @Subs
+		events.register(object); // can throw IllegalArgumentException if no method with single-arg and @Subscribe
 	}
 
 
 	protected void unregisterListener(Object object) {
-		events.unregister(object); // can throw IllegalArgumentException if no method with single-arg and @Subs
+		events.unregister(object); // can throw IllegalArgumentException if no method with single-arg and @Subscribe
 	}
 
 

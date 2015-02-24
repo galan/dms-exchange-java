@@ -39,7 +39,7 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 
 	@Override
-	public void registerListener(Object... listeners) {
+	public void registerSubscriber(Object... listeners) {
 		Arrays.asList(listeners).stream().forEach(this::registerListener);
 	}
 
@@ -62,7 +62,6 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 
 	@Override
 	public void readDocuments() throws DmsExchangeException {
-		// iterate over directories recursivly, this blocks until finished
 		CountingDocumentConsumer counter = new CountingDocumentConsumer();
 		registerListener(counter);
 		try {
@@ -75,6 +74,7 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 	}
 
 
+	/** Iterates over archive and sends events to the EventBus. This blocks until finished. */
 	private void readArchive() throws DmsExchangeException {
 		try (TarArchiveInputStream tar = new TarArchiveInputStream(new GzipCompressorInputStream(inputstream))) {
 			TarArchiveEntry entry = null;
@@ -94,6 +94,7 @@ public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 					}
 					else {
 						LOG.warn("Unrecognized element: {}", entry.getName());
+						postEvent(new DocumentReadInvalidEvent(entry.getName()));
 					}
 				}
 			}
