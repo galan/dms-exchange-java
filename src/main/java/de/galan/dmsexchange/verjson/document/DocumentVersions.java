@@ -14,7 +14,7 @@ public class DocumentVersions extends DmsExchangeVersions {
 	public void configure() {
 		super.configure();
 		// steps
-		add(1L, createValidation("meta", "1.0.0-beta.4"));
+		add(1L, createValidation("meta", "1.0.0"));
 	}
 
 }

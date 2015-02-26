@@ -13,13 +13,13 @@ import java.util.Map;
 public class Version {
 
 	/** Latest version this library supports up to. */
-	public static final String SUPPORTED_VERSION = "1.0.0-beta.4";
+	public static final String SUPPORTED_VERSION = "1.0.0";
 
 	private static Map<String, Long> versionToVerjson;
 
 	static {
 		versionToVerjson = new HashMap<>();
-		versionToVerjson.put("1.0.0-beta.4", 1L);
+		versionToVerjson.put("1.0.0", 1L);
 	}
 
 

@@ -3,7 +3,7 @@
 
 	<groupId>de.galan</groupId>
 	<artifactId>dms-exchange-java</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<description>Java library for the dms-exchange-specification</description>
 
 	<parent>
@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>de.galan</groupId>
 			<artifactId>verjson</artifactId>
-			<version>0.4-SNAPSHOT</version>
+			<version>0.4</version>
 		</dependency>
 
 		<dependency>
