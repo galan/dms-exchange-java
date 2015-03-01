@@ -31,6 +31,27 @@ Read the documents using a single consumer:
 
     reader.readDocuments(document -> /* eg. import to your system */);
 
+# Document
+Documents are simple java beans, they can be instantiated using `new`, fields are accessed using the according setter/getter accessor methods. Fluent setters are also available.
+
+Example of creating a minimal `Document` with some fields:
+
+    // Source keeps same, use a constant
+	private static final Source SOURCE = new Source("MyDMS", null, "https://www.example.com", "contact@example.com");
+    
+    Document doc = new Document().source(SOURCE);
+    DocumentFile docfile = new DocumentFile(omdoc.getTitle());
+    docfile.addRevision(new Revision(omdoc.getCreatedTime()).data(stream));
+    doc.addDocumentFile(docfile);
+    // use a setter
+    doc.setNote(omdoc.getNotes());
+    // or the fluent methods
+    doc.note(omdoc.getNotes()).labels(omdoc.getTagsArray()).idSystem(omdoc.getUuid()).project(omdoc.getCategory());
+
+# Compatiblity
+dms-exchange-java supports the [dms-exchange-specification](https://github.com/galan/dms-exchange-specification) version 1.0.0.
+
+When newer versions of dms-exchange-specification will be released, they will be supported additionally. 
 
 # Integration with Maven
 Use the [maven repository and artifact](https://github.com/galan/maven-repository) on github.
