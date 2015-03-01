@@ -16,6 +16,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.io.Files;
 
+import de.galan.dmsexchange.util.UtcFormatter;
+
 
 /**
  * A single revision of a document-file, the binary data will be serialized into files and is transient to the
@@ -33,7 +35,7 @@ public class Revision implements Validatable {
 
 
 	public Revision() {
-		//nada
+		// empty, default constructor required for Jackson
 	}
 
 
@@ -70,6 +72,18 @@ public class Revision implements Validatable {
 	}
 
 
+	public Revision addedBy(@SuppressWarnings("hiding") User addedBy) {
+		setAddedBy(addedBy);
+		return this;
+	}
+
+
+	public Revision addedBy(@SuppressWarnings("hiding") String addedBy) {
+		setAddedBy(new User(addedBy));
+		return this;
+	}
+
+
 	public ZonedDateTime getAddedTime() {
 		return addedTime;
 	}
@@ -77,6 +91,18 @@ public class Revision implements Validatable {
 
 	public void setAddedTime(ZonedDateTime addedTime) {
 		this.addedTime = addedTime;
+	}
+
+
+	public Revision addedTime(@SuppressWarnings("hiding") ZonedDateTime addedTime) {
+		setAddedTime(addedTime);
+		return this;
+	}
+
+
+	public Revision addedTime(@SuppressWarnings("hiding") String addedTime) {
+		setAddedTime(UtcFormatter.parse(addedTime));
+		return this;
 	}
 
 
@@ -110,14 +136,32 @@ public class Revision implements Validatable {
 	}
 
 
+	public Revision data(@SuppressWarnings("hiding") byte[] data) {
+		setData(data);
+		return this;
+	}
+
+
 	public void setData(InputStream stream) throws IOException {
 		data = IOUtils.toByteArray(stream);
 		stream.close();
 	}
 
 
+	public Revision data(InputStream stream) throws IOException {
+		setData(stream);
+		return this;
+	}
+
+
 	public void setData(File file) throws IOException {
 		setData(Files.toByteArray(file));
+	}
+
+
+	public Revision data(File file) throws IOException {
+		setData(file);
+		return this;
 	}
 
 

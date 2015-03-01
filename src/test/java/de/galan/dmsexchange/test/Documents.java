@@ -1,9 +1,6 @@
 package de.galan.dmsexchange.test;
 
-import static de.galan.commons.time.Instants.*;
-
 import java.io.IOException;
-import java.time.ZonedDateTime;
 
 import de.galan.dmsexchange.exchange.test.revisions.Revisions;
 import de.galan.dmsexchange.meta.Comment;
@@ -13,6 +10,7 @@ import de.galan.dmsexchange.meta.DocumentFile;
 import de.galan.dmsexchange.meta.Revision;
 import de.galan.dmsexchange.meta.Source;
 import de.galan.dmsexchange.meta.User;
+import de.galan.dmsexchange.util.UtcFormatter;
 
 
 /**
@@ -22,17 +20,12 @@ import de.galan.dmsexchange.meta.User;
  */
 public class Documents {
 
-	protected static ZonedDateTime zdt(String utc) {
-		return from(instantUtc(utc)).toZdt();
-	}
-
-
 	public static Document createInvalidDocument() {
 		Document doc = new Document();
 		doc.setIdSystem("systemId-123");
 		doc.setIdUser("userId-456");
 		DocumentFile docFile = new DocumentFile("sample.txt");
-		Revision rev1 = new Revision(zdt("2014-12-28T20:00:15Z"));
+		Revision rev1 = new Revision(UtcFormatter.parse("2014-12-28T20:00:15Z"));
 		docFile.addRevision(rev1);
 		doc.addDocumentFile(docFile);
 		doc.addLabels("hello", "world");
@@ -44,7 +37,7 @@ public class Documents {
 	public static Document createSimpleDocument1() {
 		Document doc = new Document();
 		DocumentFile docFile = new DocumentFile("sample.txt");
-		Revision rev1 = new Revision(zdt("2014-12-28T20:00:15Z"));
+		Revision rev1 = new Revision(UtcFormatter.parse("2014-12-28T20:00:15Z"));
 		rev1.setData(new byte[] {72, 69, 76, 76, 79});
 		docFile.addRevision(rev1);
 		doc.addDocumentFile(docFile);
@@ -66,7 +59,7 @@ public class Documents {
 
 	public static Document createSimpleDocument3() throws IOException {
 		Document doc = new Document();
-		doc.setContext(new Context(zdt("2015-01-05T12:30:32Z"), zdt("2015-01-08T16:00:00Z")));
+		doc.setContext(new Context(UtcFormatter.parse("2015-01-05T12:30:32Z"), UtcFormatter.parse("2015-01-08T16:00:00Z")));
 		doc.setIdSystem("mySystemId-0123456789");
 
 		DocumentFile df = new DocumentFile("first.pdf");
@@ -79,7 +72,7 @@ public class Documents {
 
 	public static Document createSimpleDocument4() throws IOException {
 		Document doc = new Document();
-		doc.setContext(new Context(zdt("2015-01-05T12:30:32Z"), zdt("2015-01-08T16:00:00Z")));
+		doc.setContext(new Context(UtcFormatter.parse("2015-01-05T12:30:32Z"), UtcFormatter.parse("2015-01-08T16:00:00Z")));
 		doc.setIdSystem("mySystemId-0123456789");
 
 		DocumentFile df = new DocumentFile("second.doc");
@@ -92,7 +85,7 @@ public class Documents {
 
 	public static Document createSimpleDocument5() throws IOException {
 		Document doc = new Document();
-		doc.setContext(new Context(zdt("2015-01-05T12:30:32Z"), zdt("2015-01-08T16:00:00Z")));
+		doc.setContext(new Context(UtcFormatter.parse("2015-01-05T12:30:32Z"), UtcFormatter.parse("2015-01-08T16:00:00Z")));
 		doc.setIdSystem("mySystemId-0123456789");
 
 		DocumentFile df = new DocumentFile("third.doc");
@@ -108,7 +101,7 @@ public class Documents {
 		Document doc = new Document();
 		doc.setCreatedBy(new User("creator@example.com"));
 		doc.setSource(new Source("SourceName", "SourceVersion", "http://www.example.com/dms", "SourceEmai@example.com"));
-		doc.setContext(new Context(zdt("2015-01-05T12:30:32Z"), zdt("2015-01-08T16:00:00Z")));
+		doc.setContext(new Context(UtcFormatter.parse("2015-01-05T12:30:32Z"), UtcFormatter.parse("2015-01-08T16:00:00Z")));
 		doc.setDirectory("/projects/exchange");
 		doc.setIdSystem("mySystemId-0123456789");
 		doc.setIdUser("myUserId-0123456789");
@@ -117,8 +110,8 @@ public class Documents {
 		doc.setProject("open-source");
 		doc.addLabels("hello", "example");
 
-		doc.addComments(new Comment(new User("me@example.com"), zdt("2015-01-05T12:44:08Z"), "Lorem le ipsum"));
-		doc.addComments(new Comment(new User("you@example.com"), zdt("2015-01-05T12:44:23Z"), "abc def ghi"));
+		doc.addComments(new Comment(new User("me@example.com"), UtcFormatter.parse("2015-01-05T12:44:08Z"), "Lorem le ipsum"));
+		doc.addComments(new Comment(new User("you@example.com"), UtcFormatter.parse("2015-01-05T12:44:23Z"), "abc def ghi"));
 
 		DocumentFile df01 = new DocumentFile("first.pdf");
 		df01.addRevision(Revisions.read("lorem-01-01.pdf", "2015-01-05T12:30:32Z", null));

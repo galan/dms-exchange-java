@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
+import de.galan.dmsexchange.util.UtcFormatter;
+
 
 /**
  * Contains a comment a user has added to a document. Read the <a
@@ -20,7 +22,7 @@ public class Comment implements Validatable {
 
 
 	public Comment() {
-		//nada
+		// empty, default constructor required for Jackson
 	}
 
 
@@ -58,6 +60,18 @@ public class Comment implements Validatable {
 	}
 
 
+	public Comment commentBy(@SuppressWarnings("hiding") User commentBy) {
+		setCommentBy(commentBy);
+		return this;
+	}
+
+
+	public Comment commentBy(@SuppressWarnings("hiding") String commentBy) {
+		setCommentBy(new User(commentBy));
+		return this;
+	}
+
+
 	public ZonedDateTime getCommentTime() {
 		return commentTime;
 	}
@@ -68,6 +82,18 @@ public class Comment implements Validatable {
 	}
 
 
+	public Comment commentTime(@SuppressWarnings("hiding") ZonedDateTime commentTime) {
+		setCommentTime(commentTime);
+		return this;
+	}
+
+
+	public Comment commentTime(@SuppressWarnings("hiding") String commentTime) {
+		setCommentTime(UtcFormatter.parse(commentTime));
+		return this;
+	}
+
+
 	public String getContent() {
 		return content;
 	}
@@ -75,6 +101,12 @@ public class Comment implements Validatable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+
+	public Comment content(@SuppressWarnings("hiding") String content) {
+		setContent(content);
+		return this;
 	}
 
 

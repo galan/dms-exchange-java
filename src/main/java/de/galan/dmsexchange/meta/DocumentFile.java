@@ -24,6 +24,7 @@ public class DocumentFile implements Validatable {
 
 
 	public DocumentFile() {
+		// default constructor required for Jackson
 		revisions = new ArrayList<>();
 	}
 

@@ -13,6 +13,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import de.galan.dmsexchange.util.UtcFormatter;
 import de.galan.dmsexchange.util.Version;
 
 
@@ -44,6 +45,7 @@ public class Document implements Validatable {
 
 
 	public Document() {
+		// default constructor required for Jackson
 		version = Version.SUPPORTED_VERSION;
 		createdTime = from(now()).toZdt();
 		documentFiles = new ArrayList<>();
@@ -81,6 +83,18 @@ public class Document implements Validatable {
 	}
 
 
+	public Document createdTime(@SuppressWarnings("hiding") ZonedDateTime createdTime) {
+		setCreatedTime(createdTime);
+		return this;
+	}
+
+
+	public Document createdTime(@SuppressWarnings("hiding") String createdTime) {
+		setCreatedTime(UtcFormatter.parse(createdTime));
+		return this;
+	}
+
+
 	public User getCreatedBy() {
 		return createdBy;
 	}
@@ -91,6 +105,18 @@ public class Document implements Validatable {
 	}
 
 
+	public Document createdBy(@SuppressWarnings("hiding") User createdBy) {
+		setCreatedBy(createdBy);
+		return this;
+	}
+
+
+	public Document createdBy(@SuppressWarnings("hiding") String createdBy) {
+		setCreatedBy(new User(createdBy));
+		return this;
+	}
+
+
 	public Source getSource() {
 		return source;
 	}
@@ -98,6 +124,12 @@ public class Document implements Validatable {
 
 	public void setSource(Source source) {
 		this.source = source;
+	}
+
+
+	public Document source(@SuppressWarnings("hiding") Source source) {
+		setSource(source);
+		return this;
 	}
 
 
@@ -120,6 +152,12 @@ public class Document implements Validatable {
 	}
 
 
+	public Document documentFile(DocumentFile file) {
+		addDocumentFile(file);
+		return this;
+	}
+
+
 	public Context getContext() {
 		return context;
 	}
@@ -127,6 +165,12 @@ public class Document implements Validatable {
 
 	public void setContext(Context context) {
 		this.context = context;
+	}
+
+
+	public Document context(@SuppressWarnings("hiding") Context context) {
+		setContext(context);
+		return this;
 	}
 
 
@@ -140,6 +184,12 @@ public class Document implements Validatable {
 	}
 
 
+	public Document note(@SuppressWarnings("hiding") String note) {
+		setNote(note);
+		return this;
+	}
+
+
 	public String getLocation() {
 		return location;
 	}
@@ -147,6 +197,12 @@ public class Document implements Validatable {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+
+	public Document location(@SuppressWarnings("hiding") String location) {
+		setLocation(location);
+		return this;
 	}
 
 
@@ -163,6 +219,12 @@ public class Document implements Validatable {
 	}
 
 
+	public Document comments(Comment... commentsToAdd) {
+		addComments(commentsToAdd);
+		return this;
+	}
+
+
 	public String getIdUser() {
 		return idUser;
 	}
@@ -170,6 +232,12 @@ public class Document implements Validatable {
 
 	public void setIdUser(String idUser) {
 		this.idUser = idUser;
+	}
+
+
+	public Document idUser(@SuppressWarnings("hiding") String idUser) {
+		setIdUser(idUser);
+		return this;
 	}
 
 
@@ -183,6 +251,12 @@ public class Document implements Validatable {
 	}
 
 
+	public Document idSystem(@SuppressWarnings("hiding") String idSystem) {
+		setIdSystem(idSystem);
+		return this;
+	}
+
+
 	public String getProject() {
 		return project;
 	}
@@ -193,6 +267,12 @@ public class Document implements Validatable {
 	}
 
 
+	public Document project(@SuppressWarnings("hiding") String project) {
+		setProject(project);
+		return this;
+	}
+
+
 	public String getDirectory() {
 		return directory;
 	}
@@ -200,6 +280,12 @@ public class Document implements Validatable {
 
 	public void setDirectory(String directory) {
 		this.directory = directory;
+	}
+
+
+	public Document diretory(@SuppressWarnings("hiding") String directory) {
+		setDirectory(directory);
+		return this;
 	}
 
 
@@ -216,6 +302,12 @@ public class Document implements Validatable {
 	}
 
 
+	public Document labels(String... labelsToAdd) {
+		addLabels(labelsToAdd);
+		return this;
+	}
+
+
 	public Boolean getOptionIndexed() {
 		return optionIndexed;
 	}
@@ -226,6 +318,12 @@ public class Document implements Validatable {
 	}
 
 
+	public Document optionIndexed(@SuppressWarnings("hiding") Boolean optionIndexed) {
+		setOptionIndexed(optionIndexed);
+		return this;
+	}
+
+
 	public Boolean getOptionOcr() {
 		return optionOcr;
 	}
@@ -233,6 +331,12 @@ public class Document implements Validatable {
 
 	public void setOptionOcr(Boolean optionOcr) {
 		this.optionOcr = optionOcr;
+	}
+
+
+	public Document optionOcr(@SuppressWarnings("hiding") Boolean optionOcr) {
+		setOptionOcr(optionOcr);
+		return this;
 	}
 
 
@@ -248,8 +352,8 @@ public class Document implements Validatable {
 			final Document other = (Document)obj;
 			return new EqualsBuilder().append(version, other.version).append(createdTime, other.createdTime).append(createdBy, other.createdBy).append(source,
 				other.source).append(documentFiles, other.documentFiles).append(context, other.context).append(note, other.note).append(location,
-					other.location).append(comments, other.comments).append(idUser, other.idUser).append(idSystem, other.idSystem).append(project, other.project).append(
-						directory, other.directory).append(labels, other.labels).append(optionIndexed, other.optionIndexed).append(optionOcr, other.optionOcr).isEquals();
+				other.location).append(comments, other.comments).append(idUser, other.idUser).append(idSystem, other.idSystem).append(project, other.project).append(
+				directory, other.directory).append(labels, other.labels).append(optionIndexed, other.optionIndexed).append(optionOcr, other.optionOcr).isEquals();
 		}
 		return false;
 	}

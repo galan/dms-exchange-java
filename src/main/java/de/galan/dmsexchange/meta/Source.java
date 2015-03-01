@@ -24,7 +24,7 @@ public class Source implements Validatable {
 
 
 	public Source() {
-		// nada
+		// empty, default constructor required for Jackson
 	}
 
 

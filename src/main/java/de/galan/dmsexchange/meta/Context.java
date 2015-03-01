@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
+import de.galan.dmsexchange.util.UtcFormatter;
+
 
 /**
  * Information that are inherit to the document-content. Read the <a
@@ -19,7 +21,7 @@ public class Context implements Validatable {
 
 
 	public Context() {
-		//nada
+		// empty, default constructor required for Jackson
 	}
 
 
@@ -45,6 +47,18 @@ public class Context implements Validatable {
 	}
 
 
+	public Context documentTime(@SuppressWarnings("hiding") ZonedDateTime documentTime) {
+		setDocumentTime(documentTime);
+		return this;
+	}
+
+
+	public Context documentTime(@SuppressWarnings("hiding") String documentTime) {
+		setDocumentTime(UtcFormatter.parse(documentTime));
+		return this;
+	}
+
+
 	public ZonedDateTime getDueDateTime() {
 		return dueDateTime;
 	}
@@ -52,6 +66,18 @@ public class Context implements Validatable {
 
 	public void setDueDateTime(ZonedDateTime dueDateTime) {
 		this.dueDateTime = dueDateTime;
+	}
+
+
+	public Context dueDateTime(@SuppressWarnings("hiding") ZonedDateTime dueDateTime) {
+		setDueDateTime(dueDateTime);
+		return this;
+	}
+
+
+	public Context dueDateTime(@SuppressWarnings("hiding") String dueDateTime) {
+		setDueDateTime(UtcFormatter.parse(dueDateTime));
+		return this;
 	}
 
 
