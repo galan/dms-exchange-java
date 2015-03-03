@@ -37,16 +37,16 @@ Documents are simple java beans, they can be instantiated using `new`, fields ar
 Example of creating a minimal `Document` with some fields:
 
     // Source keeps same, use a constant
-	private static final Source SOURCE = new Source("MyDMS", null, "https://www.example.com", "contact@example.com");
+	private static final Source SOURCE = new Source("dms-name", null, "https://www.example.com", "contact@example.com");
     
     Document doc = new Document().source(SOURCE);
-    DocumentFile docfile = new DocumentFile(omdoc.getTitle());
-    docfile.addRevision(new Revision(omdoc.getCreatedTime()).data(stream));
+    DocumentFile docfile = new DocumentFile("car-insurance-2014.pdf");
+    docfile.addRevision(new Revision(/*documentfile creation-time*/).data(byte[] or InputStream or File));
     doc.addDocumentFile(docfile);
     // use a setter
-    doc.setNote(omdoc.getNotes());
+    doc.setNote("Keep an eye on this");
     // or the fluent methods
-    doc.note(omdoc.getNotes()).labels(omdoc.getTagsArray()).idSystem(omdoc.getUuid()).project(omdoc.getCategory());
+    doc.note("Keep an eye on this").labels("important", "invoice").project("insurance");
 
 # Compatiblity
 dms-exchange-java supports the [dms-exchange-specification](https://github.com/galan/dms-exchange-specification) version 1.0.0.
