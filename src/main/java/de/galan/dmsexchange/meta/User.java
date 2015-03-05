@@ -2,10 +2,9 @@ package de.galan.dmsexchange.meta;
 
 import java.util.Objects;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
+
+import de.galan.dmsexchange.util.EmailValidation;
 
 
 /**
@@ -37,21 +36,9 @@ public class User implements Validatable {
 
 	@Override
 	public void validate(ValidationResult result) {
-		if (!isValidEmailAddress(getEmail())) {
+		if (!EmailValidation.isValidEmailAddress(getEmail())) {
 			result.add("Invalid email for user '" + getEmail() + "'");
 		}
-	}
-
-
-	protected boolean isValidEmailAddress(String emailAddress) {
-		boolean result = true;
-		try {
-			new InternetAddress(emailAddress).validate();
-		}
-		catch (AddressException ex) {
-			result = false;
-		}
-		return result;
 	}
 
 

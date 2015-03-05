@@ -84,9 +84,8 @@ public class DefaultDmsWriterTest extends DmsWriterTestParent {
 			getWriter().add(Documents.createInvalidDocument());
 		}
 		catch (DocumentValidationException ex) {
-			assertThat(ex.getMessage()).isEqualTo(
-					"Invalid Document (No data for revision, No user for comment, No timestamp for comment, No content for comment)");
-			assertThat(ex.getValidationResult().getErrors()).containsOnly("No data for revision", "No user for comment", "No timestamp for comment",
+			assertThat(ex.getMessage()).isEqualTo("Invalid Document (No data for revision, No user for comment, No time for comment, No content for comment)");
+			assertThat(ex.getValidationResult().getErrors()).containsOnly("No data for revision", "No user for comment", "No time for comment",
 				"No content for comment");
 		}
 		getWriter().close();

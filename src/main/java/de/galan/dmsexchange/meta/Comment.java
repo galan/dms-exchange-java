@@ -42,7 +42,7 @@ public class Comment implements Validatable {
 			getCommentBy().validate(result);
 		}
 		if (getCommentTime() == null) {
-			result.add("No timestamp for comment");
+			result.add("No time for comment");
 		}
 		if (getContent() == null) {
 			result.add("No content for comment");

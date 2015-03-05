@@ -37,4 +37,40 @@ public class RevisionTest {
 		assertThat(r1).isNotEqualTo(r7);
 	}
 
+
+	@Test
+	public void validateOk() throws Exception {
+		Revision r1 = new Revision().addedTime("2014-12-28T20:00:15Z").addedBy("other@example.com").data(new byte[] {65, 66, 67}); // all fields
+		assertThat(r1.validate().hasErrors()).isFalse();
+		Revision r2 = new Revision().addedTime("2014-12-28T20:00:15Z").data(new byte[] {65, 66, 67}); // no addedBy
+		assertThat(r2.validate().hasErrors()).isFalse();
+	}
+
+
+	@Test
+	public void validateInvalidEmail() throws Exception {
+		Revision r1 = new Revision().addedTime("2014-12-28T20:00:15Z").addedBy("other-example.com").data(new byte[] {65, 66, 67});
+		assertThat(r1.validate().hasErrors()).isTrue();
+		assertThat(r1.validate().getErrors().get(0)).isEqualTo("Invalid email for user 'other-example.com'");
+		assertThat(r1.validate().getErrorsJoined()).isEqualTo("Invalid email for user 'other-example.com'");
+	}
+
+
+	@Test
+	public void validateInvalidAddedTime() throws Exception {
+		Revision r1 = new Revision().data(new byte[] {65, 66, 67});
+		assertThat(r1.validate().hasErrors()).isTrue();
+		assertThat(r1.validate().getErrors().get(0)).isEqualTo("No addedTime for revision");
+		assertThat(r1.validate().getErrorsJoined()).isEqualTo("No addedTime for revision");
+	}
+
+
+	@Test
+	public void validateInvalidData() throws Exception {
+		Revision r1 = new Revision().addedTime("2014-12-28T20:00:15Z");
+		assertThat(r1.validate().hasErrors()).isTrue();
+		assertThat(r1.validate().getErrors().get(0)).isEqualTo("No data for revision");
+		assertThat(r1.validate().getErrorsJoined()).isEqualTo("No data for revision");
+	}
+
 }

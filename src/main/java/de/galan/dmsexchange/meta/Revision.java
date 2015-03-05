@@ -54,10 +54,13 @@ public class Revision implements Validatable {
 	@Override
 	public void validate(ValidationResult result) {
 		if (getAddedTime() == null) {
-			result.add("No datetime for revision");
+			result.add("No addedTime for revision");
 		}
 		if (getData() == null || getData().length == 0) {
 			result.add("No data for revision");
+		}
+		if (getAddedBy() != null) {
+			getAddedBy().validate(result);
 		}
 	}
 

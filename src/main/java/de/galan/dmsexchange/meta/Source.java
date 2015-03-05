@@ -4,10 +4,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
+
+import de.galan.dmsexchange.util.EmailValidation;
 
 
 /**
@@ -83,7 +82,7 @@ public class Source implements Validatable {
 		if (getUrl() != null && !isValidUrl(getUrl())) {
 			result.add("Invalid URL for source URL");
 		}
-		if (getEmail() != null && !isValidEmailAddress(getEmail())) {
+		if (getEmail() != null && !EmailValidation.isValidEmailAddress(getEmail())) {
 			result.add("Invalid email-address for source email");
 		}
 	}
@@ -95,18 +94,6 @@ public class Source implements Validatable {
 			new URL(validateUrl);
 		}
 		catch (MalformedURLException ex) {
-			result = false;
-		}
-		return result;
-	}
-
-
-	private boolean isValidEmailAddress(String validateEmail) {
-		boolean result = true;
-		try {
-			new InternetAddress(validateEmail).validate();
-		}
-		catch (AddressException ex) {
 			result = false;
 		}
 		return result;
