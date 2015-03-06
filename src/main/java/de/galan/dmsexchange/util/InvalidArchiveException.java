@@ -16,9 +16,4 @@ public class InvalidArchiveException extends DmsExchangeException {
 		super(message);
 	}
 
-
-	public InvalidArchiveException(Throwable cause) {
-		super(cause);
-	}
-
 }

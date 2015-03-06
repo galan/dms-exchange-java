@@ -23,6 +23,13 @@ public class UserTest {
 
 
 	@Test
+	public void toStringTest() throws Exception {
+		User u1 = new User("email@example.com");
+		assertThat(u1.toString()).isEqualTo("email@example.com");
+	}
+
+
+	@Test
 	public void validateOk() throws Exception {
 		User u1 = new User("email@example.com");
 		assertThat(u1.validate().hasErrors()).isFalse();
