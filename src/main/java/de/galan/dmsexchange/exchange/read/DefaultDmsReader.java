@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.galan.commons.logging.Logr;
 import de.galan.dmsexchange.exchange.DefaultExchange;

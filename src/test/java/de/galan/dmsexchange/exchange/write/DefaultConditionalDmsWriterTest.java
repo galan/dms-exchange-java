@@ -7,9 +7,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
 
 import de.galan.commons.logging.Logr;
 import de.galan.dmsexchange.DmsExchange;

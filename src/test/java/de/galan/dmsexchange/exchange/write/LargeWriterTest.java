@@ -4,10 +4,10 @@ import static de.galan.commons.test.Tests.*;
 
 import java.io.File;
 
+import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.slf4j.Logger;
 
 import de.galan.commons.logging.Logr;
 import de.galan.dmsexchange.DmsExchange;

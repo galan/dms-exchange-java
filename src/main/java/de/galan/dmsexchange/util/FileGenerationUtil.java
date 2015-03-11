@@ -3,7 +3,7 @@ package de.galan.dmsexchange.util;
 import java.io.File;
 import java.util.UUID;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.galan.commons.logging.Logr;
 

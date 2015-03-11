@@ -33,7 +33,7 @@ public class ContextTest {
 		Context c1 = new Context().documentTime("2014-12-28T20:00:15Z").dueDateTime("2015-05-17T19:00:11Z");
 		assertThat(c1.validate().hasErrors()).isFalse();
 		Context c2 = new Context();
-		assertThat(c1.validate().hasErrors()).isFalse();
+		assertThat(c2.validate().hasErrors()).isFalse();
 	}
 
 

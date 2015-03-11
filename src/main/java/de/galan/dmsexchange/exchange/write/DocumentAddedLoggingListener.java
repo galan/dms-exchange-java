@@ -2,7 +2,7 @@ package de.galan.dmsexchange.exchange.write;
 
 import static org.apache.commons.lang3.StringUtils.*;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import com.google.common.eventbus.Subscribe;
 
