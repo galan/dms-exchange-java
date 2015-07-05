@@ -54,4 +54,11 @@ dms-exchange-java supports the [dms-exchange-specification](https://github.com/g
 When newer versions of dms-exchange-specification will be released, they will be supported additionally. 
 
 # Integration with Maven
-Use the [maven repository and artifact](https://github.com/galan/maven-repository) on github.
+Just add the following dependency:
+
+    <dependency>
+    	<groupId>de.galan</groupId>
+    	<artifactId>dms-exchange-java</artifactId>
+    	<version>1.0.2</version>
+    </dependency>
+
