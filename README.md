@@ -1,3 +1,7 @@
+[![Build Status](https://img.shields.io/travis/galan/dms-exchange-java.svg?style=flat)](https://travis-ci.org/galan/dms-exchange-java)
+[![Maven Central](https://img.shields.io/maven-central/v/de.galan/dms-exchange-java.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/de.galan/dms-exchange-java)
+[![License](https://img.shields.io/github/license/galan/dms-exchange-java.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
 This java-library is the reference-implementation for the [dms-exchange-specification](https://github.com/galan/dms-exchange-specification). It covers the following use-cases:
 * Creating new export-archives and adding document-containers
 * Reading existing document-container from existing export-archives
@@ -51,7 +55,7 @@ Example of creating a minimal `Document` with some fields:
 # Compatiblity
 dms-exchange-java supports the [dms-exchange-specification](https://github.com/galan/dms-exchange-specification) version 1.0.0.
 
-When newer versions of dms-exchange-specification will be released, they will be supported additionally. 
+When newer versions of dms-exchange-specification will be released, this library is designed to be backward compatible. 
 
 # Integration with Maven
 Just add the following dependency:
