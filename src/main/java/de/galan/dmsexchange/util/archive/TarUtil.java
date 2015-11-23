@@ -16,7 +16,7 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 public class TarUtil {
 
 	// GzipCompressorOutputStream will be closed on TarArchiveOutputStream.close()
-	@SuppressWarnings("resource")
+	//@SuppressWarnings("resource")
 	public static TarArchiveOutputStream create(OutputStream outputstream, boolean compress) throws IOException {
 		return new TarArchiveOutputStream(compress ? new GzipCompressorOutputStream(outputstream) : outputstream);
 	}

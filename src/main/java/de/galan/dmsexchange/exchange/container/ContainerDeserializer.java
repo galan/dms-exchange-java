@@ -51,7 +51,7 @@ public class ContainerDeserializer extends AbstractContainer {
 	public Document unarchive(InputStream is, boolean standalone) throws IOException, InvalidArchiveException, VersionNotSupportedException, NamespaceMismatchException, ProcessStepException, IOReadException {
 		Document result = null;
 		Map<String, byte[]> revisions = new HashMap<>();
-		@SuppressWarnings("resource")
+		//@SuppressWarnings("resource")
 		TarArchiveInputStream tar = new TarArchiveInputStream(standalone ? new GzipCompressorInputStream(is) : is);
 		TarArchiveEntry entry = null;
 		while((entry = tar.getNextTarEntry()) != null) {
