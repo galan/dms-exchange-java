@@ -1,4 +1,4 @@
-Other use-cases for future use-cases 
+Other ideas for future use-cases 
 
 ## Creating an archive for a single container
 A single container archive can be created and read using the `ContainerSerializer` respectivly the `ContainerDeserializer`.
