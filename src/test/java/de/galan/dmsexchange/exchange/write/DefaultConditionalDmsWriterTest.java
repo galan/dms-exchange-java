@@ -19,8 +19,6 @@ import de.galan.dmsexchange.test.Documents;
 
 /**
  * CUT ConditionalDmsWriter
- *
- * @author daniel
  */
 public class DefaultConditionalDmsWriterTest extends DmsWriterTestParent {
 

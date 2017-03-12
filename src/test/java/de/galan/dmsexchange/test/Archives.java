@@ -1,6 +1,7 @@
 package de.galan.dmsexchange.test;
 
 import static de.galan.commons.test.Tests.*;
+import static java.nio.charset.StandardCharsets.*;
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -12,7 +13,6 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 
@@ -56,10 +56,12 @@ public class Archives {
 		FileUtils.copyFile(actualFile, actualDirectory);
 		TarTests.explode(actualDirectory, true);
 		// ensure only tar files in exploded testdir
-		List<File> nonTars = Files.fileTreeTraverser().postOrderTraversal(actualDirectory).filter(file -> file.isFile() && !endsWith(file.getName(), ".tar")).toList();
+		List<File> nonTars = Files.fileTreeTraverser().postOrderTraversal(actualDirectory).filter(file -> file.isFile() && !endsWith(file.getName(), ".tar"))
+			.toList();
 		assertThat(nonTars).isEmpty();
 		// explode all tar files
-		List<File> tars = Files.fileTreeTraverser().postOrderTraversal(actualDirectory).filter(file -> file.isFile() && endsWith(file.getName(), ".tar")).toList();
+		List<File> tars = Files.fileTreeTraverser().postOrderTraversal(actualDirectory).filter(file -> file.isFile() && endsWith(file.getName(), ".tar"))
+			.toList();
 		for (File tar: tars) {
 			TarTests.explode(tar, false);
 		}
@@ -83,7 +85,7 @@ public class Archives {
 			}
 			result.add(entry);
 			if (file.getName().equals("meta.json")) {
-				Logr.get().info("meta '{}':  {}", file.getAbsoluteFile(), FileUtils.readFileToString(file, Charsets.UTF_8));
+				Logr.get().info("meta '{}':  {}", file.getAbsoluteFile(), FileUtils.readFileToString(file, UTF_8));
 			}
 		}
 		return result;

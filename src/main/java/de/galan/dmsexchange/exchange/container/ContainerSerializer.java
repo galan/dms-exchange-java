@@ -1,12 +1,12 @@
 package de.galan.dmsexchange.exchange.container;
 
+import static java.nio.charset.StandardCharsets.*;
+
 import java.io.IOException;
 import java.io.OutputStream;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.io.output.ByteArrayOutputStream;
-
-import com.google.common.base.Charsets;
 
 import de.galan.dmsexchange.exchange.DocumentValidationException;
 import de.galan.dmsexchange.meta.Document;
@@ -36,7 +36,7 @@ public class ContainerSerializer extends AbstractContainer {
 
 			// serialize metadata
 			String documentJson = getVerjson().writePlain(document);
-			byte[] metadata = documentJson.getBytes(Charsets.UTF_8);
+			byte[] metadata = documentJson.getBytes(UTF_8);
 			TarUtil.addEntry(tar, metadata, "meta.json");
 			// serialize documents
 			for (DocumentFile df: document.getDocumentFiles()) {

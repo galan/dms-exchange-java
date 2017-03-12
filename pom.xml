@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>de.galan</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.10.0</version>
+		<version>0.11.0</version>
 	</parent>
 
 	<scm>
@@ -21,12 +21,12 @@
 		<url>https://github.com/galan/dms-exchange-java</url>
 		<tag>HEAD</tag>
 	</scm>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>de.galan</groupId>
 			<artifactId>verjson</artifactId>
-			<version>0.7.0</version>
+			<version>0.8.1</version>
 		</dependency>
 
 		<dependency>

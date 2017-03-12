@@ -1,9 +1,10 @@
 package de.galan.dmsexchange.verjson;
 
+import static java.nio.charset.StandardCharsets.*;
+
 import java.io.IOException;
 import java.net.URL;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
 import de.galan.dmsexchange.verjson.serializer.UserDeserializer;
@@ -30,7 +31,7 @@ public abstract class DmsExchangeVersions extends Versions {
 	protected Validation createValidation(String metafile, String version) {
 		try {
 			URL url = Resources.getResource(getClass(), metafile + "-" + version + ".schema.json");
-			String schema = Resources.toString(url, Charsets.UTF_8);
+			String schema = Resources.toString(url, UTF_8);
 			return new Validation(schema, version);
 		}
 		catch (IOException ex) {

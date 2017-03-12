@@ -1,6 +1,7 @@
 package de.galan.dmsexchange.exchange.container;
 
 import static de.galan.verjson.util.Transformations.*;
+import static java.nio.charset.StandardCharsets.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -16,7 +17,6 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.base.Charsets;
 
 import de.galan.dmsexchange.meta.Document;
 import de.galan.dmsexchange.meta.DocumentFile;
@@ -92,7 +92,7 @@ public class ContainerDeserializer extends AbstractContainer {
 
 
 	protected Document readMeta(byte[] metaBytes) throws IOException, InvalidArchiveException, VersionNotSupportedException, NamespaceMismatchException, ProcessStepException, IOReadException {
-		String metaString = new String(metaBytes, Charsets.UTF_8);
+		String metaString = new String(metaBytes, UTF_8);
 		JsonNode metaNode = getVerjson().readTree(metaString);
 		long version = determineVersion(metaNode);
 		return getVerjson().readPlain(metaNode, version);
