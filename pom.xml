@@ -3,7 +3,7 @@
 
 	<groupId>de.galan</groupId>
 	<artifactId>dms-exchange-java</artifactId>
-	<version>1.0.3-SNAPSHOT</version>
+	<version>1.0.3</version>
 
 	<name>java implementation for dms-exchange</name>
 	<description>Java library for the dms-exchange-specification</description>
@@ -19,7 +19,7 @@
 		<connection>scm:git:ssh://github.com/galan/dms-exchange-java.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/galan/dms-exchange-java.git</developerConnection>
 		<url>https://github.com/galan/dms-exchange-java</url>
-		<tag>HEAD</tag>
+		<tag>v1.0.3</tag>
 	</scm>
 
 	<dependencies>
