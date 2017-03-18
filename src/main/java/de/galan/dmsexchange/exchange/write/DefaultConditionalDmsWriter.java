@@ -17,8 +17,6 @@ import de.galan.dmsexchange.util.FileGenerationUtil;
 
 /**
  * DmsWriter which creates multiple export-archives, depending on the given Conditions.
- *
- * @author daniel
  */
 public class DefaultConditionalDmsWriter implements ConditionalDmsWriter {
 

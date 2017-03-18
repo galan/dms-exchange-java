@@ -8,8 +8,6 @@ import com.google.common.collect.Lists;
 
 /**
  * Collects errors during the validation process
- *
- * @author daniel
  */
 public class ValidationResult {
 

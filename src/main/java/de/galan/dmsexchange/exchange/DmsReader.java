@@ -17,9 +17,6 @@ import de.galan.dmsexchange.util.DmsExchangeException;
  * Potential event subscriber consumer either {@link Document}s or DocumentReadInvalidEvent (in case of beeing unable to
  * read content from an export-archive). Take a look at the WrappingDocumentConsumer for an example how to implement an
  * event subscriber.
- *
- *
- * @author daniel
  */
 public interface DmsReader {
 

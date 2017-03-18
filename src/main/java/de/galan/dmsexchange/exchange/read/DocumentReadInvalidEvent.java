@@ -5,8 +5,6 @@ import de.galan.dmsexchange.exchange.ExchangeEvent;
 
 /**
  * Reading a document with invalid name failed.
- *
- * @author daniel
  */
 public class DocumentReadInvalidEvent extends ExchangeEvent {
 

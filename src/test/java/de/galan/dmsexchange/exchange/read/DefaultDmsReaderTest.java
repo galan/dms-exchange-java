@@ -22,8 +22,6 @@ import de.galan.dmsexchange.util.DmsExchangeException;
 
 /**
  * CUT DefaultDmsReader
- *
- * @author daniel
  */
 public class DefaultDmsReaderTest extends DmsReaderTestParent {
 

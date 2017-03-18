@@ -22,8 +22,6 @@ import de.galan.verjson.util.ReadException;
 /**
  * Reads all document-containers inside the given export-archive. The read document-containers will be posted to the
  * registered listeners.
- *
- * @author daniel
  */
 public class DefaultDmsReader extends DefaultExchange implements DmsReader {
 

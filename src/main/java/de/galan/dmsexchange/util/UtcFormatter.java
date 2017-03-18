@@ -8,8 +8,6 @@ import de.galan.commons.time.Instants;
 
 /**
  * Global UTC DateTime-format.
- *
- * @author daniel
  */
 public class UtcFormatter {
 

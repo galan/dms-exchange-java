@@ -20,8 +20,6 @@ import de.galan.dmsexchange.util.DmsExchangeException;
 
 /**
  * Parent for DmsReader tests
- *
- * @author daniel
  */
 public abstract class DmsReaderTestParent extends AbstractTestParent {
 

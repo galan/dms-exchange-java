@@ -9,8 +9,6 @@ import de.galan.verjson.core.Verjson;
 
 /**
  * Base-class for reader and writer.
- *
- * @author daniel
  */
 public abstract class DefaultExchange {
 

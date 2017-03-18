@@ -11,8 +11,6 @@ import de.galan.commons.logging.Logr;
 
 /**
  * Logs if a document has been added, if available the systemId or userId will be appended.
- *
- * @author daniel
  */
 public class DocumentAddedLoggingListener {
 

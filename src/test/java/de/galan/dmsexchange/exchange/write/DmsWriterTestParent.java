@@ -18,8 +18,6 @@ import de.galan.dmsexchange.test.Archives;
 
 /**
  * Parent for DmsWriter tests
- *
- * @author daniel
  */
 public class DmsWriterTestParent extends AbstractTestParent {
 

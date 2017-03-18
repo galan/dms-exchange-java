@@ -10,8 +10,6 @@ import de.galan.dmsexchange.util.UtcFormatter;
 
 /**
  * CUT Comment
- *
- * @author daniel
  */
 public class CommentTest extends AbstractTestParent {
 

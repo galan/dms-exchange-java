@@ -18,8 +18,6 @@ import de.galan.dmsexchange.util.archive.TarUtil;
 
 /**
  * Converts {@link Document}s to container-archives.
- *
- * @author daniel
  */
 public class ContainerSerializer extends AbstractContainer {
 

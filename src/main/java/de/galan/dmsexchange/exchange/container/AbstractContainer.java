@@ -11,8 +11,6 @@ import de.galan.verjson.core.Verjson;
 
 /**
  * Base for container serialization/deserialization
- *
- * @author daniel
  */
 public abstract class AbstractContainer {
 

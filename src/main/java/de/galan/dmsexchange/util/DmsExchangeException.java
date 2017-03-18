@@ -2,8 +2,6 @@ package de.galan.dmsexchange.util;
 
 /**
  * Base Exception for all exception thrown by the library
- *
- * @author daniel
  */
 public class DmsExchangeException extends Exception {
 

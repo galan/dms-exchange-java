@@ -5,8 +5,6 @@ import java.io.File;
 
 /**
  * Evaluates if the export-archive has to be splitted.
- *
- * @author daniel
  */
 public interface SplitCondition {
 

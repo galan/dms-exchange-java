@@ -7,8 +7,6 @@ import org.junit.Test;
 
 /**
  * CUT User
- *
- * @author daniel
  */
 public class UserTest {
 

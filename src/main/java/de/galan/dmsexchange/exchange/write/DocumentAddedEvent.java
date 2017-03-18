@@ -6,8 +6,6 @@ import de.galan.dmsexchange.meta.Document;
 
 /**
  * A document has been added to an export-archive.
- *
- * @author daniel
  */
 public class DocumentAddedEvent extends ExchangeEvent {
 

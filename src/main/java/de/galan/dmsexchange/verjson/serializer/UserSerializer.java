@@ -12,8 +12,6 @@ import de.galan.dmsexchange.meta.User;
 
 /**
  * Serializes a user (email)
- *
- * @author daniel
  */
 public class UserSerializer extends JsonSerializer<User> {
 

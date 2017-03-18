@@ -20,8 +20,6 @@ import de.galan.verjson.core.Verjson;
 
 /**
  * CUT ContainerSerializer
- *
- * @author daniel
  */
 public class ContainerSerializerTest extends AbstractTestParent {
 

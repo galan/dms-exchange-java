@@ -13,8 +13,6 @@ import de.galan.dmsexchange.test.Documents;
 
 /**
  * CUT ContainerDeserializer
- *
- * @author daniel
  */
 public class ContainerDeserializerTest extends AbstractTestParent {
 

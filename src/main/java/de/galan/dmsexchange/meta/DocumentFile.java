@@ -13,8 +13,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 /**
  * Represents a document-file. Read the <a href="https://github.com/galan/dms-exchange-specification">specification</a>
  * for more information.
- *
- * @author daniel
  */
 public class DocumentFile implements Validatable {
 

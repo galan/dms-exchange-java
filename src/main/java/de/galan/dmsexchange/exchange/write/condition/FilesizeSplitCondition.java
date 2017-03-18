@@ -5,8 +5,6 @@ import java.io.File;
 
 /**
  * Evaluates to true if filesize exceeds the given threshold.
- *
- * @author daniel
  */
 public class FilesizeSplitCondition implements SplitCondition {
 

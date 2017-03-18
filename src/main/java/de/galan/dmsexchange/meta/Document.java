@@ -18,10 +18,8 @@ import de.galan.dmsexchange.util.Version;
 
 
 /**
- * Represents the document and it's metadata, that will be stored to the file meta.json. Read the <a
- * href="https://github.com/galan/dms-exchange-specification">specification</a> for more information.
- *
- * @author daniel
+ * Represents the document and it's metadata, that will be stored to the file meta.json. Read the
+ * <a href="https://github.com/galan/dms-exchange-specification">specification</a> for more information.
  */
 public class Document implements Validatable {
 
@@ -352,8 +350,10 @@ public class Document implements Validatable {
 			final Document other = (Document)obj;
 			return new EqualsBuilder().append(version, other.version).append(createdTime, other.createdTime).append(createdBy, other.createdBy).append(source,
 				other.source).append(documentFiles, other.documentFiles).append(context, other.context).append(note, other.note).append(location,
-				other.location).append(comments, other.comments).append(idUser, other.idUser).append(idSystem, other.idSystem).append(project, other.project).append(
-				directory, other.directory).append(labels, other.labels).append(optionIndexed, other.optionIndexed).append(optionOcr, other.optionOcr).isEquals();
+					other.location)
+				.append(comments, other.comments).append(idUser, other.idUser).append(idSystem, other.idSystem).append(project, other.project).append(
+					directory, other.directory)
+				.append(labels, other.labels).append(optionIndexed, other.optionIndexed).append(optionOcr, other.optionOcr).isEquals();
 		}
 		return false;
 	}

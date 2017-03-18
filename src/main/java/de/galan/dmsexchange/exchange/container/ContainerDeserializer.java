@@ -31,8 +31,6 @@ import de.galan.verjson.step.ProcessStepException;
 
 /**
  * Converts container-archives back to {@link Document}s.
- *
- * @author daniel
  */
 public class ContainerDeserializer extends AbstractContainer {
 

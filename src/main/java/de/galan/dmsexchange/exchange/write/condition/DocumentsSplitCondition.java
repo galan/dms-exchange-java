@@ -5,8 +5,6 @@ import java.io.File;
 
 /**
  * Evaluates to true if documents added exceed the given threshold.
- *
- * @author daniel
  */
 public class DocumentsSplitCondition implements SplitCondition {
 

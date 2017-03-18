@@ -15,8 +15,6 @@ import de.galan.dmsexchange.util.UtcFormatter;
 
 /**
  * Test-Document creating test-helper methods.
- *
- * @author daniel
  */
 public class Documents {
 

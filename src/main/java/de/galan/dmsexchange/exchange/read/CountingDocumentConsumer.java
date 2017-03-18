@@ -7,8 +7,6 @@ import de.galan.dmsexchange.meta.Document;
 
 /**
  * Counts the documents read
- *
- * @author daniel
  */
 public class CountingDocumentConsumer {
 

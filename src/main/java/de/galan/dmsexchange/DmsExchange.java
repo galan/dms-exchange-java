@@ -22,8 +22,6 @@ import de.galan.dmsexchange.util.FileGenerationUtil;
 
 /**
  * Entry-point for DmsExchange use-cases.
- *
- * @author daniel
  */
 public class DmsExchange {
 

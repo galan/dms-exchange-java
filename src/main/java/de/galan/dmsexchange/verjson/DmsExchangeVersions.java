@@ -15,8 +15,6 @@ import de.galan.verjson.step.validation.Validation;
 
 /**
  * Common functionality for verjson transformation registrations.
- *
- * @author daniel
  */
 public abstract class DmsExchangeVersions extends Versions {
 

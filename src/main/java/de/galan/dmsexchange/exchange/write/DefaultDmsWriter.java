@@ -21,8 +21,6 @@ import de.galan.dmsexchange.util.archive.TarUtil;
  * Adds documents to a specified file. Using generated directories and document-container names inside the archive
  * during the process. It is artifical limited to one billion containers, otherwise the archive should be splitted using
  * the ConditionalDmsWriter.
- *
- * @author daniel
  */
 public class DefaultDmsWriter extends DefaultExchange implements DmsWriter {
 

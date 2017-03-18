@@ -10,8 +10,6 @@ import de.galan.dmsexchange.util.EmailValidation;
 /**
  * A user an entity is associated with. Users are stored as email-address, the mapping has to be done by the executing
  * client/dms.
- *
- * @author daniel
  */
 public class User implements Validatable {
 

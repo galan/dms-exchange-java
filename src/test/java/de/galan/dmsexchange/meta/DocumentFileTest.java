@@ -9,8 +9,6 @@ import de.galan.commons.test.AbstractTestParent;
 
 /**
  * CUT DocumentFile
- *
- * @author daniel
  */
 public class DocumentFileTest extends AbstractTestParent {
 

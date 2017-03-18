@@ -17,8 +17,6 @@ import de.galan.dmsexchange.util.DmsExchangeException;
 
 /**
  * Testing memory/performance behaviour on large exports
- *
- * @author daniel
  */
 @Ignore
 public class LargeWriterTest extends DmsWriterTestParent {

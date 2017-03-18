@@ -6,8 +6,6 @@ import javax.mail.internet.InternetAddress;
 
 /**
  * Validates email using javas native InternetAddress validation.
- *
- * @author daniel
  */
 public class EmailValidation {
 

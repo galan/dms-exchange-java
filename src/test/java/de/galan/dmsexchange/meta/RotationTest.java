@@ -9,8 +9,6 @@ import de.galan.commons.test.AbstractTestParent;
 
 /**
  * CUT Rotation
- *
- * @author daniel
  */
 public class RotationTest extends AbstractTestParent {
 

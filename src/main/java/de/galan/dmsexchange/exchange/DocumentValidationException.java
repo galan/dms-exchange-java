@@ -1,6 +1,7 @@
 package de.galan.dmsexchange.exchange;
 
 import static org.apache.commons.lang3.StringUtils.*;
+
 import de.galan.dmsexchange.meta.ValidationResult;
 import de.galan.dmsexchange.util.DmsExchangeException;
 
@@ -8,8 +9,6 @@ import de.galan.dmsexchange.util.DmsExchangeException;
 /**
  * Exception that has happened during the validation phase prior adding a document into an archive. It contains the
  * ValidationResult for further output.
- *
- * @author daniel
  */
 public class DocumentValidationException extends DmsExchangeException {
 

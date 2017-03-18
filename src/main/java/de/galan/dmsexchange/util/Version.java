@@ -7,8 +7,6 @@ import java.util.Map;
 /**
  * Mapping of dms-exchange-specification versions against verjson. This is done manually since there is no
  * version-wrapper which verjson is typically using.
- *
- * @author daniel
  */
 public class Version {
 

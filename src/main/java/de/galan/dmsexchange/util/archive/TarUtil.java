@@ -10,8 +10,6 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 
 /**
  * Common operations with tar streams
- *
- * @author daniel
  */
 public class TarUtil {
 

@@ -13,8 +13,6 @@ import de.galan.commons.test.AbstractTestParent;
 
 /**
  * CUT FileGenerationUtil
- *
- * @author daniel
  */
 public class FileGenerationUtilTest extends AbstractTestParent {
 

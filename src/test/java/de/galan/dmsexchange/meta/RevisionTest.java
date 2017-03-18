@@ -14,8 +14,6 @@ import de.galan.dmsexchange.util.UtcFormatter;
 
 /**
  * CUT Revision
- *
- * @author daniel
  */
 public class RevisionTest {
 
@@ -23,7 +21,8 @@ public class RevisionTest {
 	public void equality() throws Exception {
 		Revision r1 = new Revision(UtcFormatter.parse("2014-12-28T20:00:15Z"), new User("sample@example.com"), new byte[] {65, 66, 67});
 		Revision r2 = new Revision(UtcFormatter.parse("2014-12-28T20:00:15Z"), new User("sample@example.com"), new byte[] {65, 66, 67});
-		Revision r3 = new Revision().addedTime(UtcFormatter.parse("2014-12-28T20:00:15Z")).addedBy(new User("sample@example.com")).data(new byte[] {65, 66, 67});
+		Revision r3 = new Revision().addedTime(UtcFormatter.parse("2014-12-28T20:00:15Z")).addedBy(new User("sample@example.com"))
+			.data(new byte[] {65, 66, 67});
 		Revision r4 = new Revision().addedTime("2014-12-28T20:00:15Z").addedBy("sample@example.com").data(new byte[] {65, 66, 67});
 		URL url = Resources.getResource(getClass(), getClass().getSimpleName() + "-data");
 		Revision r5 = new Revision().addedTime("2014-12-28T20:00:15Z").addedBy("sample@example.com").data(new File(url.getFile()));

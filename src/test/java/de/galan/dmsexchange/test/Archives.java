@@ -21,8 +21,6 @@ import de.galan.commons.logging.Logr;
 
 /**
  * Helper for working with container and archive files.
- *
- * @author daniel
  */
 public class Archives {
 

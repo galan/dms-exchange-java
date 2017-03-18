@@ -11,8 +11,6 @@ import de.galan.dmsexchange.meta.User;
 
 /**
  * Helper for revisions
- *
- * @author daniel
  */
 public class Revisions {
 

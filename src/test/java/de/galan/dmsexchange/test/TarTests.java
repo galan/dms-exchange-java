@@ -19,8 +19,6 @@ import de.galan.dmsexchange.util.archive.TarUtil;
 
 /**
  * Helper for working with tar/tgz files.
- *
- * @author daniel
  */
 public class TarTests {
 

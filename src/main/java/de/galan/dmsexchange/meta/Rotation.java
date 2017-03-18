@@ -2,8 +2,6 @@ package de.galan.dmsexchange.meta;
 
 /**
  * Rotation a document-file is stored in.
- *
- * @author daniel
  */
 public enum Rotation {
 

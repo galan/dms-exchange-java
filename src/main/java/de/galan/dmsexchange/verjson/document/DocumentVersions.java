@@ -5,8 +5,6 @@ import de.galan.dmsexchange.verjson.DmsExchangeVersions;
 
 /**
  * Verjson transformation steps for documents.
- *
- * @author daniel
  */
 public class DocumentVersions extends DmsExchangeVersions {
 

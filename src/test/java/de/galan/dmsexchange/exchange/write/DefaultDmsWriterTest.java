@@ -17,8 +17,6 @@ import de.galan.dmsexchange.util.DmsExchangeException;
 
 /**
  * CUT DefaultDmsWriter
- *
- * @author daniel
  */
 public class DefaultDmsWriterTest extends DmsWriterTestParent {
 

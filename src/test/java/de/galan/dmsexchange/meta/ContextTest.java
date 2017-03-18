@@ -9,8 +9,6 @@ import de.galan.dmsexchange.util.UtcFormatter;
 
 /**
  * CUT Context
- *
- * @author daniel
  */
 public class ContextTest {
 

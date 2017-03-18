@@ -14,8 +14,6 @@ import de.galan.dmsexchange.test.Documents;
 
 /**
  * CUT Document
- *
- * @author daniel
  */
 public class DocumentTest extends AbstractTestParent {
 

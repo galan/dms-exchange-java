@@ -9,10 +9,8 @@ import de.galan.dmsexchange.util.UtcFormatter;
 
 
 /**
- * Information that are inherit to the document-content. Read the <a
- * href="https://github.com/galan/dms-exchange-specification">specification</a> for more information.
- *
- * @author daniel
+ * Information that are inherit to the document-content. Read the
+ * <a href="https://github.com/galan/dms-exchange-specification">specification</a> for more information.
  */
 public class Context implements Validatable {
 

@@ -11,8 +11,6 @@ import de.galan.dmsexchange.meta.ValidationResult;
 
 /**
  * Adding a document failed due to eg. validation.
- *
- * @author daniel
  */
 public class DocumentAddedFailedEvent extends ExchangeEvent {
 

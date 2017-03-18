@@ -2,8 +2,6 @@ package de.galan.dmsexchange.util;
 
 /**
  * Exchange-Archive does not comply with the specification.
- *
- * @author daniel
  */
 public class InvalidArchiveException extends DmsExchangeException {
 

@@ -5,8 +5,6 @@ import java.util.List;
 
 /**
  * Entities that could be validated prior adding to an export-archive have to implement this contract.
- *
- * @author daniel
  */
 public interface Validatable {
 

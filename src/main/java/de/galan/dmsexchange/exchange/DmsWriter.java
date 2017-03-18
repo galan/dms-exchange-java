@@ -16,8 +16,6 @@ import de.galan.dmsexchange.util.DmsExchangeException;
  * <li>If the file hasn't been passed directly, or the export-archive consists of multiple files, you receive the
  * created export-archives using the <code>getFiles()</code> method</li>
  * </ul>
- *
- * @author daniel
  */
 public interface DmsWriter extends AutoCloseable {
 

@@ -11,8 +11,6 @@ import de.galan.dmsexchange.util.EmailValidation;
 
 /**
  * Information about the exporting dms.
- *
- * @author daniel
  */
 public class Source implements Validatable {
 

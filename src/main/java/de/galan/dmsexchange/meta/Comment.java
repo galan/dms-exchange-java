@@ -9,10 +9,8 @@ import de.galan.dmsexchange.util.UtcFormatter;
 
 
 /**
- * Contains a comment a user has added to a document. Read the <a
- * href="https://github.com/galan/dms-exchange-specification">specification</a> for more information.
- *
- * @author daniel
+ * Contains a comment a user has added to a document. Read the
+ * <a href="https://github.com/galan/dms-exchange-specification">specification</a> for more information.
  */
 public class Comment implements Validatable {
 

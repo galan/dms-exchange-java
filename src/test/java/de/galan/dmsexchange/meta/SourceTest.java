@@ -9,8 +9,6 @@ import de.galan.commons.test.AbstractTestParent;
 
 /**
  * CUT Source
- *
- * @author daniel
  */
 public class SourceTest extends AbstractTestParent {
 

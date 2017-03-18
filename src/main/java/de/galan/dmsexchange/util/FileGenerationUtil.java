@@ -10,8 +10,6 @@ import de.galan.commons.logging.Logr;
 
 /**
  * Helper for generating or determing filenames.
- *
- * @author daniel
  */
 public class FileGenerationUtil {
 

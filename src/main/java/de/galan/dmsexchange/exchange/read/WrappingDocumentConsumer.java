@@ -9,8 +9,6 @@ import de.galan.dmsexchange.meta.Document;
 
 /**
  * Listens to {@link Document}s and passes them to the consumer.
- *
- * @author daniel
  */
 public class WrappingDocumentConsumer {
 
